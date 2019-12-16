@@ -1,0 +1,10 @@
+# ignore pychache
+__pychache__
+
+# ignore images
+*.png
+*.jpg
+*.jpeg
+*.svg
+
+# add your IDE if applicable
