@@ -1,5 +1,6 @@
 # ignore pychache
 __pychache__
+*.pyc
 
 # ignore images
 *.png
