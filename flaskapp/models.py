@@ -22,6 +22,7 @@ class File(db.Model):
     def __repr__(self):
         return '<File {}>'.format(self.id)
 
+
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), nullable=False)
@@ -29,6 +30,7 @@ class Client(db.Model):
 
     def __repr__(self):
         return '<Client {}>'.format(self.id)
+
 
 class Contract_recv(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -38,5 +40,3 @@ class Contract_recv(db.Model):
 
     def __repr__(self):
         return '<Contract_recv {}>'.format(self.id)
-
-
