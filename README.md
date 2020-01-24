@@ -17,3 +17,7 @@ then run the client in another terminal with
 ```
 
 then follow the instructions, you need to switch between terminals
+
+## Time log
+Worktime is logged in comments of the specified task.
+
