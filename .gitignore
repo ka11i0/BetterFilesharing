@@ -8,4 +8,6 @@ __pychache__
 *.jpeg
 *.svg
 
+venv
+
 # add your IDE if applicable
