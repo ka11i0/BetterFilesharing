@@ -1,0 +1,34 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "title": "Contract",
+    "type": "object",
+    "required": ["contractID", "senderID", "recieverID", "file", "conditions"],
+    "properties": {
+        "contractID": {
+            "type": "string",
+            "description": "UUID generated for this contract"
+        },
+        "senderID": {
+            "type": "string",
+            "description": "Organisation number for the sender of this contract"
+        },
+        "recieverID": {
+            "type": "string",
+            "description": "Organisation number for the reciever of this contract"
+        },
+        "file": {
+            "type": "object",
+            "properties": {
+                "name": "Name of file to be shared",
+                "filter": "The filter that is used to filter the file"
+            }
+        },
+        "conditions": {
+            "type": "array",
+            "description":"The conditions that apply to the shared file",
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}
