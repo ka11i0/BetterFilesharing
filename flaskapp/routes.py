@@ -6,3 +6,10 @@ from flaskapp import app
 def index():
     return render_template('index.html')
 
+@app.route('/contracts')
+def contracts():
+    return render_template('contracts.html')
+
+@app.route('/files')
+def files():
+    return render_template('files.html')
