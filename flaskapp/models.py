@@ -8,7 +8,7 @@ class Contract_sent(db.Model):
     path = db.Column(db.String(256), nullable=False)
     status = db.Column(db.String(8), nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False)
-    file_id = db.Column(db.Integer, db.ForeignKey('file.id'), nullable=False)
+    file_id = db.Column(db.Integer, db.ForeignKey('file.id'), index=True, nullable=False)
 
     def __repr__(self):  # Tells how to print objects of this class, (good for debugging)
         return '<Contract_sent {}>'.format(self.id)
@@ -34,9 +34,18 @@ class Client(db.Model):
 
 class Contract_recv(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    path = db.Column(db.String(256), nullable=False)
+    path = db.Column(db.String(256), nullable=True)
     status = db.Column(db.String(8), nullable=False)
-    client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False)
+    client_id = db.Column(db.Integer, db.ForeignKey('client.id'), index=True, nullable=False)
+    file_id = db.Column(db.Integer, db.ForeignKey('file.id'), index=True, nullable=True)
 
     def __repr__(self):
         return '<Contract_recv {}>'.format(self.id)
+
+
+class Access(db.Model):
+    file_id = db.Column(db.Integer, db.ForeignKey('file.id'), primary_key=True, nullable=False)
+    client_id = db.Column(db.Integer, db.ForeignKey('client.id'), primary_key=True, nullable=False)
+
+    def __repr__(self):
+        return '<Access {}>'.format(self.id)
