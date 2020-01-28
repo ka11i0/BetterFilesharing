@@ -1,6 +1,12 @@
 # ignore pychache
-__pychache__
 *.pyc
+__pycache__
+
+# ignore db
+*.db
+
+# ignore uploading contract files
+Contract/RecievedContracts/
 
 # ignore images
 *.png
@@ -8,8 +14,10 @@ __pychache__
 *.jpeg
 *.svg
 
+# ignore venv for those that use it
 venv
 
 Contract/RecievedContracts/
 
 # add your IDE if applicable
+.idea
