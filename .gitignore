@@ -17,6 +17,7 @@ Contract/RecievedContracts/
 # ignore venv for those that use it
 venv
 
+migrations
 Contract/RecievedContracts/
 
 # add your IDE if applicable
