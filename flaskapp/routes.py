@@ -2,9 +2,10 @@ from flask import Flask, render_template, redirect, request
 from flaskapp import app
 from flaskapp.contract.contract_form import create_contractForm
 
-@app.route("/create_contract")
-def create_contract(methods=['GET', 'POST']):
+@app.route("/create_contract", methods=['GET', 'POST'])
+def create_contract():
     con_form = create_contractForm()
+    
     return render_template('create_contract.html', con_form=con_form)
 
 @app.route("/view_contract")
