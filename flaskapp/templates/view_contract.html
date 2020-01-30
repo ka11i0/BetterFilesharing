@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+
+{% block body %}
+<h1 style="text-align: center">Contract</h1>
+<div style="border:1px solid black ; width: 50% ; margin-bottom:  20px ; margin : 0 auto">
+    <div style="margin-bottom: 10px">
+        Contract id: {{ cid }}
+    </div>
+    <div style="margin-bottom: 10px">
+        Sender id: {{ send_id }}
+    </div>
+    <div style="margin-bottom: 10px">
+        Receiver id: {{ receive_id }}
+    </div>
+    <div style="margin-bottom: 10px">
+        File: {{ filename }}
+    </div>
+    <div>
+        Conditions: {{ cond }}
+    </div>
+</div>
+<div style="text-align: center ; margin-top: 20px">
+<button type="button" style="margin-right: 20px">Accept</button> <button type="button">Decline</button>
+</div>
+{% endblock body %}
