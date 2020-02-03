@@ -1,11 +1,33 @@
 {% extends 'base.html' %}
 
-{% block head %}
-<title>Contracts</title>
 
-{% endblock %}
+{% block subnav %}
+<div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            {% if request.path == '/contracts'%}
+            <a class="nav-link active" href="{{url_for('contracts')}}">Overview</a>
+            {% else %}
+            <a class="nav-link" href="{{url_for('contracts')}}">Overview</a>
+            {% endif %}
+        </li>
+        <li class="nav-item active">
+        {% if request.path == '/create_contract'%}
+        <a class="nav-link active" href="{{url_for('create_contract')}}">Create contract</a>
+        {% else %}
+        <a class="nav-link" href="{{url_for('create_contract')}}">Create contract</a>
+        {% endif %}
+        </li>
+        <li class="nav-item">
+        {% if request.path == '/view_contract'%}
+        <a class="nav-link disabled" href="{{url_for('view_contract')}}">View contract</a>
+        {% else %}
+        <a class="nav-link disabled" href="{{url_for('view_contract')}}">View contract</a>
+        {% endif %}
+        </li>
+    </ul>
+</div>
+{% endblock subnav %}
 
 {% block body %}
-<h1>Contracts</h1>
-
 {% endblock %}

@@ -9,3 +9,17 @@ class Config(object):
                               'sqlite:///' + os.path.join(basedir, 'app.db')
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # Company id-number (Swedish "organisationsnummer")
+    COMPANY_ID = "556622-0015"
+    COMPANY_NAME = "PORTHUB AB"
+
+    # CONTRACT configurations
+    CONTRACT_FOLDER = "Contract/SentContracts/"
+    CONTRACT_FILEEXT = ".json"
+
+    CONTRACT_CONDITIONS = [()]
+
+    # Shared files folder
+    SHARED_FILES = "Filesharing/SharedFiles/"
+
