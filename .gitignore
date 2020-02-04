@@ -4,6 +4,7 @@ __pycache__
 
 # ignore db
 *.db
+migrations
 
 # ignore uploading contract files
 Contract/RecievedContracts/
