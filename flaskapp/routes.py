@@ -4,6 +4,7 @@ from flaskapp.contract.form import *
 from flaskapp.contract.view import *
 from flaskapp.clients.form import *
 from flaskapp.clients.view import *
+import requests
 
 @app.route("/")
 def index():
@@ -93,18 +94,28 @@ def edit_client():
     return render_template('add_client.html', form=form, client=client)
 
 
-@app.route('/accept/<int:id>')
-def accept_contract(id):
-    print("hej1")
-   # contract = Contract_recv.query.get_or_404(id)
-    return redirect('/view_contract')
-
-
-@app.route('/decline/<int:id>')
-def decline_contract(id):
+@app.route('/accept/<int:id>/<string:status>')
+@app.route('/decline/<int:id>/<string:status>')
+def accept_or_decline(id, status): # When contract is accepted/declined
     print(id)
-   # contract = Contract_recv.query.get_or_404(id)
-    return redirect('/view_contract')
+    print(status)
+    contract = Contract_sent.query.get(id)
+    sender = Client.query.get(contract.client_id)
+
+    print(sender.ip_address)
+
+    data = "{{ \"contract_id\":\"{0}\", \"status\": \"{1}\"}}".format(id, status)
+    try:
+        requests.put("http://" + sender.ip_address + ":5000/contract_clientreply", data=data)
+    except(ConnectionError):
+        print("ConnectionError")
+        return redirect('/contracts')
+
+    contract.status = status # Update app.db
+    db.session.commit()
+
+
+    return redirect('/contracts')
 
 
 @app.route("/contract_clientreply", methods=["PUT"])
