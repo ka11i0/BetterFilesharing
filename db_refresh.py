@@ -2,7 +2,7 @@ from flaskapp import db
 from flaskapp.models import Client
 import os
 import shutil
-#This script refreshes the db and adds dummy client, conditions, and files.
+#This script refreshes the db and adds dummy client, conditions, and SharedFiles.
 
 #Remove app.db and migrations folder
 try:

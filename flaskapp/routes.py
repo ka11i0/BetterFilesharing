@@ -97,14 +97,14 @@ def edit_client():
 def accept_contract(id):
     print("hej1")
    # contract = Contract_recv.query.get_or_404(id)
-    return redirect('/view_contract')
+    return redirect('/contracts')
 
 
 @app.route('/decline/<int:id>')
 def decline_contract(id):
     print(id)
    # contract = Contract_recv.query.get_or_404(id)
-    return redirect('/view_contract')
+    return redirect('/contracts')
 
 
 @app.route("/contract_clientreply", methods=["PUT"])
