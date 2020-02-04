@@ -5,10 +5,18 @@ import shutil
 #This script refreshes the db and adds dummy client, conditions, and files.
 
 #Remove app.db and migrations folder
-shutil.rmtree("migrations")
-print("Migrations folder removed")
-os.remove("flaskapp/app.db")
-print("app.db removed")
+try:
+    shutil.rmtree("migrations")
+    print("Migrations folder removed")
+except(FileNotFoundError):
+    print("Migration folder not found")
+
+try:
+    os.remove("flaskapp/app.db")
+    print("app.db removed")
+except(FileNotFoundError):
+    print("app.db not found")
+
 
 #New db
 os.system("set FLASK_APP=run.py")
