@@ -6,6 +6,7 @@ from flaskapp import app
 # To be able to make necessary changes to the database "set FLASK_APP=run.py"(windows command).
 #   This is needed for flask commands to know where the application lives.
 
+# If you made changes to the schema and want to keep database data:
 # "flask db migrate" creates a migration-script and identifies changes made
 # "flask db upgrade" commits those changes to app.db
 # "flask db downgrade" undoes the last migration
