@@ -1,4 +1,4 @@
-from Rest import app
+from Contract.Rest import app
 import threading
 import server
 
