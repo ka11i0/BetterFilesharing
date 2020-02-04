@@ -28,8 +28,8 @@
         </div>
     </div>
     <div class="card-footer" style="text-align: center">
-        <button type="button" class="btn btn-success mr-4" onclick="window.location.href = '/accept/{{1}}'">Accept</button>
-        <button type="button" class="btn btn-danger" onclick="window.location.href = '/decline/{{2}}'">Decline</button>
+        <button type="button" class="btn btn-success mr-4" onclick="window.location.href = '/accept/{{contract['contractID']}}/{{'accept'}}'">Accept</button>
+        <button type="button" class="btn btn-danger" onclick="window.location.href = '/decline/{{contract['contractID']}}/{{'decline'}}'">Decline</button>
     </div>
 </div>
 {% endblock body %}
