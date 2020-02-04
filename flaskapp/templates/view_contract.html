@@ -1,26 +1,35 @@
 {% extends 'base.html'%}
 
 {% block body %}
-<h1 style="text-align: center">Contract</h1>
-<div style="border:1px solid black ; width: 50% ; margin-bottom:  20px ; margin : 0 auto">
-    <div style="margin-bottom: 10px">
-        Contract id: {{ cid }}
+<div class="card">
+    <div class="card-header"><h1 style="text-align: center">Contract #{{contract['contractID']}}</h1></div>
+    <div class="card-body">
+        <div style="border:1px solid black;border-radius: 5px; width: 50% ; margin-bottom:  20px ; margin : 0 auto; padding: 10px;">
+            <div style="margin-bottom: 10px">
+                <b>Contract id:</b> {{ contract['contractID'] }}
+            </div>
+            <div style="margin-bottom: 10px">
+                <b>Sender id:</b> {{ contract['senderID'] }}
+            </div>
+            <div style="margin-bottom: 10px">
+                <b>Receiver id:</b> {{ contract['receiverID'] }}
+            </div>
+            <div style="margin-bottom: 10px">
+                <b>File:</b> {{ contract['file']['name'] }}
+            </div>
+            <div>
+                <b>Conditions:</b>
+                <ul>
+                {% for c in conditions: %}
+                    <li>{{ c }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
-    <div style="margin-bottom: 10px">
-        Sender id: {{ send_id }}
+    <div class="card-footer" style="text-align: center">
+        <button type="button" class="btn btn-success mr-4" onclick="window.location.href = /accept/1">Accept</button>
+        <button type="button" class="btn btn-danger" onclick="window.location.href = '/decline/{{2}}'">Decline</button>
     </div>
-    <div style="margin-bottom: 10px">
-        Receiver id: {{ receive_id }}
-    </div>
-    <div style="margin-bottom: 10px">
-        File: {{ filename }}
-    </div>
-    <div>
-        Conditions: {{ cond }}
-    </div>
-</div>
-<div style="text-align: center ; margin-top: 20px">
-<button type="button" style="margin-right: 20px" onclick="window.location.href = /accept/1">Accept</button>
-    <button type="button" onclick="window.location.href = '/decline/{{2}}'">Decline</button>
 </div>
 {% endblock body %}

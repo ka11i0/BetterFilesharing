@@ -1,26 +1,71 @@
-{% extends 'base.html' %}
+{% extends 'contracts.html' %}
 
 {% block body %}
 <div class="card">
     <div class="card-header"><h1>Create contract</h1></div>
     <div class="card-body">
-        <form method="POST">
+        <form method="POST" action="{{url_for('create_contract')}}" enctype="multipart/form-data">
             <div class="form-group">
-                {{con_form.receiver.label()}}
-                {{con_form.receiver(class='form-control')}}
+                {{ contractForm.csrf_token }}
+                {{contractForm.receiver.label()}}
+                {{contractForm.receiver(class='custom-select')}}
             </div>
-            <div class="form-group">
-                {{con_form.sendFile.label()}}
-                {{con_form.sendFile(class='form-control')}}
+            <div class="custom-file">
+                {{contractForm.uploadfile.label(class='custom-file-label')}}
+                {{contractForm.uploadfile(class='custom-file-input')}}
             </div>
-            <div class="form-group">
-                {{con_form.conditions.label()}}
-                {{con_form.conditions()}}
+            <div class="dropdown mt-2 mb-2">
+                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
+                    {{contractForm.conditions.label()}}
+                </button>                
+                <div class="dropdown-menu" style="min-width:200px;">
+                    {{contractForm.conditions(style='list-style-type: none;', class='custom-form pl-2')}}
+                    <a href="#myModal" class="ml-2" data-toggle="modal" data-target="#myModal">Add new condition</a>
+                </div>
             </div>
-            <div class="form-group">
-                {{con_form.submit(class='btn btn-primary mb-2')}}
+            <div class="form-group mt-4">
+                <input type="submit" value="Create contract" class="btn btn-primary">
             </div>
         </form>
+        <!-- The Modal -->
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                    <h4 class="modal-title">Add new condition</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                    <form method="POST" action="{{url_for('create_contract')}}" enctype="multipart/form-data">
+                        <div class="form-group">
+                            {{ contractForm.csrf_token }}
+                            {{conditionForm.condition.label()}}
+                            {{conditionForm.condition(class='form-control')}}
+                        </div>
+                        <div class="form-group">
+                            {{ contractForm.csrf_token }}
+                            {{conditionForm.desc.label()}}
+                            {{conditionForm.desc(class='form-control')}}
+                        </div>
+                        <div class="form-group mt-4">
+                            <input type="submit" value="Add" class="btn btn-primary">
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            // Add the following code if you want the name of the file appear on select
+            $(".custom-file-input").on("change", function() {
+              var fileName = $(this).val().split("\\").pop();
+              $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+        </script>
     </div>
 </div>
 {% endblock body %}
