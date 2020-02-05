@@ -94,8 +94,7 @@ def edit_client():
     return render_template('add_client.html', form=form, client=client)
 
 
-@app.route('/accept/<int:id>/<string:status>')
-@app.route('/decline/<int:id>/<string:status>')
+@app.route('/reply/<int:id>/<string:status>')
 def accept_or_decline(id, status): # When contract is accepted/declined
     print(id)
     print(status)
