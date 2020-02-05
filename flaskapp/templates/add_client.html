@@ -28,7 +28,7 @@
         </div>
         </form>
         {% else: %}
-        <form method="POST" action="{{url_for('add_client')}}" enctype="multipart/form-data"></form>
+        <form method="POST" action="{{url_for('add_client')}}" enctype="multipart/form-data">
         <div class="form-group">
             {{ form.csrf_token }}
             {{form.client_id.label()}}

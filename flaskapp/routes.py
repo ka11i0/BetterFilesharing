@@ -66,7 +66,7 @@ def clients():
 @app.route("/add_client", methods=['GET', 'POST'])
 def add_client():
     form = clientForm()
-
+    print("1")
     if form.validate_on_submit():
         form.save(
             id = form.client_id.data,
@@ -99,7 +99,7 @@ def edit_client():
 def accept_or_decline(id, status): # When contract is accepted/declined
     print(id)
     print(status)
-    contract = Contract_sent.query.get(id)
+    contract = Contract_recv.query.get(id)
     sender = Client.query.get(contract.client_id)
 
     print(sender.ip_address)
@@ -113,7 +113,6 @@ def accept_or_decline(id, status): # When contract is accepted/declined
 
     contract.status = status # Update app.db
     db.session.commit()
-
 
     return redirect('/contracts')
 
