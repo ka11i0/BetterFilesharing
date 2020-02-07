@@ -19,8 +19,14 @@
         "file": {
             "type": "object",
             "properties": {
-                "name": "Name of file to be shared",
-                "filter": "The filter that is used to filter the file"
+                "name": {
+                    "type": "string",
+                    "description": "Name of file to be shared"
+                },
+                "filter": {
+                    "type": "string",
+                    "description": "The filter that is used to filter the file"
+                }
             }
         },
         "conditions": {
