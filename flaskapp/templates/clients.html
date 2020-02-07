@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block subnav %}
+<div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            {% if request.path == '/clients'%}
+            <a class="nav-link active" href="{{url_for('clients')}}">Clientlist</a>
+            {% else %}
+            <a class="nav-link" href="{{url_for('clients')}}">Clientlist</a>
+            {% endif %}
+        </li>
+        <li class="nav-item active">
+        {% if request.path == '/add_client'%}
+        <a class="nav-link active" href="{{url_for('add_client')}}">Add new client</a>
+        {% else %}
+        <a class="nav-link" href="{{url_for('add_client')}}">Add new client</a>
+        {% endif %}
+        </li>
+    </ul>
+</div>
+{% endblock subnav %}
+
+{% block body %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'clients.html' %}
+
+{% block body %}
+<div class="card">
+    {% if request.path == '/edit_client': %}
+    <div class="card-header"><h1>Edit client</h1></div>
+    {% else: %}
+    <div class="card-header"><h1>Add new client</h1></div>
+    {% endif %}
+    <div class="card-body">
+        {% if request.path == '/edit_client': %}
+        <form method="POST" action="{{url_for('edit_client', id=client.id)}}" enctype="multipart/form-data">
+        <div class="form-group">
+            {{ form.csrf_token }}
+            {{form.client_id.label()}}
+            {{form.client_id(class='form-control', placeholder=client.id, value=client.id)}}
+        </div>
+        <div class="custom-group">
+            {{form.name.label()}}
+            {{form.name(class='form-control', placeholder=client.name, value=client.name)}}
+        </div>
+        <div class="custom-group">
+            {{form.ip_address.label()}}
+            {{form.ip_address(class='form-control', placeholder=client.ip_address, value=client.ip_address)}}
+        </div>
+        <div class="form-group mt-4">
+            <input type="submit" value="Update client" class="btn btn-primary">
+        </div>
+        </form>
+        {% else: %}
+        <form method="POST" action="{{url_for('add_client')}}" enctype="multipart/form-data">
+        <div class="form-group">
+            {{ form.csrf_token }}
+            {{form.client_id.label()}}
+            {{form.client_id(class='form-control')}}
+        </div>
+        <div class="custom-group">
+            {{form.name.label()}}
+            {{form.name(class='form-control')}}
+        </div>
+        <div class="custom-group">
+            {{form.ip_address.label()}}
+            {{form.ip_address(class='form-control')}}
+        </div>
+        <div class="form-group mt-4">
+            <input type="submit" value="Add client" class="btn btn-primary">
+        </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock body %}
