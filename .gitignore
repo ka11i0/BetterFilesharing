@@ -30,4 +30,5 @@ flaskapp/app.db
 .DS_Store
 .vscode/settings.json
 flaskapp/config.py
+config.py
 
