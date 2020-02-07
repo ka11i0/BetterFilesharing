@@ -19,21 +19,14 @@ Contract/SentContracts/
 # ignore venv for those that use it
 venv
 
-migrations
+
 Contract/RecievedContracts/
 
 # add your IDE if applicable
 .idea
 *.pyc
-migrations/versions/95e76866cc5b_.py
 flaskapp/contract/__pycache__/contract_form.cpython-37.pyc
 flaskapp/app.db
 .DS_Store
 .vscode/settings.json
-migrations/versions/95e76866cc5b_.py
-migrations/versions/95e76866cc5b_.py
-*.pyc
-flaskapp/contract/__pycache__/contract_form.cpython-37.pyc
-*.db
-*.pyc
-*.db
+
