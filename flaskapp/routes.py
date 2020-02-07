@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, session
 from flaskapp import app
 from flaskapp.contract.form import *
 from flaskapp.contract.view import *
@@ -6,6 +6,7 @@ from flaskapp.clients.form import *
 from flaskapp.clients.view import *
 @app.route("/")
 def index():
+    session['user'] = app.config['COMPANY_NAME']
     return redirect(url_for('sent_contracts'))
 
 @app.route("/sent_contracts")

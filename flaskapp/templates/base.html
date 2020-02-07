@@ -18,7 +18,7 @@
                 <span class="badge badge-dark">PORT</span>
                 <span class="badge badge-warning">HUB</span>
             </ul>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 {% if 'contract' in request.path: %}   
 
@@ -36,6 +36,13 @@
                 {% else: %}
                 <a href="{{url_for('clients')}}" class="nav-link">Clients</a>
                 {% endif%}
+            </li>
+            </ul>
+            <ul class="navbar-nav">
+            <li>
+                <span class="text-uppercase text-white">
+                    {{session.get('user')}}
+                </span>
             </li>
             </ul>
         </nav>
