@@ -21,6 +21,7 @@
             <ul class="navbar-nav">
             <li class="nav-item">
                 {% if 'contract' in request.path: %}   
+
                 <a href="{{ url_for('sent_contracts')}}" class="nav-link active">Contracts</a>
                 {% else: %}
                 <a href="{{ url_for('sent_contracts')}}" class="nav-link">Contracts</a>

@@ -21,5 +21,6 @@ class Config(object):
     CONTRACT_CONDITIONS = [()]
 
     # Shared files folder
+
     SHARED_FILES = "Filesharing/SharedFiles/"
 

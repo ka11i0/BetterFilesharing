@@ -4,7 +4,6 @@ from flaskapp.contract.form import *
 from flaskapp.contract.view import *
 from flaskapp.clients.form import *
 from flaskapp.clients.view import *
-
 @app.route("/")
 def index():
     return redirect(url_for('sent_contracts'))
@@ -42,6 +41,7 @@ def create_contract():
             file = form.uploadfile.data,
             conditions = form.conditions.data
         )
+
         return redirect(url_for('sent_contracts'))
     
     # save new condotion
@@ -74,7 +74,7 @@ def clients():
 @app.route("/add_client", methods=['GET', 'POST'])
 def add_client():
     form = clientForm()
-
+    
     if form.validate_on_submit():
         form.save(
             id = form.client_id.data,
@@ -98,5 +98,37 @@ def edit_client():
             ip_address = form.ip_address.data
         )
         return redirect(url_for('clients'))
-    
+
     return render_template('add_client.html', form=form, client=client)
+
+
+@app.route('/reply/<int:id>/<string:status>')
+def accept_or_decline(id, status): # When contract is accepted/declined
+    print(id)
+    print(status)
+    contract = Contract_recv.query.get(id)
+    sender = Client.query.get(contract.client_id)
+
+    print(sender.ip_address)
+
+    data = "{{ \"contract_id\":\"{0}\", \"status\": \"{1}\"}}".format(id, status)
+    try:
+        requests.put("http://" + sender.ip_address + ":5000/contract_clientreply", data=data)
+    except(ConnectionError):
+        print("ConnectionError")
+        return redirect('/contracts')
+
+    contract.status = status # Update app.db
+    db.session.commit()
+
+    return redirect('/contracts')
+
+
+@app.route("/contract_clientreply", methods=["PUT"])
+def contractreply(): # Runs when client accepts/declines a contract
+    client_reply = request.get_json(force=True)
+    contract = Contract_sent.query.get(client_reply["contract_id"])
+    contract.status = client_reply["status"]
+    db.session.commit()
+    return '', 201
+
