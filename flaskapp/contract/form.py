@@ -74,9 +74,10 @@ class create_contractForm(FlaskForm):
             with open(app.config['CONTRACT_FOLDER']+str(new_contractID)+app.config['CONTRACT_FILEEXT'], 'w') as outfile:
                 json.dump(json_contract, outfile, indent=4)
             
-            sendFile.save(os.path.join(
-                'Filesharing/SharedFiles/', filename
-            ))
+            # Upload shared file to folder not active
+            # sendFile.save(os.path.join(
+            #     'Filesharing/SharedFiles/', filename
+            # ))
             
         except:
             db.session.rollback()
