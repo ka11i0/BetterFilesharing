@@ -26,13 +26,25 @@
                 <tbody>
                 {% for c in pendingContracts: %}
                   <tr class="table-light">
+                    {% if request.path == "/recv_contracts" %}
+                    <td>{{c.Contract_recv.id}}</td>
+                    {% else %}
                     <td>{{c.Contract_sent.id}}</td>
+                    {% endif %}
                     <td>{{c.Client.name}}</td>
+                    {% if request.path == "/recv_contracts" %}
+                    <td>{{c.Contract_recv.status}}</td>
+                    {% else %}
                     <td>{{c.Contract_sent.status}}</td>
+                    {% endif %}
                     <td>
                       <ul class="nav">
                         <li class="nav-item mr-2">
+                          {% if request.path == "/recv_contracts" %}
+                          <a href="{{url_for('view_contract', cid=c.Contract_recv.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                          {% else %}
                           <a href="{{url_for('view_contract', cid=c.Contract_sent.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                          {% endif %}
                         </li>
                         <li class="nav-item mr-2">
                           <a href="#" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
@@ -66,13 +78,25 @@
             <tbody>
             {% for c in acceptedContracts: %}
               <tr class="table-light">
+                {% if request.path == "/recv_contracts" %}
+                <td>{{c.Contract_recv.id}}</td>
+                {% else %}
                 <td>{{c.Contract_sent.id}}</td>
+                {% endif %}
                 <td>{{c.Client.name}}</td>
+                {% if request.path == "/recv_contracts" %}
+                <td>{{c.Contract_recv.status}}</td>
+                {% else %}
                 <td>{{c.Contract_sent.status}}</td>
+                {% endif %}
                 <td>
                   <ul class="nav">
                     <li class="nav-item mr-2">
-                      <a href="{{url_for('view_contract', cid=c.Contract_sent.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                    {% if request.path == "/recv_contracts" %}
+                    <a href="{{url_for('view_contract', cid=c.Contract_recv.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                    {% else %}
+                    <a href="{{url_for('view_contract', cid=c.Contract_sent.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                    {% endif %}
                     </li>
                   </ul>
                 </td>
@@ -103,13 +127,25 @@
             <tbody>
             {% for c in declinedContracts: %}
               <tr class="table-light">
+                {% if request.path == "/recv_contracts" %}
+                <td>{{c.Contract_recv.id}}</td>
+                {% else %}
                 <td>{{c.Contract_sent.id}}</td>
+                {% endif %}
                 <td>{{c.Client.name}}</td>
+                {% if request.path == "/recv_contracts" %}
+                <td>{{c.Contract_recv.status}}</td>
+                {% else %}
                 <td>{{c.Contract_sent.status}}</td>
+                {% endif %}
                 <td>
                   <ul class="nav">
                     <li class="nav-item mr-2">
-                      <a href="{{url_for('view_contract', cid=c.Contract_sent.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                    {% if request.path == "/recv_contracts" %}
+                    <a href="{{url_for('view_contract', cid=c.Contract_recv.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                    {% else %}
+                    <a href="{{url_for('view_contract', cid=c.Contract_sent.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                    {% endif %}
                     </li>
                   </ul>
                 </td>
