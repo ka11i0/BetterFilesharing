@@ -8,6 +8,7 @@ from flaskapp.clients.view import *
 import threading
 from Filesharing.sender import FileSender
 from Filesharing.receiver import FileReceiver
+import json
 
 @app.route("/")
 def index():
