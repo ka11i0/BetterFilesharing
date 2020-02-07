@@ -22,5 +22,5 @@ class FileReceiver:
                     data += chunk
         
         fh = Filehandler()
-        fh.writedata(filepath, data)
+        fh.writedata(filepath, data.decode())
  
