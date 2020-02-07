@@ -145,7 +145,7 @@ def contractreply(): # Runs when client accepts/declines a contract
     if client_reply["status"] == "accepted":
         send = Filesender(contract.client_id, 80)
         filedb = File.query.get(contract.file_id)
-        sendThread = threading.Thread(target=recv.start(), args=(filedb.path,))
+        sendThread = threading.Thread(target=send.start(), args=(filedb.path,))
         sendThread.start()
     
     return '', 201
