@@ -41,9 +41,9 @@
                       <ul class="nav">
                         <li class="nav-item mr-2">
                           {% if request.path == "/recv_contracts" %}
-                          <a href="{{url_for('view_contract', cid=c.Contract_recv.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                          <a href="{{url_for('view_contract', cid=c.Contract_recv.id, from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                           {% else %}
-                          <a href="{{url_for('view_contract', cid=c.Contract_sent.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                          <a href="{{url_for('view_contract', cid=c.Contract_sent.id, from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                           {% endif %}
                         </li>
                         <li class="nav-item mr-2">
@@ -93,9 +93,9 @@
                   <ul class="nav">
                     <li class="nav-item mr-2">
                     {% if request.path == "/recv_contracts" %}
-                    <a href="{{url_for('view_contract', cid=c.Contract_recv.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                    <a href="{{url_for('view_contract', cid=c.Contract_recv.id, from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                     {% else %}
-                    <a href="{{url_for('view_contract', cid=c.Contract_sent.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                    <a href="{{url_for('view_contract', cid=c.Contract_sent.id, from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                     {% endif %}
                     </li>
                   </ul>
@@ -141,11 +141,11 @@
                 <td>
                   <ul class="nav">
                     <li class="nav-item mr-2">
-                    {% if request.path == "/recv_contracts" %}
-                    <a href="{{url_for('view_contract', cid=c.Contract_recv.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
-                    {% else %}
-                    <a href="{{url_for('view_contract', cid=c.Contract_sent.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
-                    {% endif %}
+                      {% if request.path == "/recv_contracts" %}
+                      <a href="{{url_for('view_contract', cid=c.Contract_recv.id, from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                      {% else %}
+                      <a href="{{url_for('view_contract', cid=c.Contract_sent.id, from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                      {% endif %}
                     </li>
                   </ul>
                 </td>

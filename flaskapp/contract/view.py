@@ -10,11 +10,16 @@ def listContracts(status, table):
 def getContract(cid):
     contract = db.session.query(Contract)
 
-def readContract(cid):
-    filepath = Contract_sent.query.filter_by(id=cid).first().path
-    with open(filepath) as json_file:
-        contract = json.load(json_file)
-        return contract
+def readContract(cid, table):
+    if(table=='recv'):
+        filepath = Contract_recv.query.filter_by(id=cid).first().path
+        with open(filepath) as json_file:
+            contract = json.load(json_file)
+    else:
+        filepath = Contract_sent.query.filter_by(id=cid).first().path
+        with open(filepath) as json_file:
+            contract = json.load(json_file)
+    return contract
 
 def getConditions(cond):
     conditionlist = []
