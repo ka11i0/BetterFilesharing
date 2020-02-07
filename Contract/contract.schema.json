@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/schema#",
     "title": "Contract",
     "type": "object",
-    "required": ["contractID", "senderID", "recieverID", "file", "conditions"],
+    "required": ["contractID", "senderID", "receiverID", "file", "conditions"],
     "properties": {
         "contractID": {
             "type": "string",
@@ -12,9 +12,9 @@
             "type": "string",
             "description": "Organisation number for the sender of this contract"
         },
-        "recieverID": {
+        "receiverID": {
             "type": "string",
-            "description": "Organisation number for the reciever of this contract"
+            "description": "Organisation number for the receiver of this contract"
         },
         "file": {
             "type": "object",

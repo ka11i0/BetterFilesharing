@@ -57,9 +57,9 @@ class create_contractForm(FlaskForm):
         )
 
         json_contract = {
-            'contractID': new_contractID,
+            'contractID': str(new_contractID),
             'senderID': app.config['COMPANY_ID'],
-            'receiverID': clientID,
+            'receiverID': str(clientID),
             'file': {
                 'name': filename,
                 'filter': 'n/a'
