@@ -107,12 +107,8 @@ def edit_client():
 
 @app.route('/reply/<int:id>/<string:status>')
 def accept_or_decline(id, status): # When contract is accepted/declined
-    print(id)
-    print(status)
     contract = Contract_recv.query.get(id)
     sender = Client.query.get(contract.client_id)
-
-    print(sender.ip_address)
 
     data = "{{ \"contract_id\":\"{0}\", \"status\": \"{1}\"}}".format(id, status)
     try:

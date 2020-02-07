@@ -1,4 +1,5 @@
 from flaskapp.contract.config import *
+from Contract.Rest import send_contract
 
 class MultiCheckboxField(SelectMultipleField):
     widget = ListWidget(html_tag='ul', prefix_label=False)
@@ -74,6 +75,7 @@ class create_contractForm(FlaskForm):
             with open(app.config['CONTRACT_FOLDER']+str(new_contractID)+app.config['CONTRACT_FILEEXT'], 'w') as outfile:
                 json.dump(json_contract, outfile, indent=4)
             
+            send_contract(new_contractID, clientID)
             # Upload shared file to folder not active
             # sendFile.save(os.path.join(
             #     'Filesharing/SharedFiles/', filename
