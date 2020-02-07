@@ -45,7 +45,7 @@ class create_contractForm(FlaskForm):
         new_contract = Contract_sent(
             id = new_contractID,
             path = app.config['CONTRACT_FOLDER']+str(new_contractID)+app.config['CONTRACT_FILEEXT'],
-            status = "new",
+            status = "pending",
             client_id = clientID,
             file_id = new_fileID
         )

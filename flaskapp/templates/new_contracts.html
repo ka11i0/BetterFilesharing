@@ -10,6 +10,7 @@
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" href="#collapseOne">
           New contracts
+          Pending
         </a>
       </div>
       <div id="collapseOne" class="collapse show" data-parent="#accordion">
@@ -24,7 +25,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                {% for c in newContracts: %}
+                {% for c in pendingContracts: %}
                   <tr class="table-light">
                     <td>{{c.Contract_sent.id}}</td>
                     <td>{{c.Client.name}}</td>
@@ -36,9 +37,6 @@
                         </li>
                         <li class="nav-item mr-2">
                           <a href="#" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
-                        </li>
-                        <li class="nav-item mr-2">
-                          <a href="#" alt="Delete contract"><i class='fas fa-trash-alt' style='font-size:16px'></i></a>
                         </li>
                       </ul>
                     </td>
@@ -52,7 +50,7 @@
     <div class="card">
       <div class="card-header">
         <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
-        Sent contracts
+        Accepted
       </a>
       </div>
       <div id="collapseTwo" class="collapse" data-parent="#accordion">
@@ -67,7 +65,7 @@
               </tr>
             </thead>
             <tbody>
-            {% for c in sentContracts: %}
+            {% for c in acceptedContracts: %}
               <tr class="table-light">
                 <td>{{c.Contract_sent.id}}</td>
                 <td>{{c.Client.name}}</td>
@@ -76,9 +74,6 @@
                   <ul class="nav">
                     <li class="nav-item mr-2">
                       <a href="{{url_for('view_contract', cid=c.Contract_sent.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
-                    </li>
-                    <li class="nav-item mr-2">
-                      <a href="#" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
                     </li>
                   </ul>
                 </td>
@@ -92,7 +87,7 @@
     <div class="card">
       <div class="card-header">
         <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
-          Declined contracts
+          Declined
         </a>
       </div>
       <div id="collapseThree" class="collapse" data-parent="#accordion">
@@ -116,12 +111,6 @@
                   <ul class="nav">
                     <li class="nav-item mr-2">
                       <a href="{{url_for('view_contract', cid=c.Contract_sent.id)}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
-                    </li>
-                    <li class="nav-item mr-2">
-                      <a href="#" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
-                    </li>
-                    <li class="nav-item mr-2">
-                      <a href="#" alt="Delete contract"><i class='fas fa-trash-alt' style='font-size:16px'></i></a>
                     </li>
                   </ul>
                 </td>

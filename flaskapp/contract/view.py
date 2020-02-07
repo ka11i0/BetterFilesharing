@@ -1,7 +1,10 @@
 from flaskapp.contract.config import *
 
-def listContracts(status):
-    contracts = db.session.query(Contract_sent, Client).join(Contract_sent).filter(Contract_sent.status == status).all()
+def listContracts(status, table):
+    if (table=="sent"):
+        contracts = db.session.query(Contract_sent, Client).join(Contract_sent).filter(Contract_sent.status == status).all()
+    if (table=="received"):
+        contracts = db.session.query(Contract_recv, Client).join(Contract_recv).filter(Contract_recv.status == status).all()
     return contracts
 
 def getContract(cid):

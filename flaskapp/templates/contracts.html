@@ -5,10 +5,17 @@
 <div>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            {% if request.path == '/contracts'%}
-            <a class="nav-link active" href="{{url_for('contracts')}}">Overview</a>
+            {% if request.path == '/sent_contracts'%}
+            <a class="nav-link active" href="{{url_for('sent_contracts')}}">Sent contracts</a>
             {% else %}
-            <a class="nav-link" href="{{url_for('contracts')}}">Overview</a>
+            <a class="nav-link" href="{{url_for('sent_contracts')}}">Sent contracts</a>
+            {% endif %}
+        </li>
+        <li class="nav-item">
+            {% if request.path == '/recv_contracts'%}
+            <a class="nav-link active" href="{{url_for('recv_contracts')}}">Received contracts</a>
+            {% else %}
+            <a class="nav-link" href="{{url_for('recv_contracts')}}">Received contracts</a>
             {% endif %}
         </li>
         <li class="nav-item active">
@@ -16,13 +23,6 @@
         <a class="nav-link active" href="{{url_for('create_contract')}}">Create contract</a>
         {% else %}
         <a class="nav-link" href="{{url_for('create_contract')}}">Create contract</a>
-        {% endif %}
-        </li>
-        <li class="nav-item">
-        {% if request.path == '/view_contract'%}
-        <a class="nav-link disabled" href="{{url_for('view_contract')}}">View contract</a>
-        {% else %}
-        <a class="nav-link disabled" href="{{url_for('view_contract')}}">View contract</a>
         {% endif %}
         </li>
     </ul>

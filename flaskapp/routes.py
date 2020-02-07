@@ -4,19 +4,26 @@ from flaskapp.contract.form import *
 from flaskapp.contract.view import *
 from flaskapp.clients.form import *
 from flaskapp.clients.view import *
-import requests
-
 @app.route("/")
 def index():
-    return redirect(url_for('contracts'))
+    return redirect(url_for('sent_contracts'))
 
-@app.route("/contracts")
-def contracts():
+@app.route("/sent_contracts")
+def sent_contracts():
     return render_template(
         'new_contracts.html',
-        newContracts = listContracts('new'),
-        sentContracts = listContracts('sent'),
-        declinedContracts = listContracts('declined')
+        pendingContracts = listContracts('pending', 'sent'),
+        acceptedContracts = listContracts('accepted','sent'),
+        declinedContracts = listContracts('declined', 'sent')
+    )
+
+@app.route("/recv_contracts")
+def recv_contracts():
+    return render_template(
+        'new_contracts.html',
+        pendingContracts = listContracts('pending', 'received'),
+        acceptedContracts = listContracts('accepted', 'received'),
+        declinedContracts = listContracts('declined', 'received')
     )
 
 @app.route("/create_contract", methods=['GET', 'POST'])
@@ -34,7 +41,8 @@ def create_contract():
             file = form.uploadfile.data,
             conditions = form.conditions.data
         )
-        return redirect(url_for('contracts'))
+
+        return redirect(url_for('sent_contracts'))
     
     # save new condotion
     if condForm.validate_on_submit():
@@ -66,7 +74,7 @@ def clients():
 @app.route("/add_client", methods=['GET', 'POST'])
 def add_client():
     form = clientForm()
-    print("1")
+    
     if form.validate_on_submit():
         form.save(
             id = form.client_id.data,
