@@ -5,6 +5,9 @@ from flaskapp.contract.form import *
 from flaskapp.contract.view import *
 from flaskapp.clients.form import *
 from flaskapp.clients.view import *
+import threading
+from Filesharing.sender import FileSender
+from Filesharing.receiver import FileReceiver
 
 @app.route("/")
 def index():
@@ -119,7 +122,15 @@ def accept_or_decline(id, status): # When contract is accepted/declined
 
     contract.status = status # Update app.db
     db.session.commit()
-
+    
+    with open(contract.path, 'r') as contractfile:
+        contractjson = json.loads(contractfile.read())
+        filename = contractjson["file"]["name"]
+    
+    recv = Filereceiver("0.0.0.0", 80)
+    recvThread = threading.Thread(target=recv.start(), args=(os.path.abspath("ReceivedFiles") + filename,))
+    recvThread.start()
+    
     return redirect('/contracts')
 
 
@@ -129,5 +140,12 @@ def contractreply(): # Runs when client accepts/declines a contract
     contract = Contract_sent.query.get(client_reply["contract_id"])
     contract.status = client_reply["status"]
     db.session.commit()
+    
+    if client_reply["status"] == "accepted":
+        send = Filesender(contract.client_id, 80)
+        filedb = File.query.get(contract.file_id)
+        sendThread = threading.Thread(target=recv.start(), args=(filedb.path,))
+        sendThread.start()
+    
     return '', 201
 
