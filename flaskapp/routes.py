@@ -64,7 +64,8 @@ def view_contract():
     return render_template(
         'view_contract.html',
         contract = contract,
-        conditions = condition
+        conditions = condition,
+        table = request.args.get('table')
         )
 
 @app.route("/clients")

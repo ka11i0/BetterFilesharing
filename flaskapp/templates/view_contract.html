@@ -27,9 +27,11 @@
             </div>
         </div>
     </div>
+    {% if table=="recv" %}
     <div class="card-footer" style="text-align: center">
         <button type="button" class="btn btn-success mr-4" onclick="window.location.href = '/reply/{{contract['contractID']}}/{{'accepted'}}'">Accept</button>
         <button type="button" class="btn btn-danger" onclick="window.location.href = '/reply/{{contract['contractID']}}/{{'declined'}}'">Decline</button>
     </div>
+    {% endif %}
 </div>
 {% endblock body %}
