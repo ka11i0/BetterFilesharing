@@ -6,7 +6,7 @@ class FileSender:
         self.host = host
         self.port = port
     
-    def sendfile(self, filepath):
+    def start(self, filepath):
         fh = Filehandler()
         data = fh.read(filepath)
         
