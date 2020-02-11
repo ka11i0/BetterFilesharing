@@ -51,8 +51,6 @@ class create_contractForm(FlaskForm):
             cond_dict[cond_name] = cond_desc
 
 
-
-        
         new_contract = Contract_sent(
             id = new_contractID,
             path = app.config['CONTRACT_FOLDER']+str(new_contractID)+app.config['CONTRACT_FILEEXT'],
@@ -66,7 +64,7 @@ class create_contractForm(FlaskForm):
             'senderID': {'id' : app.config['COMPANY_ID'], 'name' : app.config['COMPANY_NAME']},
             'receiverID': str(clientID),
             'file': {
-                'name': File.query.filter_by(id=kwargs.get('file_id')).first().path,
+                'name': File.query.filter_by(id=kwargs.get('file_id')).first().path.split('/')[-1],
                 'filter': 'n/a'
             },
             'conditions': cond_dict
