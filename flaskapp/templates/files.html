@@ -1,11 +1,33 @@
 {% extends 'base.html' %}
 
-{% block head %}
-<title>Files</title>
 
-{% endblock %}
+{% block subnav %}
+<div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            {% if request.path == '/files'%}
+            <a class="nav-link active" href="{{url_for('overview_files')}}">Overview</a>
+            {% else %}
+            <a class="nav-link" href="{{url_for('overview_files')}}">Overview</a>
+            {% endif %}
+        </li>
+        <li class="nav-item">
+            {% if request.path == '/upload_file'%}
+            <a class="nav-link active" href="{{url_for('uploadFile')}}">Upload file</a>
+            {% else %}
+            <a class="nav-link" href="{{url_for('uploadFile')}}">Upload file</a>
+            {% endif %}
+        </li>
+        <li class="nav-item active">
+        {% if request.path == '/access_files'%}
+        <a class="nav-link active" href="{{url_for('access_files')}}">Access files</a>
+        {% else %}
+        <a class="nav-link" href="{{url_for('access_files')}}">Access files</a>
+        {% endif %}
+        </li>
+    </ul>
+</div>
+{% endblock subnav %}
 
 {% block body %}
-<h1>Files</h1>
-
 {% endblock %}

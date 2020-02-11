@@ -9,7 +9,7 @@
                 <b>Contract id:</b> {{ contract['contractID'] }}
             </div>
             <div style="margin-bottom: 10px">
-                <b>Sender id:</b> {{ contract['senderID'] }}
+                <b>Sender:</b> <span class="text-uppercase">{{contract['senderID']['name']}}</span> <b>Sender id:</b> {{contract['senderID']['id']}}
             </div>
             <div style="margin-bottom: 10px">
                 <b>Receiver id:</b> {{ contract['receiverID'] }}
@@ -20,16 +20,20 @@
             <div>
                 <b>Conditions:</b>
                 <ul>
-                {% for c in conditions: %}
-                    <li>{{ c }}</li>
+                {% for d in conditions: %}
+                    <li><p>{{ d }}</p>
+                        <p>{{ conditions[d] }}</p>
+                    </li>
                 {% endfor %}
                 </ul>
             </div>
         </div>
     </div>
+    {% if table=="recv" %}
     <div class="card-footer" style="text-align: center">
         <button type="button" class="btn btn-success mr-4" onclick="window.location.href = '/reply/{{contract['contractID']}}/{{'accepted'}}'">Accept</button>
         <button type="button" class="btn btn-danger" onclick="window.location.href = '/reply/{{contract['contractID']}}/{{'declined'}}'">Decline</button>
     </div>
+    {% endif %}
 </div>
 {% endblock body %}

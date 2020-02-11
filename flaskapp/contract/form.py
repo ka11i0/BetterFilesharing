@@ -6,10 +6,12 @@ class MultiCheckboxField(SelectMultipleField):
     option_widget = CheckboxInput()
 
 class create_contractForm(FlaskForm):
-    # defining form fields
+    # # defining form fields
     receiver = SelectField('Company')
     conditions = MultiCheckboxField('Conditions', validators=[DataRequired()])
-    uploadfile = FileField('Share file', validators=[DataRequired()])
+    # uploadfile = FileField('Share file', validators=[DataRequired()])
+    uploadfile = SelectField('Share file')
+
 
     def getClientlist(self):
         clientlist = []
@@ -22,64 +24,61 @@ class create_contractForm(FlaskForm):
         for condition in Conditions.query.all():
             conditions.append((str(condition.id), condition.name))
         return conditions
+    
+    def getFileList(self, client_id):
+        fileList = []
+        for files in db.session.query(File, Access).join(Access).filter(File.id==Access.file_id).filter(Access.client_id==client_id).all():
+            fileList.append((files.File.id, files.File.path))
+        return fileList
 
     # save contract to db and as json-object and upload shared file to shared folder
     def save(self, **kwargs):
         new_contractID = Contract_sent.query.order_by(Contract_sent.id.desc()).first()
-        new_fileID = File.query.order_by(File.id.desc()).first()
-
         if new_contractID is None:
             new_contractID = 1
         else:
             new_contractID = new_contractID.id + 1
-        
-        if new_fileID is None:
-            new_fileID = 1
-        else:
-            new_fileID = new_fileID.id + 1
 
-        sendFile = kwargs.get('file')
-        filename = secure_filename(sendFile.filename)
         clientID = kwargs.get('receiver')
         condData = kwargs.get('conditions')
+
+        cond_dict = {}
+
+        for i in condData:
+            cond_name = Conditions.query.filter_by(id=i).first().name
+            cond_desc = Conditions.query.filter_by(id=i).first().desc
+            cond_dict[cond_name] = cond_desc
+
+
+
         
         new_contract = Contract_sent(
             id = new_contractID,
             path = app.config['CONTRACT_FOLDER']+str(new_contractID)+app.config['CONTRACT_FILEEXT'],
             status = "pending",
             client_id = clientID,
-            file_id = new_fileID
-        )
-
-        new_fileinfo = File(
-            id = new_fileID,
-            path = app.config['SHARED_FILES']+"{}".format(kwargs.get('file'))
+            file_id = kwargs.get('file_id')
         )
 
         json_contract = {
-            'contractID': new_contractID,
-            'senderID': app.config['COMPANY_ID'],
-            'receiverID': clientID,
+            'contractID': str(new_contractID),
+            'senderID': {'id' : app.config['COMPANY_ID'], 'name' : app.config['COMPANY_NAME']},
+            'receiverID': str(clientID),
             'file': {
-                'name': filename,
+                'name': File.query.filter_by(id=kwargs.get('file_id')).first().path,
                 'filter': 'n/a'
             },
-            'conditions': condData
+            'conditions': cond_dict
         }
 
         try:
             db.session.autocommit = False
             db.session.add(new_contract)
-            db.session.add(new_fileinfo)
             db.session.commit()
             with open(app.config['CONTRACT_FOLDER']+str(new_contractID)+app.config['CONTRACT_FILEEXT'], 'w') as outfile:
                 json.dump(json_contract, outfile, indent=4)
             
             send_contract(new_contractID, clientID)
-            # Upload shared file to folder not active
-            # sendFile.save(os.path.join(
-            #     'Filesharing/SharedFiles/', filename
-            # ))
             
         except:
             db.session.rollback()

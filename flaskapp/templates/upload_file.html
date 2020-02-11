@@ -1,0 +1,24 @@
+{% extends 'files.html' %}
+
+{% block body %}
+<div class="card">
+    <div class="card-header"><h1>Upload new file</h1></div>
+    <div class="card-body">
+        <form method="POST" action="{{url_for('uploadFile')}}" enctype="multipart/form-data">
+            <div class="form-group">
+                {{ form.csrf_token }}
+                {{form.access_by.label()}}
+                {{form.access_by(class='custom-select')}}
+            </div>
+            <div class="custom-file">
+                {{form.uploadfile.label(class='custom-file-label')}}
+                {{form.uploadfile(class='custom-file-input')}}
+            </div>
+            <div class="form-group mt-4">
+                <input type="submit" value="Upload file" class="btn btn-primary">
+                <a href="{{url_for('overview_files')}}" class="btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock body %}

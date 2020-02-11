@@ -2,19 +2,25 @@
     "$schema": "http://json-schema.org/schema#",
     "title": "Contract",
     "type": "object",
-    "required": ["contractID", "senderID", "recieverID", "file", "conditions"],
+    "required": ["contractID", "senderID", "receiverID", "file", "conditions"],
     "properties": {
         "contractID": {
             "type": "string",
             "description": "UUID generated for this contract"
         },
         "senderID": {
-            "type": "string",
-            "description": "Organisation number for the sender of this contract"
+            "type": "object",
+            "patternProperties": {
+                ".*": {"type": "string"}
+            },
+            "description": "KV pair of Company id as key and Company name as value"
         },
         "recieverID": {
-            "type": "string",
-            "description": "Organisation number for the reciever of this contract"
+            "type": "object",
+            "patternProperties": {
+                ".*": {"type": "string"}
+            }, 
+            "description": "KV pair of Company id as key and Company name as value"
         },
         "file": {
             "type": "object",
@@ -33,8 +39,17 @@
             "type": "array",
             "description":"The conditions that apply to the shared file",
             "items": {
-                "type": "string"
+                "$ref": "#/definitions/condition"
             }
+        }
+    },
+    "definitions": {
+        "condition": {
+            "type": "object",
+            "patternProperties": {
+                ".*": { "type": "string" }
+            },
+            "description": "KV pair of Condition name as key and Condition description as Value"
         }
     }
 }
