@@ -48,7 +48,7 @@ class Access(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), primary_key=True, nullable=False)
 
     def __repr__(self):
-        return '<Access {}>'.format(self.id)
+        return '<Access {}>'.format(self.file_id)
 
 class Conditions(db.Model):
     id = db.Column(db.Integer, primary_key=True)

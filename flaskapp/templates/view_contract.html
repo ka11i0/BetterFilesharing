@@ -9,7 +9,7 @@
                 <b>Contract id:</b> {{ contract['contractID'] }}
             </div>
             <div style="margin-bottom: 10px">
-                <b>Sender id:</b> {{ contract['senderID'] }}
+                <b>Sender:</b> <span class="text-uppercase">{{contract['senderID']['name']}}</span> <b>Sender id:</b> {{contract['senderID']['id']}}
             </div>
             <div style="margin-bottom: 10px">
                 <b>Receiver id:</b> {{ contract['receiverID'] }}
@@ -20,8 +20,10 @@
             <div>
                 <b>Conditions:</b>
                 <ul>
-                {% for c in conditions: %}
-                    <li>{{ c }}</li>
+                {% for d in conditions: %}
+                    <li><p>{{ d }}</p>
+                        <p>{{ conditions[d] }}</p>
+                    </li>
                 {% endfor %}
                 </ul>
             </div>
