@@ -16,6 +16,7 @@ Filesharing/SharedFiles/*
 *.jpg
 *.jpeg
 *.svg
+*.png
 
 # ignore venv for those that use it
 venv
