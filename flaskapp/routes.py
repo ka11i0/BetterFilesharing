@@ -83,7 +83,8 @@ def view_contract():
     return render_template(
         'view_contract.html',
         contract = contract,
-        conditions = contract['conditions']
+        conditions = contract['conditions'],
+        table = request.args.get('from')
         )
         
 
