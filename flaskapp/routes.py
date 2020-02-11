@@ -83,7 +83,8 @@ def view_contract():
     return render_template(
         'view_contract.html',
         contract = contract,
-        conditions = contract['conditions']
+        conditions = contract['conditions'],
+        table = request.args.get('from')
         )
         
 
@@ -107,7 +108,7 @@ def accept_or_decline(id, status): # When contract is accepted/declined
         filename = contractjson["file"]["name"]
     
     recv = FileReceiver("0.0.0.0", 80)
-    recvThread = threading.Thread(target=recv.start(), args=(os.path.abspath("ReceivedFiles") + filename,))
+    recvThread = threading.Thread(target=recv.start, args=(os.path.abspath("ReceivedFiles") + filename,))
     recvThread.start()
     
     return redirect('/contracts')
@@ -124,7 +125,7 @@ def contractreply(): # Runs when client accepts/declines a contract
         client = Client.query.get(contract.client_id)
         send = FileSender(client.ip_address, 80)
         filedb = File.query.get(contract.file_id)
-        sendThread = threading.Thread(target=send.start(), args=(filedb.path,))
+        sendThread = threading.Thread(target=send.start, args=(filedb.path,))
         sendThread.start()
     
     return '', 201
