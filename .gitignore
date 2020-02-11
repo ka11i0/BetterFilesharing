@@ -9,9 +9,10 @@ migrations
 # ignore uploading contract SharedFiles
 Contract/ReceivedContracts/
 Contract/SentContracts/
+Filesharing/SharedFiles/*
 
 # ignore images
-# *.png
+*.png
 *.jpg
 *.jpeg
 *.svg
