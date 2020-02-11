@@ -10,12 +10,14 @@ migrations
 Contract/ReceivedContracts/
 Contract/SentContracts/
 Filesharing/SharedFiles/*
+Filesharing/ReceivedFiles/*
 
 # ignore images
 *.png
 *.jpg
 *.jpeg
 *.svg
+*.png
 
 # ignore venv for those that use it
 venv
