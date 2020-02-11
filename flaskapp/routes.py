@@ -106,7 +106,7 @@ def accept_or_decline(id, status): # When contract is accepted/declined
         contractjson = json.loads(contractfile.read())
         filename = contractjson["file"]["name"]
     
-    recv = Filereceiver("0.0.0.0", 80)
+    recv = FileReceiver("0.0.0.0", 80)
     recvThread = threading.Thread(target=recv.start(), args=(os.path.abspath("ReceivedFiles") + filename,))
     recvThread.start()
     
@@ -122,7 +122,7 @@ def contractreply(): # Runs when client accepts/declines a contract
     
     if client_reply["status"] == "accepted":
         client = Client.query.get(contract.client_id)
-        send = Filesender(client.ip_address, 80)
+        send = FileSender(client.ip_address, 80)
         filedb = File.query.get(contract.file_id)
         sendThread = threading.Thread(target=send.start(), args=(filedb.path,))
         sendThread.start()
