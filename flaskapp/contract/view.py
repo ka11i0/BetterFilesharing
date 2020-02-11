@@ -20,8 +20,12 @@ def listContracts(status, table):
             contract_list.append(contract_dict)
         return contract_list
 
-def getContract(cid):
-    contract = db.session.query(Contract)
+def getContractStatus(cid, table):
+    if table == 'recv':
+        status = Contract_recv.query.filter_by(id=cid).first().status
+    if table == 'sent':
+        status = Contract_sent.query.filter_by(id=cid).first().status
+    return status
 
 def readContract(cid, table):
     if(table=='recv'):
