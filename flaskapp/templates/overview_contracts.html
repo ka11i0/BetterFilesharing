@@ -18,7 +18,11 @@
                 <thead>
                   <tr>
                     <th>Contract id</th>
-                    <th>Receiver</th>
+                    {% if request.path == "/recv_contracts" %}
+                      <th>Sender</th>
+                    {% else %}
+                      <th>Receiver</th>
+                    {% endif %}
                     <th>Status</th>
                     <th>&nbsp;</th>
                   </tr>
@@ -27,28 +31,30 @@
                 {% for c in pendingContracts: %}
                   <tr class="table-light">
                     {% if request.path == "/recv_contracts" %}
-                    <td>{{c.Contract_recv.id}}</td>
+                      <td>{{c['id']}}</td>
+                      <td>
+                        <span class="text-uppercase">{{c['name']}}</span>, Org nr. {{c['sender_id']}}</td>
+                      <td>{{c['status']}}</td>
                     {% else %}
-                    <td>{{c.Contract_sent.id}}</td>
+                      <td>{{c.Contract_sent.id}}</td>
+                      <td>{{c.Client.name}}</td>
+                      <td>{{c.Contract_sent.status}}</td>
                     {% endif %}
-                    <td>{{c.Client.name}}</td>
-                    {% if request.path == "/recv_contracts" %}
-                    <td>{{c.Contract_recv.status}}</td>
-                    {% else %}
-                    <td>{{c.Contract_sent.status}}</td>
-                    {% endif %}
+                    
                     <td>
                       <ul class="nav">
                         <li class="nav-item mr-2">
                           {% if request.path == "/recv_contracts" %}
-                          <a href="{{url_for('view_contract', cid=c.Contract_recv.id, from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                          <a href="{{url_for('view_contract', cid=c['id'], from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                           {% else %}
                           <a href="{{url_for('view_contract', cid=c.Contract_sent.id, from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                           {% endif %}
                         </li>
-                        <li class="nav-item mr-2">
-                          <a href="#" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
-                        </li>
+                        {% if request.path == "/sent_contracts" %}
+                          <li class="nav-item mr-2">
+                            <a href="#" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
+                          </li>
+                        {% endif %}
                       </ul>
                     </td>
                   </tr>
@@ -70,7 +76,11 @@
             <thead>
               <tr>
                 <th>Contract id</th>
-                <th>Receiver</th>
+                {% if request.path == "/recv_contracts" %}
+                  <th>Sender</th>
+                {% else %}
+                  <th>Receiver</th>
+                {% endif %}
                 <th>Status</th>
                 <th>&nbsp;</th>
               </tr>
@@ -79,21 +89,20 @@
             {% for c in acceptedContracts: %}
               <tr class="table-light">
                 {% if request.path == "/recv_contracts" %}
-                <td>{{c.Contract_recv.id}}</td>
-                {% else %}
+                <td>{{c['id']}}</td>
+                <td>
+                  <span class="text-uppercase">{{c['name']}}</span>, Org nr. {{c['sender_id']}}</td>
+                <td>{{c['status']}}</td>
+              {% else %}
                 <td>{{c.Contract_sent.id}}</td>
-                {% endif %}
                 <td>{{c.Client.name}}</td>
-                {% if request.path == "/recv_contracts" %}
-                <td>{{c.Contract_recv.status}}</td>
-                {% else %}
                 <td>{{c.Contract_sent.status}}</td>
-                {% endif %}
+              {% endif %}
                 <td>
                   <ul class="nav">
                     <li class="nav-item mr-2">
                     {% if request.path == "/recv_contracts" %}
-                    <a href="{{url_for('view_contract', cid=c.Contract_recv.id, from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                    <a href="{{url_for('view_contract', cid=c['id'], from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                     {% else %}
                     <a href="{{url_for('view_contract', cid=c.Contract_sent.id, from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                     {% endif %}
@@ -119,7 +128,11 @@
             <thead>
               <tr>
                 <th>Contract id</th>
-                <th>Receiver</th>
+                {% if request.path == "/recv_contracts" %}
+                  <th>Sender</th>
+                {% else %}
+                  <th>Receiver</th>
+                {% endif %}
                 <th>Status</th>
                 <th>&nbsp;</th>
               </tr>
@@ -128,21 +141,20 @@
             {% for c in declinedContracts: %}
               <tr class="table-light">
                 {% if request.path == "/recv_contracts" %}
-                <td>{{c.Contract_recv.id}}</td>
-                {% else %}
+                <td>{{c['id']}}</td>
+                <td>
+                  <span class="text-uppercase">{{c['name']}}</span>, Org nr. {{c['sender_id']}}</td>
+                <td>{{c['status']}}</td>
+              {% else %}
                 <td>{{c.Contract_sent.id}}</td>
-                {% endif %}
                 <td>{{c.Client.name}}</td>
-                {% if request.path == "/recv_contracts" %}
-                <td>{{c.Contract_recv.status}}</td>
-                {% else %}
                 <td>{{c.Contract_sent.status}}</td>
-                {% endif %}
+              {% endif %}
                 <td>
                   <ul class="nav">
                     <li class="nav-item mr-2">
                       {% if request.path == "/recv_contracts" %}
-                      <a href="{{url_for('view_contract', cid=c.Contract_recv.id, from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                      <a href="{{url_for('view_contract', cid=c['id'], from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                       {% else %}
                       <a href="{{url_for('view_contract', cid=c.Contract_sent.id, from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                       {% endif %}

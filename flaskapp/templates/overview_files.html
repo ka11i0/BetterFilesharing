@@ -1,0 +1,45 @@
+{% extends 'files.html' %}
+
+{% block head %}
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+{% endblock head %}
+
+{% block body %}
+<div id="accordion">
+    <div class="card">
+      <div class="card-header">
+        <a class="card-link" data-toggle="collapse" href="#collapseOne">
+          Shared files
+        </a>
+      </div>
+      <div id="collapseOne" class="collapse show" data-parent="#accordion">
+        <div class="card-body">
+            <table class="table table-secondary table-sm table-hover">
+                <thead>
+                  <tr>
+                    <th>File id</th>
+                    <th>Path</th>
+                    <th>&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for f in files: %}
+                  <tr class="table-light">
+                    <td>{{f.id}}</td>
+                    <td>{{f.path}}</td>
+                    <td>
+                      <ul class="nav">
+                        <li class="nav-item mr-2">
+                          <a href="{{url_for('view_file', fid=f.id)}}" alt="View file">Accessed by</a>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock body %}
