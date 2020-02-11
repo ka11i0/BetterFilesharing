@@ -40,6 +40,7 @@ class create_contractForm(FlaskForm):
             new_contractID = new_contractID.id + 1
 
         clientID = kwargs.get('receiver')
+        print(clientID)
         condData = kwargs.get('conditions')
 
         cond_dict = {}
