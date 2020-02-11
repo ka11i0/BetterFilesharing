@@ -8,7 +8,7 @@ import os
 
 from Filesharing.sender import FileSender
 
-CONTRACT_BASE_PATH = os.path.abspath("./Contract/RecievedContracts/")
+CONTRACT_BASE_PATH = os.path.abspath("./Contract/ReceivedContracts/")
 
 
 with open(os.path.abspath("./Contract/contract.schema.json"), 'r') as schema_file:

@@ -7,7 +7,7 @@ __pycache__
 migrations
 
 # ignore uploading contract SharedFiles
-Contract/RecievedContracts/
+Contract/ReceivedContracts/
 Contract/SentContracts/
 
 # ignore images
@@ -29,4 +29,5 @@ flaskapp/contract/__pycache__/contract_form.cpython-37.pyc
 flaskapp/app.db
 .DS_Store
 .vscode/settings.json
+flaskapp/config.py
 

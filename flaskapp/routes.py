@@ -59,12 +59,13 @@ def create_contract():
 
 @app.route("/view_contract")
 def view_contract():
-    contract = readContract(request.args.get('cid'))
+    contract = readContract(request.args.get('cid'), request.args.get('from'))
     condition = getConditions(contract['conditions'])
     return render_template(
         'view_contract.html',
         contract = contract,
-        conditions = condition
+        conditions = condition,
+        table = request.args.get('from')
         )
 
 @app.route("/clients")
