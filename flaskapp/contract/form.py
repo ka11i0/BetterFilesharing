@@ -42,6 +42,16 @@ class create_contractForm(FlaskForm):
         filename = secure_filename(sendFile.filename)
         clientID = kwargs.get('receiver')
         condData = kwargs.get('conditions')
+
+        cond_dict = {}
+
+        for i in condData:
+            cond_name = Conditions.query.filter_by(id=i).first().name
+            cond_desc = Conditions.query.filter_by(id=i).first().desc
+            cond_dict[cond_name] = cond_desc
+
+
+
         
         new_contract = Contract_sent(
             id = new_contractID,
@@ -58,13 +68,13 @@ class create_contractForm(FlaskForm):
 
         json_contract = {
             'contractID': str(new_contractID),
-            'senderID': app.config['COMPANY_ID'],
+            'senderID': {'id' : app.config['COMPANY_ID'], 'name' : app.config['COMPANY_NAME']},
             'receiverID': str(clientID),
             'file': {
                 'name': filename,
                 'filter': 'n/a'
             },
-            'conditions': condData
+            'conditions': cond_dict
         }
 
         try:
@@ -76,10 +86,10 @@ class create_contractForm(FlaskForm):
                 json.dump(json_contract, outfile, indent=4)
             
             send_contract(new_contractID, clientID)
-            # Upload shared file to folder not active
-            # sendFile.save(os.path.join(
-            #     'Filesharing/SharedFiles/', filename
-            # ))
+            Upload shared file to folder not active
+            sendFile.save(os.path.join(
+                'Filesharing/SharedFiles/', filename
+            ))
             
         except:
             db.session.rollback()

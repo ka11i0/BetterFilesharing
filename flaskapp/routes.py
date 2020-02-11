@@ -14,7 +14,7 @@ def index():
 @app.route("/sent_contracts")
 def sent_contracts():
     return render_template(
-        'new_contracts.html',
+        'overview_contracts.html',
         pendingContracts = listContracts('pending', 'sent'),
         acceptedContracts = listContracts('accepted','sent'),
         declinedContracts = listContracts('declined', 'sent')
@@ -23,7 +23,7 @@ def sent_contracts():
 @app.route("/recv_contracts")
 def recv_contracts():
     return render_template(
-        'new_contracts.html',
+        'overview_contracts.html',
         pendingContracts = listContracts('pending', 'received'),
         acceptedContracts = listContracts('accepted', 'received'),
         declinedContracts = listContracts('declined', 'received')
@@ -59,12 +59,11 @@ def create_contract():
 
 @app.route("/view_contract")
 def view_contract():
-    contract = readContract(request.args.get('cid'), request.args.get('table'))
-    condition = getConditions(contract['conditions'])
+    contract = readContract(request.args.get('cid'), request.args.get('from'))
     return render_template(
         'view_contract.html',
         contract = contract,
-        conditions = condition
+        conditions = contract['conditions']
         )
 
 @app.route("/clients")
