@@ -8,7 +8,7 @@ class FileSender:
     
     def start(self, filepath):
         fh = Filehandler()
-        data = fh.read(filepath)
+        data = fh.readdata(filepath)
         
         print("Data read proceeding with sending")
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
