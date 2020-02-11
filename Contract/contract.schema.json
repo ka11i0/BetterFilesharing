@@ -36,7 +36,7 @@
             }
         },
         "conditions": {
-            "type": "array",
+            "type": "object",
             "description":"The conditions that apply to the shared file",
             "items": {
                 "patternProperties": { 
