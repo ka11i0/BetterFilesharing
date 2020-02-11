@@ -32,7 +32,7 @@ def put_contract():
     
     # Get the contractID from the json dict
     contractID = json_body['contractID']
-    clientID = json_body['senderID']
+    clientID = json_body['senderID']['id']
     status = "pending"
     path = CONTRACT_BASE_PATH + "/" + contractID + ".json"
     print(path)
