@@ -33,7 +33,20 @@
             "type": "array",
             "description":"The conditions that apply to the shared file",
             "items": {
-                "type": "string"
+                "$ref": "#/definitions/condition"
+            }
+        }
+    },
+    "defenitions": {
+        "condition": {
+            "type": "object",
+            "conditionName": {
+                "type": "string",
+                "description": "short condition name"
+            },
+            "conditionDesc": {
+                "type": "string",
+                "description": "explenation of condition"
             }
         }
     }
