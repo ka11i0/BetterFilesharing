@@ -10,4 +10,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)     #This allows for schema modifications without, db recreation.
 
 from flaskapp import routes, models
+from flaskapp.files import routes
+from flaskapp.clients import routes
 from Contract.Rest import contract
