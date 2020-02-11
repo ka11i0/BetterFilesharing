@@ -39,7 +39,10 @@
             "type": "array",
             "description":"The conditions that apply to the shared file",
             "items": {
-                "$ref": "#/definitions/condition"
+                "patternProperties": { 
+                    ".*": { "type": "string" }
+                },
+            "description": "KV pair of Condition name as key and Condition description as Value"
             }
         }
     },
