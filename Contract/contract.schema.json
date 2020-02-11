@@ -9,12 +9,18 @@
             "description": "UUID generated for this contract"
         },
         "senderID": {
-            "type": "string",
-            "description": "Organisation number for the sender of this contract"
+            "type": "object",
+            "patternProperties": {
+                ".*": {"type": "string"}
+            },
+            "description": "KV pair of Company id as key and Company name as value"
         },
-        "receiverID": {
-            "type": "string",
-            "description": "Organisation number for the receiver of this contract"
+        "recieverID": {
+            "type": "object",
+            "patternProperties": {
+                ".*": {"type": "string"}
+            }, 
+            "description": "KV pair of Company id as key and Company name as value"
         },
         "file": {
             "type": "object",
@@ -37,17 +43,13 @@
             }
         }
     },
-    "defenitions": {
+    "definitions": {
         "condition": {
             "type": "object",
-            "conditionName": {
-                "type": "string",
-                "description": "short condition name"
+            "patternProperties": {
+                ".*": { "type": "string" }
             },
-            "conditionDesc": {
-                "type": "string",
-                "description": "explenation of condition"
-            }
+            "description": "KV pair of Condition name as key and Condition description as Value"
         }
     }
 }
