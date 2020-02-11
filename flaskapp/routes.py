@@ -43,32 +43,37 @@ def create_contract():
 
     # save contract data to database and and json-file
     if request.method == 'POST':
+        # save new condotion
+        if condForm.validate_on_submit():
+            condForm.save(
+                name = condForm.condition.data,
+                desc = condForm.desc.data
+            )
+            # return redirect(url_for('create_contract', step='select_file'))
+
+        getClient = request.args.get('client_id') if request.args.get('client_id') else form.receiver.data
+
         if request.args.get('step') == 'select_file':
-            form.uploadfile.choices = form.getFileList(form.receiver.data)
+            form.uploadfile.choices = form.getFileList(getClient)
             form.receiver.choices = [(
                 form.receiver.data,
-                Client.query.filter(Client.id==form.receiver.data).first().name
+                Client.query.filter(Client.id==getClient).first().name
                 )]
+            form.conditions.choices = form.getConditions()
             return render_template(
                 'create_contract.html',
                 contractForm = form,
                 step = 'select_file',
-                conditionForm=condForm
+                conditionForm=condForm,
+                client_id = getClient
                 )
         else:
+
             form.save(
-                receiver = form.receiver.data,
+                receiver = getClient,
                 file_id = form.uploadfile.data,
                 conditions = form.conditions.data
             )
-    
-    # save new condotion
-    if condForm.validate_on_submit():
-        condForm.save(
-            name = condForm.condition.data,
-            desc = condForm.desc.data
-        )
-        return redirect(url_for('create_contract'))
 
     return render_template('create_contract.html', contractForm=form)
 
