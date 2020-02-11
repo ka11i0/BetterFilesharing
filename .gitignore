@@ -11,7 +11,7 @@ Contract/ReceivedContracts/
 Contract/SentContracts/
 
 # ignore images
-*.png
+# *.png
 *.jpg
 *.jpeg
 *.svg

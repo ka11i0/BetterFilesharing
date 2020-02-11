@@ -5,7 +5,7 @@
     <div class="card-header"><h1>Create contract</h1></div>
     {% if step == 'select_file' %}
     <div class="card-body" id="step2">
-        <form method="POST" action="{{url_for('create_contract')}}" enctype="multipart/form-data">
+        <form method="POST" action="{{url_for('create_contract', client_id=client_id)}}" enctype="multipart/form-data">
             <div class="form-group">
                 {{ contractForm.csrf_token }}
                 {{ contractForm.receiver.label() }}
@@ -40,7 +40,7 @@
                     
                     <!-- Modal body -->
                     <div class="modal-body">
-                    <form method="POST" action="{{url_for('create_contract')}}" enctype="multipart/form-data">
+                    <form method="POST" action="{{url_for('create_contract', step='select_file', client_id=client_id)}}" enctype="multipart/form-data">
                         <div class="form-group">
                             {{ contractForm.csrf_token }}
                             {{conditionForm.condition.label()}}
