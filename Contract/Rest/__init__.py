@@ -14,3 +14,11 @@ def send_contract(contractid, clientid):
     if response.status_code != 201:
         raise Exception(response.text)
 
+def get_request(clientid):
+    client = Client.query.filter_by(id=clientid).first()
+    sendaddr = client.ip_address
+    response = requests.get('http://' + sendaddr + ':5000/v1/conditions')
+    jsonbody = json.loads(response.text)
+    return jsonbody
+
+
