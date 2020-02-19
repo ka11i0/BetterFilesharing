@@ -2,7 +2,7 @@ from flaskapp.models import Client
 import requests
 import json
 
-def get_condition(clientid):
+def get_conditions(clientid):
     client = Client.query.filter_by(id=clientid).first()
     sendaddr = client.ip_address
     # 192.168.43.169:5000/v1/conditionsi
