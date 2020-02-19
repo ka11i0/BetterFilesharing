@@ -5,6 +5,9 @@ import json
 def get_condition(clientid):
     client = Client.query.filter_by(id=clientid).first()
     sendaddr = client.ip_address
-    response = requests.get('http://' + sendaddr + ':5000/v1/conditions')
+    # 192.168.43.169:5000/v1/conditionsi
+    url = "http://{}:5000/v1/conditions".format(sendaddr) 
+    print(url)
+    response = requests.get(url)
     jsonbody = json.loads(response.text)
     return jsonbody
