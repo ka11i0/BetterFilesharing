@@ -14,3 +14,4 @@ from flaskapp.files import routes
 from flaskapp.clients import routes
 from flaskapp.contract import routes
 from Contract.Rest import contract
+from flaskapp.shell import routes
