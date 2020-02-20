@@ -9,7 +9,8 @@ app.secret_key = 'abc'           # required for wtform
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)     #This allows for schema modifications without, db recreation.
 
-from flaskapp import routes, models
+from flaskapp import models
 from flaskapp.files import routes
 from flaskapp.clients import routes
+from flaskapp.contract import routes
 from Contract.Rest import contract

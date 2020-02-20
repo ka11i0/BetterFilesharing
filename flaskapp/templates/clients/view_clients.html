@@ -1,32 +1,38 @@
-{% extends 'files.html' %}
+{% extends 'clients/layout.html' %}
+
+{% block head %}
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+{% endblock head %}
 
 {% block body %}
 <div id="accordion">
     <div class="card">
       <div class="card-header">
-        File available to:
+        <a class="card-link" data-toggle="collapse" href="#collapseOne">
+         Clients
+        </a>
       </div>
       <div id="collapseOne" class="collapse show" data-parent="#accordion">
         <div class="card-body">
             <table class="table table-secondary table-sm table-hover">
                 <thead>
                   <tr>
-                    <th>File id</th>
-                    <th>Client id</th>
-                    <th>Company</th>
+                    <th>Organisation number</th>
+                    <th>Company name</th>
+                    <th>IP-address</th>
                     <th>&nbsp;</th>
                   </tr>
                 </thead>
                 <tbody>
-                {% for client in access_group: %}
+                {% for c in clientlist: %}
                   <tr class="table-light">
-                    <td>{{client.Access.file_id}}</td>
-                    <td>{{client.Client.id}}</td>
-                    <td>{{client.Client.name}}</td>
+                    <td>{{c.id}}</td>
+                    <td>{{c.name}}</td>
+                    <td>{{c.ip_address}}</td>
                     <td>
                       <ul class="nav">
                         <li class="nav-item mr-2">
-                          <a href="#" alt="View file">Remove access</a>
+                          <a href="{{url_for('edit_client', id=c.id)}}" alt="Edit client"><i class='fas fa-edit' style='font-size:16px'></i>Edit</a>
                         </li>
                       </ul>
                     </td>

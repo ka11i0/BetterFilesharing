@@ -7,7 +7,7 @@ from flaskapp.clients.view import *
 @app.route("/clients")
 def clients():
     return render_template(
-        'view_clients.html',
+        'clients/view_clients.html',
         clientlist = getClientlist()
         )
 
@@ -23,7 +23,7 @@ def add_client():
         )
         return redirect(url_for('clients'))
 
-    return render_template('add_client.html', form=form)
+    return render_template('clients/add_client.html', form=form)
 
 @app.route("/edit_client", methods=['GET','POST'])
 def edit_client():
@@ -39,4 +39,4 @@ def edit_client():
         )
         return redirect(url_for('clients'))
 
-    return render_template('add_client.html', form=form, client=client)
+    return render_template('clients/add_client.html', form=form, client=client)
