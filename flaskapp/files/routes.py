@@ -1,8 +1,4 @@
-import requests
-from flask import Flask, render_template, redirect, request, url_for, session
-from flaskapp import app
-from flaskapp.files.form import *
-from flaskapp.files.view import *
+from flaskapp.files.config import *
 
 ### Upload file page ####
 @app.route("/upload_file", methods=['GET', 'POST'])

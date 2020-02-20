@@ -1,4 +1,4 @@
-from flaskapp.contract.config import *
+from flaskapp.clients.config import *
 
 class clientForm(FlaskForm):
     client_id = TextField('Organisation number:', validators=[DataRequired()])

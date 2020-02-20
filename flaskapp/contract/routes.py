@@ -1,14 +1,4 @@
-import requests
-from flask import Flask, render_template, redirect, request, url_for, session
-from flaskapp import app
-from flaskapp.contract.form import *
-from flaskapp.contract.view import *
-from flaskapp.clients.form import *
-from flaskapp.clients.view import *
-import threading
-from Filesharing.sender import FileSender
-from Filesharing.receiver import FileReceiver
-import json
+from flaskapp.contract.config import *
 
 @app.route("/")
 def index():

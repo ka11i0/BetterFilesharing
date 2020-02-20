@@ -69,7 +69,7 @@ class Shell_send(db.Model):
     status = db.Column(db.String(8), nullable=False) # active OR inactive
 
     def __repr__(self):
-        return '<Shell_send {}>'.format(self.id)
+        return '<Shell_send {}>'.format(self.shell_id)
 
 
 class Shell_recv(db.Model):
@@ -79,4 +79,4 @@ class Shell_recv(db.Model):
     status = db.Column(db.String(8), nullable=False) # active OR inactive
 
     def __repr__(self):
-        return '<Shell_recv {}>'.format(self.id)
+        return '<Shell_recv {}>'.format(self.shell_id)

@@ -1,8 +1,4 @@
-import requests
-from flask import Flask, render_template, redirect, request, url_for, session
-from flaskapp import app
-from flaskapp.clients.form import *
-from flaskapp.clients.view import *
+from flaskapp.clients.config import *
 
 @app.route("/clients")
 def clients():
