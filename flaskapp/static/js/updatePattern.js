@@ -22,7 +22,7 @@
 
 let sender_select = document.getElementById('sender');              // sender SelectField
 let pattern_select = document.getElementById('pattern');            // pattern SelectField
-let conditions_select = documents.getElementById('condtions');      // conditions SelectField
+let conditions_select = document.getElementById('condtions');      // conditions SelectField
 
 
 // Eventlistener

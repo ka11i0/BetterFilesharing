@@ -7,7 +7,7 @@ class MultiCheckboxField(SelectMultipleField):
 
 class CreateRecvShell(FlaskForm):
     # defining input fields
-    sender = SelectField('Sender', validators=[DataRequired()])                                         # list of senders from initiated shells
+    sender = SelectField('Sender', validators=[DataRequired()])                              # list of senders from initiated shells
     pattern = SelectField('Pattern', choices=[], validators=[DataRequired()])                # file pattern for this shell
     conditions = MultiCheckboxField('Conditions', choices=[], validators=[DataRequired])     # condition from senders db (implemented later)
 
@@ -17,6 +17,12 @@ class CreateRecvShell(FlaskForm):
         senders = db.session.query(Client).outerjoin(Shell_recv).filter_by(status='inactive').all()
         self.sender.choices = [(sc.id, sc.name) for sc in senders]
         
-        # populate pattern with default sender selected
-        pattern = db.session.query(Shell_recv).filter_by(client_id=senders[0].id).all()
-        self.pattern.choices = [(pc.shell_id, pc.path) for pc in pattern]
+        # populate pattern with patterns from selected sender
+        shells = db.session.query(Shell_recv).filter_by(client_id=senders[0].id).all()
+        for shell in shells:
+            shell_path = os.path.join(app.config['SHELL_FOLDER'], shell.path)
+            with open(shell_path) as json_file:
+                json_shell = json.load(json_file)   # read json-shell
+
+            # append tuple (shell_id, pattern) to pattern choices
+            self.pattern.choices.append((shell.shell_id, json_shell.get('pattern')))

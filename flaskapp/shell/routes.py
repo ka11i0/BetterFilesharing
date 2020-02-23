@@ -25,14 +25,17 @@ def receive_shell():
 @app.route("/receive_shell/<sender>")
 def update_recv_shell(sender):
     # conditions = get_conditions(sender) # activate when functions is available
-    patterns = Shell_recv.query.filter_by(client_id=sender).all()
+    shells = Shell_recv.query.filter_by(client_id=sender).all()
     patternArray = []   # list of dicts
 
     # create objects of pattern and append to list of dicts
-    for pat in patterns:
+    for shell in shells:
+        shell_path = os.path.join(app.config['SHELL_FOLDER'], shell.path)
+        with open(shell_path) as json_file:
+            json_shell = json.load(json_file)   # read json-shell
         patObj = {}
-        patObj['shell_id'] = pat.shell_id
-        patObj['path'] = pat.path
+        patObj['shell_id'] = shell.shell_id
+        patObj['path'] = json_shell.get('pattern')
         patternArray.append(patObj)
     
     return jsonify({'patterns' : patternArray})
