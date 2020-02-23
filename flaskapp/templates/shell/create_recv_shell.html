@@ -14,7 +14,7 @@
             <div class="form-group">
                 {{ form.csrf_token }}
                 {{ form.sender.label() }}
-                {{ form.sender(class='custom-select', id='sender') }}
+                {{ form.sender(class='custom-select', id='sender', onchange='updateForm(this);') }}
             </div>
             <div class="form-group">
                 {{ form.pattern.label() }}

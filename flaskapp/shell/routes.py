@@ -14,14 +14,14 @@ def receive_shell():
     recvShellForm = CreateRecvShell()
 
     # create shell
-    if request.method=="POST":
+    if request.method == "POST":
         print(recvShellForm.sender.data)
         print(recvShellForm.pattern.data)
         return redirect(url_for('receive_shell'))
 
     return render_template('shell/create_recv_shell.html', form=recvShellForm)
 
-# update pattern select field by selected sender
+# update pattern select-field by selected sender
 @app.route("/receive_shell/<sender>")
 def update_recv_shell(sender):
     # conditions = get_conditions(sender) # activate when functions is available
@@ -35,7 +35,7 @@ def update_recv_shell(sender):
             json_shell = json.load(json_file)   # read json-shell
         patObj = {}
         patObj['shell_id'] = shell.shell_id
-        patObj['path'] = json_shell.get('pattern')
+        patObj['pattern'] = json_shell.get('pattern')
         patternArray.append(patObj)
     
     return jsonify({'patterns' : patternArray})

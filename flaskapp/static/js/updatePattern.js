@@ -19,28 +19,17 @@
 </form> */}
 
 // This script updates the pattern select field in above form in create_recv_shell.html based on selected sender in sender select field.
-
-let sender_select = document.getElementById('sender');              // sender SelectField
-let pattern_select = document.getElementById('pattern');            // pattern SelectField
-let conditions_select = document.getElementById('condtions');      // conditions SelectField
-
-
-// Eventlistener
-sender_select.onchange = function() {
-    sender = sender_select.value;
+function updateForm(selectObj) {
+    sender = selectObj.value;
     fetch('/receive_shell/' + sender).then(function(response){
-        response.json().then(function(data) {
-            // update patter opntions
+        response.json().then(function(data){
+            // update pattern options
             let patternOptions = "";
             for (let pat of data.patterns) {
-                patternOptions += '<option value="'+pat.shell_id+'">'+pat.path+'</option>';
+                patternOptions += '<option value="'+pat.shell_id+'">'+pat.pattern+'</option>';
             }
-            pattern_select.innerHTML = patternOptions;
-
-            // update conditions options
-            let conditionOptions = "";
-            
-
+            document.getElementById('pattern').innerHTML = patternOptions;
         });
     });
+    // TODO: update the condition select field
 }
