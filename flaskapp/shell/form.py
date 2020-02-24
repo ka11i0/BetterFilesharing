@@ -1,9 +1,31 @@
-from flaskapp.contract.config import *
-from Contract.Rest import send_contract
+from flaskapp.shell.config import *
+# from Contract.Rest.get_conditions import get_conditions
 
 class MultiCheckboxField(SelectMultipleField):
     widget = ListWidget(html_tag='ul', prefix_label=False)
     option_widget = CheckboxInput()
+
+class CreateRecvShell(FlaskForm):
+    # defining input fields
+    sender = SelectField('Sender', validators=[DataRequired()])                              # list of senders from initiated shells
+    pattern = SelectField('Pattern', choices=[], validators=[DataRequired()])                # file pattern for this shell
+    conditions = MultiCheckboxField('Conditions', choices=[], validators=[DataRequired])     # condition from senders db (implemented later)
+
+    def __init__(self, *args, **kwargs):
+        super(CreateRecvShell, self).__init__(*args, **kwargs)
+        # populate sender with client id and name if exists in Shell_recv table with status "inactive"
+        senders = db.session.query(Client).outerjoin(Shell_recv).filter_by(status='inactive').all()
+        self.sender.choices = [(sc.id, sc.name) for sc in senders]
+        
+        # populate pattern with patterns from selected sender
+        shells = db.session.query(Shell_recv).filter_by(client_id=senders[0].id).all()
+        for shell in shells:
+            shell_path = os.path.join(app.config['SHELL_RECEIVED_FOLDER'], shell.path)
+            with open(shell_path) as json_file:
+                json_shell = json.load(json_file)   # read json-shell
+
+            # append tuple (shell_id, pattern) to pattern choices
+            self.pattern.choices.append((shell.shell_id, json_shell.get('pattern')))
 
 class create_shellForm(FlaskForm):
     # # defining form fields
@@ -22,12 +44,6 @@ class create_shellForm(FlaskForm):
         for condition in Conditions.query.all():
             conditions.append((str(condition.id), condition.name))
         return conditions
-    
-    def getFileList(self, client_id):
-        fileList = []
-        for files in db.session.query(File, Access).join(Access).filter(File.id==Access.file_id).filter(Access.client_id==client_id).all():
-            fileList.append((files.File.id, files.File.path))
-        return fileList
 
     # save contract to db and as json-object and upload shared file to shared folder
     def save(self, **kwargs):
@@ -72,8 +88,6 @@ class create_shellForm(FlaskForm):
             with open(app.config['SHELL_FOLDER']+str(new_shellID)+app.config['SHELL_FILEEXT'], 'w') as outfile:
                 json.dump(json_contract, outfile, indent=4)
             
-            #send_contract(new_contractID, clientID)
-            
         except:
             db.session.rollback()
             raise
@@ -93,3 +107,4 @@ class conditionsForm(FlaskForm):
         db.session.add(data)
         db.session.commit()
         db.session.close()
+

@@ -20,6 +20,10 @@ class Config(object):
 
     CONTRACT_CONDITIONS = [()]
 
+    # SHELL configurations
+    SHELL_RECEIVED_FOLDER = "Shell/ReceivedShells"
+    SHELL_SENT_FOLDER = ""
+
     # Shared files folder
 
     SHARED_FILES = "Filesharing/SharedFiles/"

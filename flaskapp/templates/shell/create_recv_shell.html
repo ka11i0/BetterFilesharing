@@ -1,0 +1,35 @@
+{% extends 'shell/layout.html' %}
+
+{% block head %}
+<script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+{% endblock head %}
+
+{% block body %}
+<div class="card">
+    <div class="card-header"><h1>Create Receiver's shell agreement</h1></div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('receive_shell') }}" enctype="multipart/form-data">
+            <div class="form-group">
+                {{ form.csrf_token }}
+                {{ form.sender.label() }}
+                {{ form.sender(class='custom-select', id='sender', onchange='updateForm(this);') }}
+            </div>
+            <div class="form-group">
+                {{ form.pattern.label() }}
+                {{ form.pattern(class='custom-select', id='pattern') }}
+            </div>
+            <div class="form-group">
+                {{ form.conditions.label() }}
+                {{ form.conditions(class='custom-form', id='conditions') }}
+            </div>
+            <div class="form-group mt-4">
+                <input type="submit" value="Create shell" class="btn btn-primary">
+                <a href="#" class="btn btn-danger">Cancel</a>
+            </div>
+        </form>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/updatePattern.js')}}"></script>
+    </div>
+</div>
+{% endblock body %}

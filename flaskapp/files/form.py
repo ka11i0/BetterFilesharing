@@ -1,4 +1,4 @@
-from flaskapp.contract.config import *
+from flaskapp.files.config import *
 from Contract.Rest import send_contract
 
 class fileForm():
