@@ -7,7 +7,6 @@ import json
 def get_conditions():
     result = Conditions.query.all()
     returnvalue = {}
-    print("hej")
     for condition in result:
         returnvalue[condition.name] = condition.desc
     response = app.response_class(response=json.dumps(returnvalue), mimetype="application/json")
