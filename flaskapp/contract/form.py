@@ -34,8 +34,7 @@ class create_contractForm(FlaskForm):
 
     # save contract to db and as json-object and upload shared file to shared folder
     def save(self, **kwargs):
-        new_contractID = uuid.uuid4().int & (1<<63)-1 # uuid4 = random uuid 64bit.
-        print(new_contractID)
+        new_contractID = uuid.uuid1().int>>65
 
         clientID = kwargs.get('receiver')
         print(clientID)
