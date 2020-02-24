@@ -1,5 +1,6 @@
 from flaskapp.contract.config import *
 from Contract.Rest import send_contract
+import uuid
 
 class MultiCheckboxField(SelectMultipleField):
     widget = ListWidget(html_tag='ul', prefix_label=False)
@@ -33,11 +34,7 @@ class create_contractForm(FlaskForm):
 
     # save contract to db and as json-object and upload shared file to shared folder
     def save(self, **kwargs):
-        new_contractID = Contract_sent.query.order_by(Contract_sent.id.desc()).first()
-        if new_contractID is None:
-            new_contractID = 1
-        else:
-            new_contractID = new_contractID.id + 1
+        new_contractID = uuid.uuid1().int>>65
 
         clientID = kwargs.get('receiver')
         print(clientID)
