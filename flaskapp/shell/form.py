@@ -17,15 +17,16 @@ class CreateRecvShell(FlaskForm):
         senders = db.session.query(Client).outerjoin(Shell_recv).filter_by(status='inactive').all()
         self.sender.choices = [(sc.id, sc.name) for sc in senders]
         
-        # populate pattern with patterns from selected sender
-        shells = db.session.query(Shell_recv).filter_by(client_id=senders[0].id).all()
-        for shell in shells:
-            shell_path = os.path.join(app.config['SHELL_RECEIVED_FOLDER'], shell.path)
-            with open(shell_path) as json_file:
-                json_shell = json.load(json_file)   # read json-shell
+         # populate pattern with patterns from selected sender
+        if senders:
+            shells = db.session.query(Shell_recv).filter_by(client_id=senders[0].id).all()
+            for shell in shells:
+                shell_path = os.path.join(app.config['SHELL_RECEIVED_FOLDER'], shell.path)
+                with open(shell_path) as json_file:
+                    json_shell = json.load(json_file)   # read json-shell
 
-            # append tuple (shell_id, pattern) to pattern choices
-            self.pattern.choices.append((shell.shell_id, json_shell.get('pattern')))
+                # append tuple (shell_id, pattern) to pattern choices
+                self.pattern.choices.append((shell.shell_id, json_shell.get('pattern')))
 
 class create_shellForm(FlaskForm):
     # # defining form fields
