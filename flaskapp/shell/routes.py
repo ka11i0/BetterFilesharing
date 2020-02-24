@@ -30,7 +30,7 @@ def update_recv_shell(sender):
 
     # create objects of pattern and append to list of dicts
     for shell in shells:
-        shell_path = os.path.join(app.config['SHELL_FOLDER'], shell.path)
+        shell_path = os.path.join(app.config['SHELL_RECEIVED_FOLDER'], shell.path)
         with open(shell_path) as json_file:
             json_shell = json.load(json_file)   # read json-shell
         patObj = {}

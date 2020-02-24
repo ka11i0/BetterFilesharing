@@ -20,7 +20,7 @@ class CreateRecvShell(FlaskForm):
         # populate pattern with patterns from selected sender
         shells = db.session.query(Shell_recv).filter_by(client_id=senders[0].id).all()
         for shell in shells:
-            shell_path = os.path.join(app.config['SHELL_FOLDER'], shell.path)
+            shell_path = os.path.join(app.config['SHELL_RECEIVED_FOLDER'], shell.path)
             with open(shell_path) as json_file:
                 json_shell = json.load(json_file)   # read json-shell
 

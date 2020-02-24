@@ -21,7 +21,8 @@ class Config(object):
     CONTRACT_CONDITIONS = [()]
 
     # SHELL configurations
-    SHELL_FOLDER = "Contract/Shell"
+    SHELL_RECEIVED_FOLDER = "Shell/ReceivedShells"
+    SHELL_SENT_FOLDER = ""
 
     # Shared files folder
 
