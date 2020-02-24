@@ -1,4 +1,4 @@
-{% extends 'contracts.html' %}
+{% extends 'contract/layout.html' %}
 
 {% block head %}
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
@@ -30,16 +30,10 @@
                 <tbody>
                 {% for c in pendingContracts: %}
                   <tr class="table-light">
-                    {% if request.path == "/recv_contracts" %}
                       <td>{{c['id']}}</td>
                       <td>
                         <span class="text-uppercase">{{c['name']}}</span>, Org nr. {{c['sender_id']}}</td>
                       <td>{{c['status']}}</td>
-                    {% else %}
-                      <td>{{c.Contract_sent.id}}</td>
-                      <td>{{c.Client.name}}</td>
-                      <td>{{c.Contract_sent.status}}</td>
-                    {% endif %}
                     
                     <td>
                       <ul class="nav">
@@ -47,7 +41,7 @@
                           {% if request.path == "/recv_contracts" %}
                           <a href="{{url_for('view_contract', cid=c['id'], from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                           {% else %}
-                          <a href="{{url_for('view_contract', cid=c.Contract_sent.id, from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                          <a href="{{url_for('view_contract', cid=c['id'], from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                           {% endif %}
                         </li>
                         {% if request.path == "/sent_contracts" %}
@@ -88,23 +82,17 @@
             <tbody>
             {% for c in acceptedContracts: %}
               <tr class="table-light">
-                {% if request.path == "/recv_contracts" %}
                 <td>{{c['id']}}</td>
                 <td>
                   <span class="text-uppercase">{{c['name']}}</span>, Org nr. {{c['sender_id']}}</td>
                 <td>{{c['status']}}</td>
-              {% else %}
-                <td>{{c.Contract_sent.id}}</td>
-                <td>{{c.Client.name}}</td>
-                <td>{{c.Contract_sent.status}}</td>
-              {% endif %}
                 <td>
                   <ul class="nav">
                     <li class="nav-item mr-2">
                     {% if request.path == "/recv_contracts" %}
                     <a href="{{url_for('view_contract', cid=c['id'], from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                     {% else %}
-                    <a href="{{url_for('view_contract', cid=c.Contract_sent.id, from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                    <a href="{{url_for('view_contract', cid=c['id'], from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                     {% endif %}
                     </li>
                   </ul>
@@ -140,23 +128,17 @@
             <tbody>
             {% for c in declinedContracts: %}
               <tr class="table-light">
-                {% if request.path == "/recv_contracts" %}
                 <td>{{c['id']}}</td>
                 <td>
                   <span class="text-uppercase">{{c['name']}}</span>, Org nr. {{c['sender_id']}}</td>
                 <td>{{c['status']}}</td>
-              {% else %}
-                <td>{{c.Contract_sent.id}}</td>
-                <td>{{c.Client.name}}</td>
-                <td>{{c.Contract_sent.status}}</td>
-              {% endif %}
                 <td>
                   <ul class="nav">
                     <li class="nav-item mr-2">
                       {% if request.path == "/recv_contracts" %}
                       <a href="{{url_for('view_contract', cid=c['id'], from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                       {% else %}
-                      <a href="{{url_for('view_contract', cid=c.Contract_sent.id, from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                      <a href="{{url_for('view_contract', cid=c['id'], from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
                       {% endif %}
                     </li>
                   </ul>

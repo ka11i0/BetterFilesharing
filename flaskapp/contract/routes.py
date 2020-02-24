@@ -1,14 +1,4 @@
-import requests
-from flask import Flask, render_template, redirect, request, url_for, session
-from flaskapp import app
-from flaskapp.contract.form import *
-from flaskapp.contract.view import *
-from flaskapp.clients.form import *
-from flaskapp.clients.view import *
-import threading
-from Filesharing.sender import FileSender
-from Filesharing.receiver import FileReceiver
-import json
+from flaskapp.contract.config import *
 
 @app.route("/")
 def index():
@@ -18,7 +8,7 @@ def index():
 @app.route("/sent_contracts")
 def sent_contracts():
     return render_template(
-        'overview_contracts.html',
+        'contract/overview_contracts.html',
         pendingContracts = listContracts('pending', 'sent'),
         acceptedContracts = listContracts('accepted','sent'),
         declinedContracts = listContracts('declined', 'sent')
@@ -27,7 +17,7 @@ def sent_contracts():
 @app.route("/recv_contracts")
 def recv_contracts():
     return render_template(
-        'overview_contracts.html',
+        'contract/overview_contracts.html',
         pendingContracts = listContracts('pending', 'received'),
         acceptedContracts = listContracts('accepted', 'received'),
         declinedContracts = listContracts('declined', 'received')
@@ -61,7 +51,7 @@ def create_contract():
                 )]
             form.conditions.choices = form.getConditions()
             return render_template(
-                'create_contract.html',
+                'contract/create_contract.html',
                 contractForm = form,
                 step = 'select_file',
                 conditionForm=condForm,
@@ -75,13 +65,13 @@ def create_contract():
                 conditions = form.conditions.data
             )
 
-    return render_template('create_contract.html', contractForm=form)
+    return render_template('contract/create_contract.html', contractForm=form)
 
 @app.route("/view_contract")
 def view_contract():
     contract = readContract(request.args.get('cid'), request.args.get('from'))
     return render_template(
-        'view_contract.html',
+        'contract/view_contract.html',
         contract = contract,
         conditions = contract['conditions'],
         table = request.args.get('from'),
@@ -120,13 +110,15 @@ def contractreply(): # Runs when client accepts/declines a contract
     client_reply = request.get_json(force=True)
     contract = Contract_sent.query.get(client_reply["contract_id"])
     contract.status = client_reply["status"]
-    db.session.commit()
     
     if client_reply["status"] == "accepted":
         client = Client.query.get(contract.client_id)
+        client.debt += 100
         send = FileSender(client.ip_address, 80)
         filedb = File.query.get(contract.file_id)
         sendThread = threading.Thread(target=send.start, args=(filedb.path,))
         sendThread.start()
+
+    db.session.commit()
     
     return '', 201

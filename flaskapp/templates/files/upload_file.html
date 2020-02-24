@@ -1,4 +1,4 @@
-{% extends 'files.html' %}
+{% extends 'files/layout.html' %}
 
 {% block body %}
 <div class="card">
@@ -11,14 +11,21 @@
                 {{form.access_by(class='custom-select')}}
             </div>
             <div class="custom-file">
-                {{form.uploadfile.label(class='custom-file-label')}}
-                {{form.uploadfile(class='custom-file-input')}}
+                {{form.uploadfile(class='custom-file-input', id='customFile')}}
+                {{form.uploadfile.label(class='custom-file-label', for='customFile')}}
             </div>
             <div class="form-group mt-4">
                 <input type="submit" value="Upload file" class="btn btn-primary">
                 <a href="{{url_for('overview_files')}}" class="btn btn-danger">Cancel</a>
             </div>
         </form>
+        <script>
+            // Add the following code if you want the name of the file appear on select
+            $(".custom-file-input").on("change", function() {
+              var fileName = $(this).val().split("\\").pop();
+              $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+        </script>
     </div>
 </div>
 {% endblock body %}

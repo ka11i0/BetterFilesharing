@@ -11,8 +11,8 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Company id-number (Swedish "organisationsnummer")
-    COMPANY_ID = "890821"
-    COMPANY_NAME = "BOBOS HEMMAFIX AB"
+    COMPANY_ID = "1"
+    COMPANY_NAME = "otto"
 
     # CONTRACT configurations
     CONTRACT_FOLDER = "Contract/SentContracts/"
@@ -20,7 +20,14 @@ class Config(object):
 
     CONTRACT_CONDITIONS = [()]
 
+    # SHELL configurations
+    SHELL_RECEIVED_FOLDER = "Shell/ReceivedShells"
+    SHELL_SENT_FOLDER = ""
+
     # Shared files folder
 
     SHARED_FILES = "Filesharing/SharedFiles/"
 
+    # SHELL configurations
+    SHELL_FOLDER = "Shell/SentShells/"
+    SHELL_FILEEXT = ".json"
