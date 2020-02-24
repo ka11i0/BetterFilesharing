@@ -1,12 +1,22 @@
 from flaskapp.contract.config import *
 
 def listContracts(status, table):
+    contract_list = []
     if (table=="sent"):
         contracts = db.session.query(Contract_sent, Client).join(Contract_sent).filter(Contract_sent.status == status).all()
-        return contracts
+        for i in contracts:
+            contract_dict = {}
+            contract_dict['id'] = i.Contract_sent.id
+            contract_dict['status'] = i.Contract_sent.status
+            contract_dict['sender_id'] = i.Contract_sent.client_id
+
+            contract = readContract(i.Contract_sent.id,'sent')
+            contract_info = contract['senderID']
+            for d in contract_info:
+                contract_dict['name'] = contract_info[d]
+            contract_list.append(contract_dict)
     if (table=="received"):
         contracts = db.session.query(Contract_recv, Client).join(Contract_recv).filter(Contract_recv.status == status).all()
-        contract_list = []
         for i in contracts:
             contract_dict = {}
             contract_dict['id'] = i.Contract_recv.id
@@ -18,7 +28,8 @@ def listContracts(status, table):
             for d in contract_info:
                 contract_dict['name'] = contract_info[d]
             contract_list.append(contract_dict)
-        return contract_list
+    
+    return contract_list
 
 def getContractStatus(cid, table):
     if table == 'recv':

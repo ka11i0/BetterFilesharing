@@ -50,9 +50,9 @@
 
             <li class="nav-item">
                 {% if 'shell' in request.path: %}
-                <a href="{{ url_for('receive_shell')}}" class="nav-link active">Shell</a>
+                <a href="{{ url_for('create_send_shell')}}" class="nav-link active">Shell</a>
                 {% else: %}
-                <a href="{{ url_for('receive_shell')}}" class="nav-link">Shell</a>
+                <a href="{{ url_for('create_send_shell')}}" class="nav-link">Shell</a>
                 {% endif %}
             </li>
 
