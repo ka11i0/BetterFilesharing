@@ -24,3 +24,6 @@ class Config(object):
 
     SHARED_FILES = "Filesharing/SharedFiles/"
 
+    # SHELL configurations
+    SHELL_FOLDER = "Shell/SentShells/"
+    SHELL_FILEEXT = ".json"
