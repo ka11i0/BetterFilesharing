@@ -10,3 +10,4 @@ import os, json, requests
 from flaskapp import db, app
 from flaskapp.models import *
 from flaskapp.shell.form import *
+from flaskapp.shell.view import *

@@ -1,0 +1,113 @@
+{% extends 'shell/layout.html' %}
+
+{% block head %}
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+{% endblock head %}
+
+{% block body %}
+<div id="accordion">
+    <div class="card">
+      <div class="card-header">
+        <a class="card-link" data-toggle="collapse" href="#collapseOne">
+          Active
+        </a>
+      </div>
+      <div id="collapseOne" class="collapse show" data-parent="#accordion">
+        <div class="card-body">
+            <table class="table table-secondary table-sm table-hover">
+                <thead>
+                  <tr>
+                    <th>Shell id</th>
+                    {% if request.path == "/recv_shell" %}
+                      <th>Sender</th>
+                    {% else %}
+                      <th>Receiver</th>
+                    {% endif %}
+                    <th>Status</th>
+                    <th>Pattern</th>
+                    <th>&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for c in active_shells: %}
+                  <tr class="table-light">
+                      <td>{{c['shell_id']}}</td>
+                      <td>
+                        <span class="text-uppercase">{{c['name']}}</span>, Org nr. {{c['cleint_id']}}</td>
+                      <td>{{c['status']}}</td>
+                      <td>{{c['pattern']}}</td>
+                    
+                    <td>
+                      <ul class="nav">
+                        <li class="nav-item mr-2">
+                          <!-- {% if request.path == "/recv_contracts" %}
+                          <a href="{{url_for('view_contract', cid=c['id'], from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                          {% else %}
+                          <a href="{{url_for('view_contract', cid=c['id'], from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                          {% endif %} -->
+                        </li>
+                          <li class="nav-item mr-2">
+                            <a href="#" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
+                          </li>
+                      </ul>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+        Inactive
+      </a>
+      </div>
+      <div id="collapseTwo" class="collapse" data-parent="#accordion">
+        <div class="card-body">
+          <table class="table table-secondary table-sm table-hover">
+            <thead>
+              <tr>
+                <th>Shell id</th>
+                {% if request.path == "/recv_shell" %}
+                  <th>Sender</th>
+                {% else %}
+                  <th>Receiver</th>
+                {% endif %}
+                <th>Status</th>
+                <th>Pattern</th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for c in inactive_shells: %}
+              <tr class="table-light">
+                <td>{{c['shell_id']}}</td>
+                <td>
+                  <span class="text-uppercase">{{c['name']}}</span>, Org nr. {{c['client_id']}}</td>
+                <td>{{c['status']}}</td>
+                <td>{{c['pattern']}}</td>
+                <td>
+                  <ul class="nav">
+                    <li class="nav-item mr-2">
+                    {% if request.path == "/recv_shell" %}
+                    <a href="{{url_for('view_contract', cid=c['id'], from='recv')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                    {% else %}
+                    <a href="{{url_for('view_contract', cid=c['id'], from='sent')}}" alt="View contract"><i class='fas fa-search' style='font-size:16px'></i></a>
+                    {% endif %}
+                    </li>
+                    <li class="nav-item mr-2">
+                        <a href="#" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock body %}

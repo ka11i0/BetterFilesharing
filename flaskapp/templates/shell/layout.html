@@ -5,10 +5,17 @@
 <div>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            {% if request.path == '/view_shell'%}
-            <a class="nav-link active" href="{{url_for('view_shell')}}">View shell agreements</a>
+            {% if request.path == '/send_shell'%}
+            <a class="nav-link active" href="{{url_for('send_shell')}}">View sent shell agreements</a>
             {% else %}
-            <a class="nav-link" href="{{url_for('view_shell')}}">View shell agreements</a>
+            <a class="nav-link" href="{{url_for('send_shell')}}">View sent shell agreements</a>
+            {% endif %}
+        </li>
+        <li class="nav-item">
+            {% if request.path == '/recv_shell'%}
+            <a class="nav-link active" href="{{url_for('recv_shell')}}">View received shell agreements</a>
+            {% else %}
+            <a class="nav-link" href="{{url_for('recv_shell')}}">View received shell agreements</a>
             {% endif %}
         </li>
         <li class="nav-item">

@@ -74,11 +74,14 @@ class create_shellForm(FlaskForm):
             pattern = kwargs.get('pattern')
         )
         #saves shell as json file
-        json_contract = {
-            'shellID': str(new_shellID),
+        json_contract =  {
+            'contractID': str(),
             'senderID': {'id' : app.config['COMPANY_ID'], 'name' : app.config['COMPANY_NAME']},
             'receiverID': str(clientID),
-            'pattern': str(pattern),
+            'file': {
+                'name': str(),
+                'filter': 'n/a'
+            },
             'conditions': cond_dict
         }
 
