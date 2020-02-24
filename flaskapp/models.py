@@ -75,6 +75,7 @@ class Shell_send(db.Model):
 class Shell_recv(db.Model):
     shell_id = db.Column(db.Integer, primary_key=True)  # shell id
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), primary_key=True, nullable=False)  # id of contract sender
+    pattern = db.Column(db.String(256), nullable=True) # Ftype
     path = db.Column(db.String(256), nullable=True)  # path to shell contract
     status = db.Column(db.String(8), nullable=False) # active OR inactive
 
