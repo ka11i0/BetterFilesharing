@@ -37,7 +37,8 @@ def put_contract():
     path = os.path.join(CONTRACT_BASE_PATH, contractID + ".json")
     print(path)
     with open(path, 'w') as f:
-        f.write(json.dumps(json_body))
+        json.dump(json_body, f, indent=4)
+        #f.write(json.dumps(json_body))
     
     # Update database
     result = Contract_recv.query.filter_by(id=contractID).first()
