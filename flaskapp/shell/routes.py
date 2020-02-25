@@ -1,8 +1,20 @@
 from flaskapp.shell.config import *
 
-@app.route("/view_shell", methods=['GET', 'POST'])
-def view_shell():
-    return "bobo"
+@app.route("/send_shell", methods=['GET', 'POST'])
+def send_shell():
+    return render_template(
+        'shell/overview_shell.html',
+        active_shells = getShells("active", "send"),
+        inactive_shells = getShells("inactive", "send")
+    )
+
+@app.route("/recv_shell", methods=['GET', 'POST'])
+def recv_shell():
+    return render_template(
+        'shell/overview_shell.html',
+        active_shells = getShells("active", "recv"),
+        inactive_shells = getShells("inactive", "recv")
+    )
 
 @app.route("/create_send_shell", methods=['GET', 'POST'])
 def create_send_shell():
