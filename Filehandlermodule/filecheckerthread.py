@@ -4,21 +4,18 @@ from flaskapp.models import File, Shell_recv, Contract_sent
 from Contract.Rest import send_contract
 import sqlalchemy
 
-BASE_PATH = os.path.abspath("/home/frappe/document/cpp")
-CHECK_DELAY = 2 # Hur många sekunder mellan checks
+BASE_PATH = os.path.abspath("C:\\Users\\marcu\\Desktop\\Thefolder")
+CHECK_DELAY = 10 # Hur många sekunder mellan checks
 
 
 def checkfiles():
-    #time.sleep(CHECK_DELAY)
-    url = os.path.join(BASE_PATH,"*","*")
-    files = glob.iglob(os.path.join(BASE_PATH, "**", "*"), recursive=True) #hämtar alla paths på files
+    time.sleep(CHECK_DELAY)
+    files = glob.iglob(os.path.join(BASE_PATH, "**", "*.*"), recursive=True) #hämtar alla paths på files
     newfiles = [] #innehåller alla filepaths som inte finns i databasen
     dbfiles = [r.path for r in File.query.all()] #hämtar alla paths i databasen
     for file in files:
         if file not in dbfiles: #kollar om filen inte finns i databasen
             newfiles.append(file)
-    print(newfiles)
-    print(dbfiles)
     for file in newfiles: #går igenom alla nya filer
         #hämtar alla shellcontracts vars pattern stämmer överens med pathen
         result = db.engine.execute("SELECT * FROM shell_recv WHERE \"{}\" LIKE shell_recv.pattern".format(file)).fetchall()
@@ -26,7 +23,6 @@ def checkfiles():
             dbfile = File(path=file)
             db.session.add(dbfile)
             db.session.commit()
-            print(dbfile.id)
         except:
             db.session.rollback()
             raise
@@ -36,8 +32,8 @@ def checkfiles():
             for r in result:
                 send_contractShell(r[0], dbfile.path,dbfile.id) #skicka kontrakt utifrån skalkontraktet
 
-    #checkThread = threading.Thread(target=checkfiles, args=())
-    #checkThread.start()
+    checkThread = threading.Thread(target=checkfiles, args=())
+    checkThread.start()
 
 
 def send_contractShell(shellid, filepath, fileid):
