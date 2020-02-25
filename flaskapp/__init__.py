@@ -13,3 +13,4 @@ from flaskapp import routes, models
 from flaskapp.files import routes
 from flaskapp.clients import routes
 from Contract.Rest import contract
+from Contract.Rest import conditions
