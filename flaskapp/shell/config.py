@@ -11,3 +11,6 @@ from flaskapp import db, app
 from flaskapp.models import *
 from flaskapp.shell.form import *
 from flaskapp.shell.view import *
+from flaskapp.models import *   # db models
+from flaskapp.shell.form import *   # shell forms
+from Contract.Rest.get_conditions import get_conditions # get conditions from sender function
