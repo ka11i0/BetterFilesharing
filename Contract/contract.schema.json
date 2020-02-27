@@ -13,8 +13,7 @@
             "properties": {
                 "id": {
                     "type": "string",
-                    "description": "Company id",
-                    "pattern": "COMPANY ID HERE"
+                    "description": "Company id"
                 },
                 "name": {
                     "type": "string",
