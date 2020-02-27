@@ -25,11 +25,12 @@ function updateForm(selectObj) {
         response.json().then(function(data){
             // update pattern options
             let conditionOptions = "";
+            let i = 0;
             for (let pat of data.conditions) {
-                conditionOptions += '<option value="'+pat.shell_id+'">'+pat.pattern+'</option>';
+                conditionOptions += '<li><input id="conditions-'+i+'" name="conditions" type="checkbox" value="'+pat[0]+'"> <label for="conditions-'+i+'">'+pat[1]+'</label></li>';
+                i++;
             }
-            document.getElementById('pattern').innerHTML = conditionOptions;
+            document.getElementById('conditions').innerHTML = conditionOptions;
         });
     });
-    // TODO: update the condition select field
 }
