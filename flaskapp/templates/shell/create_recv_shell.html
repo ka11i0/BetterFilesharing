@@ -19,6 +19,8 @@
             <div class="form-group">
                 {{ form.pattern.label() }}
                 {{ form.pattern(class='form-control', id='pattern') }}
+                <p>Example: ^(AAA).*([.]log$) accepts filename "AAAwildcard.log" or "AAAwhatever.log".
+                    See <a href="https://json-schema.org/understanding-json-schema/reference/regular_expressions.html" target="_new">regex</a> or <a href="https://www.regextester.com/93648" target="_new">regextester</a> for more info. </p>
             </div>
             <div id="accordion">
                 <div class="card">

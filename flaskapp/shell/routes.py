@@ -62,9 +62,13 @@ def receive_shell():
 
     # create shell
     if request.method == "POST":
-        print(recvShellForm.sender.data)
-        print(recvShellForm.pattern.data)
-        print(recvShellForm.conditions.data)
+        client_id = recvShellForm.sender.data
+        pattern = recvShellForm.pattern.data
+        conditions = recvShellForm.conditions.data
+
+        # save data to db and json-schema
+        recvShellForm.save(client_id=client_id, pattern=pattern, conditions=conditions)
+        
         return redirect(url_for('receive_shell'))
 
     return render_template('shell/create_recv_shell.html', form=recvShellForm)

@@ -10,16 +10,21 @@
         },
         "senderID": {
             "type": "object",
-            "patternProperties": {
-                ".*": {"type": "string"}
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Company id",
+                    "pattern": "COMPANY ID HERE"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the file sender"
+                }
             },
             "description": "KV pair of Company id as key and Company name as value"
         },
-        "recieverID": {
-            "type": "object",
-            "patternProperties": {
-                ".*": {"type": "string"}
-            }, 
+        "receiverID": {
+            "type": "string",
             "description": "KV pair of Company id as key and Company name as value"
         },
         "file": {
@@ -44,15 +49,6 @@
                 },
             "description": "KV pair of Condition name as key and Condition description as Value"
             }
-        }
-    },
-    "definitions": {
-        "condition": {
-            "type": "object",
-            "patternProperties": {
-                ".*": { "type": "string" }
-            },
-            "description": "KV pair of Condition name as key and Condition description as Value"
         }
     }
 }

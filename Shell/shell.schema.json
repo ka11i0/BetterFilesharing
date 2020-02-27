@@ -2,13 +2,30 @@
     "$schema": "http://json-schema.org/schema#",
     "title": "Shell",
     "type": "object",
-    "required": ["client_id", "file", "conditions"],
+    "required": ["contractID", "senderID", "receiverID", "file", "conditions"],
     "properties": {
-        "client_id": {
-            "type": "integer",
-            "patternProperties": {
-                ".*": {"type": "string"}
+        "contractID": {
+            "type": "string",
+            "description": "UUID generated for this contract"
+        },
+        "senderID": {
+            "type": "object",
+            "required": ["id"],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Company id",
+                    "pattern": "^12$"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the file sender"
+                }
             },
+            "description": "KV pair of Company id as key and Company name as value"
+        },
+        "receiverID": {
+            "type": "string",
             "description": "KV pair of Company id as key and Company name as value"
         },
         "file": {
@@ -17,7 +34,7 @@
                 "name": {
                     "type": "string",
                     "description": "Name of file to be shared",
-                    "pattern": "0001-*.log" // * ska vara % som är wildcard i db
+                    "pattern": "^(AAA).*([.]log$)"
                 }
             }
         },

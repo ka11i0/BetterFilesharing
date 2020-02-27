@@ -19,6 +19,5 @@ def getShells(status, table):
             temp_dict['pattern'] = s.pattern
         temp_dict['status'] = s.status
         shellList.append(temp_dict)
-    print(shellList)
     
     return shellList

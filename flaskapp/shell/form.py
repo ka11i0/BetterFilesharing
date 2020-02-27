@@ -1,5 +1,5 @@
 from flaskapp.shell.config import *
-# from Contract.Rest.get_conditions import get_conditions
+from Contract.Rest.get_conditions import get_conditions
 
 class MultiCheckboxField(SelectMultipleField):
     widget = ListWidget(html_tag='ul', prefix_label=False)
@@ -12,11 +12,10 @@ class CreateRecvShell(FlaskForm):
     pattern = TextField('Pattern', validators=[DataRequired()])                              # file pattern for this shell
     conditions = MultiCheckboxField('Conditions', choices=[], validators=[DataRequired])     # condition from senders db (implemented later)
 
-
     def __init__(self, *args, **kwargs):
         super(CreateRecvShell, self).__init__(*args, **kwargs)
-        # populate sender with client id and name if exists in Shell_recv table with status "inactive"
-        senders = db.session.query(Client).outerjoin(Shell_recv).filter_by(status='inactive').all()
+        # populate sender with client id and name from client table
+        senders = Client.query.all()
         self.sender.choices = [(sc.id, sc.name+' Org.nr.: {}'.format(sc.id)) for sc in senders]
 
         # populate condition with conditions from select sender
@@ -24,6 +23,59 @@ class CreateRecvShell(FlaskForm):
             conditionDict = get_conditions(senders[0].id)
             # loop out conditions to condtions choices
             self.conditions.choices = [(key, conditionDict[key]) for key in conditionDict]
+
+    # save the shell to db and create a json-schema linked to the shell
+    def save(self, **kwargs):
+        client_id_data = kwargs.get('client_id')
+        pattern_data = kwargs.get('pattern')
+        conditions_data = kwargs.get('conditions')
+
+        # get the latest shell id if exists, else set to 1
+        new_shell_id = Shell_recv.query.order_by(Shell_recv.shell_id.desc()).first().shell_id + 1 if Shell_recv.query.order_by(Shell_recv.shell_id.desc()).first() else 1
+
+        # shell save path
+        shell_path = os.path.join(app.config['SHELL_RECEIVED_FOLDER'], str(new_shell_id)+".schema.json")
+
+        # create new shell
+        new_shell = Shell_recv(
+            shell_id = new_shell_id,
+            client_id = client_id_data,
+            pattern = pattern_data,
+            path = shell_path,
+            status = 'active'
+        )
+
+        # open json-schema-template
+        with open(os.path.join('Shell', 'shell.schema.json')) as json_schema:
+            schema_template = json.load(json_schema)
+
+        # create condition dictionary with condition description
+        sender_conditions = get_conditions(client_id_data)
+        conditionDict = {}
+        for key in conditions_data:
+            conditionDict[key] = sender_conditions.get(key)
+
+        # insert data to json-schema
+        schema_template['title'] = 'Shell#{}'.format(new_shell_id)
+        schema_template['properties']['senderID']['properties']['id']['pattern'] = '^{}$'.format(client_id_data)
+        schema_template['properties']['file']['properties']['name']['pattern'] = pattern_data
+        schema_template['properties']['conditions']['enum'] = [conditionDict]
+        
+        # save to db and create new json-schema, rollback if fails
+        try:
+            db.session.autocommit = False
+            db.session.add(new_shell)
+            db.session.commit()
+
+            with open(shell_path, 'w') as new_shell_schema:
+                json.dump(schema_template, new_shell_schema, indent=4)
+
+        except:
+            db.session.rollback()
+            raise
+
+        finally:
+            db.session.close()
     
 
 class create_shellForm(FlaskForm):
