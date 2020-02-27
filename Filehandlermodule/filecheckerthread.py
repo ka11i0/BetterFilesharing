@@ -1,6 +1,6 @@
 import threading, os, glob, ntpath, json, uuid, time
 from flaskapp import db, app
-from flaskapp.models import File, Shell_recv, Contract_sent
+from flaskapp.models import File, Shell_send, Contract_sent
 from Contract.Rest import send_contract
 import sqlalchemy
 
@@ -9,20 +9,25 @@ CHECK_DELAY = 10 # Hur många sekunder mellan checks
 
 
 def checkfiles():
-    time.sleep(CHECK_DELAY)
+    #time.sleep(CHECK_DELAY)
     files = glob.iglob(os.path.join(BASE_PATH, "**", "*.*"), recursive=True) #hämtar alla paths på files
     newfiles = [] #innehåller alla filepaths som inte finns i databasen
     dbfiles = [r.path for r in File.query.all()] #hämtar alla paths i databasen
     for file in files:
         if file not in dbfiles: #kollar om filen inte finns i databasen
             newfiles.append(file)
+    print(newfiles)
     for file in newfiles: #går igenom alla nya filer
         #hämtar alla shellcontracts vars pattern stämmer överens med pathen
-        result = db.engine.execute("SELECT * FROM shell_recv WHERE \"{}\" LIKE shell_recv.pattern".format(file)).fetchall()
+        result = db.engine.execute("SELECT * FROM shell_send WHERE \"{}\" REGEXP shell_send.pattern AND shell_send.status=\"active\"".format(
+            file.translate(str.maketrans({"\\":r"\\"})))).fetchall()
+        print(result)
         try: #lägg till nya filen i databasen
             dbfile = File(path=file)
             db.session.add(dbfile)
             db.session.commit()
+            dbfileid = dbfile.id
+            dbfilepath = dbfile.path
         except:
             db.session.rollback()
             raise
@@ -30,14 +35,14 @@ def checkfiles():
             db.session.close()
         if result: #om det finns ett shellcontract
             for r in result:
-                send_contractShell(r[0], dbfile.path,dbfile.id) #skicka kontrakt utifrån skalkontraktet
+                send_contractShell(r[0], dbfilepath, dbfileid) #skicka kontrakt utifrån skalkontraktet
 
-    checkThread = threading.Thread(target=checkfiles, args=())
-    checkThread.start()
+    #checkThread = threading.Thread(target=checkfiles, args=())
+    #checkThread.start()
 
 
 def send_contractShell(shellid, filepath, fileid):
-    shell = Shell_recv.query.filter_by(shell_id=shellid).first() #hämta skalkontrakt från databasen
+    shell = Shell_send.query.filter_by(shell_id=shellid).first() #hämta skalkontrakt från databasen
     path = shell.path
     with open(path,'r') as readfile:
         contract = json.loads(readfile.read()) #läs in skalkontrakt
