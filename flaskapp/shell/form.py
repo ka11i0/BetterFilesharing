@@ -45,6 +45,10 @@ class create_shellForm(FlaskForm):
         for condition in Conditions.query.all():
             conditions.append((str(condition.id), condition.name))
         return conditions
+    
+    def getSetConditionsReceive(self, shell_id):
+        return
+
 
     # save contract to db and as json-object and upload shared file to shared folder
     def save(self, **kwargs):
@@ -111,4 +115,3 @@ class conditionsForm(FlaskForm):
         db.session.add(data)
         db.session.commit()
         db.session.close()
-

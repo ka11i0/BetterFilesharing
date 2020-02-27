@@ -33,7 +33,7 @@
                   <tr class="table-light">
                       <td>{{c['shell_id']}}</td>
                       <td>
-                        <span class="text-uppercase">{{c['name']}}</span>, Org nr. {{c['cleint_id']}}</td>
+                        <span class="text-uppercase">{{c['name']}}</span>, Org nr. {{c['client_id']}}</td>
                       <td>{{c['status']}}</td>
                       <td>{{c['pattern']}}</td>
                     
@@ -47,7 +47,11 @@
                           {% endif %} -->
                         </li>
                           <li class="nav-item mr-2">
-                            <a href="#" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
+                            {% if request.path == "/recv_shell" %}
+                            <a href="{{url_for('edit_shell', shell_id=c['shell_id'], table='recv')}}" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
+                            {% else %}
+                            <a href="{{url_for('edit_shell', shell_id=c['shell_id'], table='sent')}}" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
+                            {% endif %}
                           </li>
                       </ul>
                     </td>
@@ -98,8 +102,11 @@
                     {% endif %}
                     </li>
                     <li class="nav-item mr-2">
-                        <a href="#" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
-                    </li>
+                      {% if request.path == "/recv_shell" %}
+                        <a href="{{url_for('edit_shell', shell_id=c['shell_id'], table='recv')}}" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
+                      {% else %}
+                        <a href="{{url_for('edit_shell', shell_id=c['shell_id'], table='sent')}}" alt="Edit contract"><i class='fas fa-edit' style='font-size:16px'></i></a>
+                      {% endif %}                    </li>
                   </ul>
                 </td>
               </tr>

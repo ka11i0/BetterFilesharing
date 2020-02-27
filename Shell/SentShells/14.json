@@ -1,0 +1,16 @@
+{
+    "contractID": "",
+    "senderID": {
+        "id": "890821",
+        "name": "BOBOS HEMMAFIX AB"
+    },
+    "receiverID": "1234567",
+    "file": {
+        "name": "",
+        "filter": "n/a"
+    },
+    "conditions": {
+        "hihi": "hoho",
+        "hej": "d\u00e5"
+    }
+}

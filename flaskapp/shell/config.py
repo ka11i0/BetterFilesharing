@@ -11,3 +11,4 @@ from flaskapp import db, app
 from flaskapp.models import *
 from flaskapp.shell.form import *
 from flaskapp.shell.view import *
+from flaskapp.shell.edit import *

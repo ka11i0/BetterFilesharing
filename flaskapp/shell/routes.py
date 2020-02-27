@@ -2,6 +2,7 @@ from flaskapp.shell.config import *
 
 @app.route("/send_shell", methods=['GET', 'POST'])
 def send_shell():
+    #fetches data for all sent shells
     return render_template(
         'shell/overview_shell.html',
         active_shells = getShells("active", "send"),
@@ -10,6 +11,7 @@ def send_shell():
 
 @app.route("/recv_shell", methods=['GET', 'POST'])
 def recv_shell():
+    #fetches data for all received shells
     return render_template(
         'shell/overview_shell.html',
         active_shells = getShells("active", "recv"),
@@ -87,3 +89,30 @@ def update_recv_shell(sender):
     
     return jsonify({'patterns' : patternArray})
     # return jsonify({'patterns' : patternArray, 'conditions' : conditions})  # use when get_conditions() is available
+
+@app.route("/edit_shell", methods=['GET', 'POST'])
+def edit_shell():
+    form = create_shellForm()
+
+    shell_id = request.args.get('shell_id')
+    if(request.args.get('table')=='recv'):
+        curr_cond = form.getSetConditionsReceive(shell_id)
+        
+    elif(request.args.get('table')=='sent'):
+        form.conditions.choices = form.getConditions()
+        curr_cond = getSetConditionsSend(shell_id)
+        conditions_list = checkSetConditions(curr_cond, form.conditions.choices)
+
+    if request.method == "POST":
+        if request.args.get('update') == "cond":
+            selected_conditions = request.form.getlist('conditions')
+            updateFileConditions(shell_id, selected_conditions)
+            print("done")
+        
+
+    return render_template(
+        'shell/edit_shell.html',
+        conditions_list = conditions_list,
+        shell_id = shell_id,
+        table = request.args.get('table')
+    )
