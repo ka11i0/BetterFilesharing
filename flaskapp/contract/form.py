@@ -1,5 +1,5 @@
 from flaskapp.contract.config import *
-from Contract.Rest import send_contract
+from Contract.Rest.send_contract import *
 
 class MultiCheckboxField(SelectMultipleField):
     widget = ListWidget(html_tag='ul', prefix_label=False)

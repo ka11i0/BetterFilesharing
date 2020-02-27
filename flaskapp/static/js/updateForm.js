@@ -24,11 +24,11 @@ function updateForm(selectObj) {
     fetch('/receive_shell/' + sender).then(function(response){
         response.json().then(function(data){
             // update pattern options
-            let patternOptions = "";
-            for (let pat of data.patterns) {
-                patternOptions += '<option value="'+pat.shell_id+'">'+pat.pattern+'</option>';
+            let conditionOptions = "";
+            for (let pat of data.conditions) {
+                conditionOptions += '<option value="'+pat.shell_id+'">'+pat.pattern+'</option>';
             }
-            document.getElementById('pattern').innerHTML = patternOptions;
+            document.getElementById('pattern').innerHTML = conditionOptions;
         });
     });
     // TODO: update the condition select field
