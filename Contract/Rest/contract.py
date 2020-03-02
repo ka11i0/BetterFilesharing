@@ -1,8 +1,8 @@
 from flaskapp import app, db
-from flaskapp.models import Contract_recv
+from flaskapp.models import Contract_recv, Shell_recv
 from Contract.contracthandler import getHandler
-from flask import request
-from jsonschema import validate
+from flask import request, redirect, url_for
+from jsonschema import validate, exceptions as jsonschemaExceptions
 import json
 import os
 
@@ -30,7 +30,8 @@ def put_contract():
     except Exception as e:
         return "Exception occured while parsing the json data :" + str(e), 400
     
-    # Get the contractID from the json dict
+    # Get the contractID from
+    #  the json dict
     contractID = json_body['contractID']
     clientID = json_body['senderID']['id']
     status = "pending"
@@ -57,5 +58,38 @@ def put_contract():
         result.client_id = clientID
         result.file_id=None
         db.session.commit()
+
+
+    # get all shells with current ClientID
+    shell_paths = Shell_recv.query.filter_by(client_id=clientID).all()
+    
+    # Validate contract with all shell schemas of current ClientID and send accept reply if validation is OK.
+    try:
+        for sp in shell_paths:
+            # open shell schema and validate
+            with open(os.path.join(app.config['Shell/ReceivedShells/', sp.path])) as json_schema:
+                shell_schema = json.load(json_schema)
+            validate(instance=json_body, schema=shell_schema)
+
+            # update contract status from pending to accepted and send accept message to ClientID
+            try:
+                db.session.autocommit = False
+                contract = Contract_recv.query.filter_by(id=contractID).update(
+                    dict(status='accepted')
+                )
+                db.session.commit()
+
+                # send accept message
+                return redirect(url_for('accept_or_decline', id=clientID, status="accepted")), 201
+
+            except:
+                db.session.rollback()
+            finally:
+                db.session.close()
+
+    # catch SchemaError and pass (let status = pending)
+    except jsonschemaExceptions.SchemaError as e:
+        pass
+
     
     return '', 201
