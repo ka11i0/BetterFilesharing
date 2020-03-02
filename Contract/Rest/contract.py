@@ -72,23 +72,10 @@ def put_contract():
             validate(instance=json_body, schema=shell_schema)
 
             # update contract status from pending to accepted and send accept message to ClientID
-            try:
-                db.session.autocommit = False
-                contract = Contract_recv.query.filter_by(id=contractID).update(
-                    dict(status='accepted')
-                )
-                db.session.commit()
-
-                # send accept message
-                return redirect(url_for('accept_or_decline', id=clientID, status="accepted")), 201
-
-            except:
-                db.session.rollback()
-            finally:
-                db.session.close()
+            return redirect(url_for('accept_or_decline', id=contractID, status='accepted'))
 
     # catch SchemaError and pass (let status = pending)
-    except jsonschemaExceptions.SchemaError as e:
+    except jsonschemaExceptions.ValidationError as e:
         pass
 
     
