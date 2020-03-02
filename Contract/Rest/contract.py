@@ -62,12 +62,12 @@ def put_contract():
 
     # get all shells with current ClientID
     shell_paths = Shell_recv.query.filter_by(client_id=clientID).all()
-    
+
     # Validate contract with all shell schemas of current ClientID and send accept reply if validation is OK.
     try:
         for sp in shell_paths:
             # open shell schema and validate
-            with open(os.path.join(app.config['Shell/ReceivedShells/', sp.path])) as json_schema:
+            with open(sp.path) as json_schema:
                 shell_schema = json.load(json_schema)
             validate(instance=json_body, schema=shell_schema)
 
