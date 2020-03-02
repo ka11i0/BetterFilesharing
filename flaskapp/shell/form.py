@@ -123,7 +123,7 @@ class create_shellForm(FlaskForm):
         new_shell = Shell_send(
             shell_id = new_shellID,
             path = app.config['SHELL_FOLDER']+str(new_shellID)+app.config['SHELL_FILEEXT'],
-            status = "inactive",
+            status = "active",
             client_id = clientID,
             pattern = kwargs.get('pattern')
         )

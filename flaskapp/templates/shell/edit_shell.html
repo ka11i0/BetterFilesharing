@@ -47,8 +47,22 @@
         </div>
         <div id="collapseTwo" class="collapse" data-parent="#accordion">
             <div class="card-body">
+                <h4>Pattern: '{{pattern}}'</h2>
             </div>
         </div>
+    </div>
+    <br>
+    <div class="span2">
+        <form method="POST" action="{{url_for('edit_shell', shell_id=shell_id, table=table, status=status)}}">
+            {%if status == "active"%}
+                This shell is currently <b>active</b>:<br>
+                <button name="deactivate" type="submit" class="btn btn-danger btn-lg">Deactivate</button><br>
+
+            {%elif status =="inactive"%}
+                This shell is currently <b>inactive</b>:<br>
+                <button name="activate" type="submit" class="btn btn-success btn-lg">Activate</button><br>
+            {%endif%}
+        </form>
     </div>
 
 

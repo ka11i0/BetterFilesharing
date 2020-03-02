@@ -1,8 +1,11 @@
 from flaskapp.shell.config import *
+from Contract.Rest.get_conditions import get_conditions
 
 @app.route("/send_shell", methods=['GET', 'POST'])
 def send_shell():
     #fetches data for all sent shells
+    if request.args.get('shell_id'):
+        removeShell(request.args.get('shell_id'), 'send')
     return render_template(
         'shell/overview_shell.html',
         active_shells = getShells("active", "send"),
@@ -11,6 +14,8 @@ def send_shell():
 
 @app.route("/recv_shell", methods=['GET', 'POST'])
 def recv_shell():
+    if request.args.get('shell_id'):
+        removeShell(request.args.get('shell_id'), 'recv')
     #fetches data for all received shells
     return render_template(
         'shell/overview_shell.html',
@@ -27,7 +32,6 @@ def create_send_shell():
     form.conditions.choices = form.getConditions()
 
     condForm=conditionsForm()
-
 
     if (request.method == "POST"):
         #if a new condition is added save it to the db
@@ -84,27 +88,49 @@ def update_recv_shell(sender):
 
 @app.route("/edit_shell", methods=['GET', 'POST'])
 def edit_shell():
-    if request.method == "POST":
-        if request.args.get('update') == "cond":
-            selected_conditions = request.form.getlist('conditions')
-            updateFileConditions(shell_id, selected_conditions)
-            print("done")
-
     form = create_shellForm()
 
     shell_id = request.args.get('shell_id')
-    if(request.args.get('table')=='recv'):
-        curr_cond = form.getSetConditionsReceive(shell_id)
+    #Updates conditions for the specified shell depending if it is a sent or received shell.
+    if request.method == "POST":
+        if request.args.get('update') == "cond" and request.args.get('table') == 'sent':
+            selected_conditions = request.form.getlist('conditions')
+            updateFileConditionsSent(shell_id, selected_conditions)
+        
+        elif request.args.get('update') == "cond" and  request.args.get('table') == 'recv':
+            selected_conditions = request.form.getlist('conditions')
+            client_id = getClient(shell_id)
+            conditions = get_conditions(client_id)
+            updateFileConditionsReceive(shell_id, selected_conditions, conditions)
+        
+        if request.args.get('status'):
+            updateStatus(shell_id, request.args.get('status'), request.args.get('table'))
+
+
+        
+            
+    #Fetches the shells already selected conditions and fetches all of the origins conditions and saves it into a list.
+    if(request.args.get('table') == 'recv'):
+        client_id = getClient(shell_id)
+        conditions = get_conditions(client_id)
+        curr_cond = getSetConditionsReceive(shell_id)
+        conditions_list = checkSetConditionsReceive(curr_cond, conditions)
+        status = getStatus(shell_id, 'recv')
+        pattern = getPattern(shell_id, 'recv')
         
     elif(request.args.get('table')=='sent'):
         form.conditions.choices = form.getConditions()
         curr_cond = getSetConditionsSend(shell_id)
-        conditions_list = checkSetConditions(curr_cond, form.conditions.choices)
+        conditions_list = checkSetConditionsSend(curr_cond, form.conditions.choices)
+        status =  getStatus(shell_id, 'sent')
+        pattern = getPattern(shell_id, 'sent')
         
 
     return render_template(
         'shell/edit_shell.html',
         conditions_list = conditions_list,
         shell_id = shell_id,
-        table = request.args.get('table')
+        table = request.args.get('table'),
+        status = status,
+        pattern = pattern
     )
