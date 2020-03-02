@@ -29,6 +29,8 @@ class Client(db.Model):
     ip_address = db.Column(db.String(128), nullable=False)
     debt = db.Column(db.Integer, nullable=True) # curr_curr
     max_debt = db.Column(db.Integer, nullable=True) # cut_curr
+    rsa_n = db.Column(db.String(256), nullable=True) # part of rsa public key
+    rsa_e = db.Column(db.String(256), nullable=True) # part of rsa public key
 
     def __repr__(self):
         return '<Client {}>'.format(self.id)
