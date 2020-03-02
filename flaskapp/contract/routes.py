@@ -112,8 +112,14 @@ def contractreply(): # Runs when client accepts/declines a contract
     contract.status = client_reply["status"]
     
     if client_reply["status"] == "accepted":
+        with open(contract.path) as json_file: # For debt
+            cont_json = json.load(json_file)
         client = Client.query.get(contract.client_id)
-        client.debt += 100
+        try:
+            client.debt += int(cont_json['conditions']['Pay']) # Add cost to debt
+        except(KeyError):
+            print("KeyError")
+
         send = FileSender(client.ip_address, 80)
         filedb = File.query.get(contract.file_id)
         sendThread = threading.Thread(target=send.start, args=(filedb.path,))
