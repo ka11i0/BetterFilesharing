@@ -10,5 +10,5 @@ def send_contract(contractid, clientid):
     with open(path, 'r') as readfile:
         jsonbody = readfile.read()
     response = requests.put('http://' + sendaddr + ':5000/v1/register_contract', json=json.loads(jsonbody))
-    if response.status_code != 201:
+    if response.status_code != 201 or response.status_code != 200:
         raise Exception(response.text)
