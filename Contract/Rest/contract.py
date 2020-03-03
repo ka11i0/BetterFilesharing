@@ -35,7 +35,6 @@ def put_contract():
     clientID = json_body['senderID']['id']
     status = "pending"
     path = os.path.join(CONTRACT_BASE_PATH, contractID + ".json")
-    print(path)
     with open(path, 'w') as f:
         json.dump(json_body, f, indent=4)
         #f.write(json.dumps(json_body))
