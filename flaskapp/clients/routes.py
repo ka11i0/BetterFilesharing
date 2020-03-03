@@ -38,3 +38,11 @@ def edit_client():
         return redirect(url_for('clients'))
 
     return render_template('clients/add_client.html', form=form, client=client)
+
+
+@app.route("/send_invoice", methods=['GET'])
+def send_invoice():
+    client = getClient(request.args.get('id'))
+    client.debt = 0
+    db.session.commit()
+    return redirect(url_for('clients'))
