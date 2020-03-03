@@ -1,4 +1,4 @@
-from flaskapp.contract.config import *
+from flaskapp.clients.config import *
 
 def getClientlist():
     return db.session.query(Client).all()

@@ -10,7 +10,7 @@ class Contract_sent(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False)
     file_id = db.Column(db.Integer, db.ForeignKey('file.id'), index=True, nullable=False)
 
-    def __repr__(self):  # Tells how to print objects of this class, (debugging)
+    def __repr__(self):  # Tells how to print objects of this class, (good for debugging)
         return '<Contract_sent {}>'.format(self.id)
 
 
@@ -61,7 +61,7 @@ class Conditions(db.Model):
 
     def __repr__(self):
         return '<Access {}>'.format(self.id)
-
+        
 
 class Shell_send(db.Model):
     shell_id = db.Column(db.Integer, primary_key=True) # shell id
@@ -71,15 +71,14 @@ class Shell_send(db.Model):
     status = db.Column(db.String(8), nullable=False) # active OR inactive
 
     def __repr__(self):
-        return '<Shell_send {}>'.format(self.id)
+        return '<Shell_send {}>'.format(self.shell_id)
 
 
 class Shell_recv(db.Model):
     shell_id = db.Column(db.Integer, primary_key=True)  # shell id
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), primary_key=True, nullable=False)  # id of contract sender
-    pattern = db.Column(db.String(256), nullable=True) # Ftype
     path = db.Column(db.String(256), nullable=True)  # path to shell contract
     status = db.Column(db.String(8), nullable=False) # active OR inactive
 
     def __repr__(self):
-        return '<Shell_recv {}>'.format(self.id)
+        return '<Shell_recv {}>'.format(self.shell_id)

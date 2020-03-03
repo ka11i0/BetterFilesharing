@@ -1,0 +1,74 @@
+{% extends 'shell/layout.html' %}
+
+{% block body %}
+<div class="card">
+    <div class="card-header"><h1>Create shell as sender</h1></div>
+    {% if selectStep == "select_client" %}
+        <div class="card-body">
+            <form method="POST" action="{{url_for('create_send_shell', step='select_pattern')}}">
+                <div class="form-group">
+                    {{ shellForm.receiver.label() }}
+                    {{ shellForm.receiver(class='custom-select') }}
+
+                    <input type="submit" value="Next" class="btn btn-primary mt-2">
+                </div>
+            </form>
+        </div>
+
+    {% else %}
+    <div class="card-body">
+        {{ shellForm.receiver.label() }}
+        {{ shellForm.receiver(class='custom-select') }}
+        <form method="POST" action="{{url_for('create_send_shell', client_id=client_id, step='save_shell')}}">
+            <div class="form-group mt-2">
+                {{ shellForm.pattern.label() }}
+                {{ shellForm.pattern }}
+
+                <div class="dropdown mt-2 mb-2">
+                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
+                        {{shellForm.conditions.label()}}
+                    </button>                
+                    <div class="dropdown-menu" style="min-width:200px;">
+                        {{shellForm.conditions(style='list-style-type: none;', class='custom-form pl-2')}}
+                        <a href="#myModal" class="ml-2" data-toggle="modal" data-target="#myModal">Add new condition</a>
+                    </div>
+                </div>
+                <input type="submit" value="Create shell" class="btn btn-primary mt-2">
+            </div>
+        </form>
+                <!-- The Modal -->
+                <div class="modal fade" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                            <h4 class="modal-title">Add new condition</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                            <form method="POST" action="{{url_for('create_send_shell', step='select_pattern', client_id=client_id)}}" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    {{ shellForm.csrf_token }}
+                                    {{conditionForm.condition.label()}}
+                                    {{conditionForm.condition(class='form-control')}}
+                                </div>
+                                <div class="form-group">
+                                    {{ shellForm.csrf_token }}
+                                    {{conditionForm.desc.label()}}
+                                    {{conditionForm.desc(class='form-control')}}
+                                </div>
+                                <div class="form-group mt-4">
+                                    <input type="submit" value="Add" class="btn btn-primary">
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+    </div>
+</div>
+
+{% endif %}
+{% endblock body %}

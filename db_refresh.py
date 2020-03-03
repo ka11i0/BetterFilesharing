@@ -1,5 +1,5 @@
 from flaskapp import db
-from flaskapp.models import Client
+from flaskapp.models import Client, Conditions
 import os
 import shutil
 #This script refreshes the db and adds dummy client, conditions, and SharedFiles.
@@ -48,7 +48,13 @@ os.system("set FLASK_APP=run.py")
 os.system("flask db init")
 os.system("flask db migrate")
 os.system("flask db upgrade")
-
+os.system("flask db ")
+add_pay_x = Conditions(
+    id = 0,
+    name = "Pay",
+    desc = "x"
+)
+db.session.add(add_pay_x)
+db.session.commit()
+db.session.close()
 print("Database refresh completed")
-
-
