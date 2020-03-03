@@ -11,6 +11,7 @@ class create_contractForm(FlaskForm):
     conditions = MultiCheckboxField('Conditions', validators=[DataRequired()])
     # uploadfile = FileField('Share file', validators=[DataRequired()])
     uploadfile = SelectField('Share file')
+    pay = IntegerField('payment_amount')
 
 
     def getClientlist(self):
@@ -40,14 +41,17 @@ class create_contractForm(FlaskForm):
             new_contractID = new_contractID.id + 1
 
         clientID = kwargs.get('receiver')
-        print(clientID)
         condData = kwargs.get('conditions')
+        payment = kwargs.get('payment')
 
         cond_dict = {}
 
         for i in condData:
             cond_name = Conditions.query.filter_by(id=i).first().name
-            cond_desc = Conditions.query.filter_by(id=i).first().desc
+            if (cond_name == "Pay"):
+                cond_desc = payment
+            else:
+                cond_desc = Conditions.query.filter_by(id=i).first().desc
             cond_dict[cond_name] = cond_desc
 
 
