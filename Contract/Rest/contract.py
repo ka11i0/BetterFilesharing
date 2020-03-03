@@ -41,7 +41,7 @@ def put_contract():
     client = Client.query.filter_by(id = clientID).first()
     
     contracthash = int.from_bytes(sha512(json.loads(json_body)).digest(), byteorder='big')
-    calculated_sig = hex(pow(contracthash, client.e, client.n))
+    calculated_sig = hex(pow(contracthash, int(client.e), int(client.n)))
     
     if not (calculated_sig == json_body_raw['signature']):
         return "signatures does not match", 400
