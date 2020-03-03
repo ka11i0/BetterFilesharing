@@ -9,19 +9,17 @@ CHECK_DELAY = 10 # Hur många sekunder mellan checks
 
 
 def checkfiles():
-    #time.sleep(CHECK_DELAY)
+    time.sleep(CHECK_DELAY)
     files = glob.iglob(os.path.join(BASE_PATH, "**", "*.*"), recursive=True) #hämtar alla paths på files
     newfiles = [] #innehåller alla filepaths som inte finns i databasen
     dbfiles = [r.path for r in File.query.all()] #hämtar alla paths i databasen
     for file in files:
         if file not in dbfiles: #kollar om filen inte finns i databasen
             newfiles.append(file)
-    print(newfiles)
     for file in newfiles: #går igenom alla nya filer
         #hämtar alla shellcontracts vars pattern stämmer överens med pathen
         result = db.engine.execute("SELECT * FROM shell_send WHERE \"{}\" REGEXP shell_send.pattern AND shell_send.status=\"active\"".format(
             file.translate(str.maketrans({"\\":r"\\"})))).fetchall()
-        print(result)
         try: #lägg till nya filen i databasen
             dbfile = File(path=file)
             db.session.add(dbfile)
@@ -37,8 +35,8 @@ def checkfiles():
             for r in result:
                 send_contractShell(r[0], dbfilepath, dbfileid) #skicka kontrakt utifrån skalkontraktet
 
-    #checkThread = threading.Thread(target=checkfiles, args=())
-    #checkThread.start()
+    checkThread = threading.Thread(target=checkfiles, args=())
+    checkThread.start()
 
 
 def send_contractShell(shellid, filepath, fileid):
