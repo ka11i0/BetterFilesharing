@@ -61,7 +61,6 @@ def create_contract():
                 client_id = getClient
                 )
         else:
-            print(form.pay.data)
             form.save(
                 receiver = getClient,
                 file_id = form.uploadfile.data,
