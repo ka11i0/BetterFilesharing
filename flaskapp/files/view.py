@@ -1,4 +1,4 @@
-from flaskapp.contract.config import *
+from flaskapp.files.config import *
 
 class file_view():
 

@@ -32,7 +32,10 @@ def sqlite_engine_connect(dbapi_connection, connection_record):
     dbapi_connection.create_function("REGEXP", 2, regexp)
     sqlite3.enable_callback_tracebacks(True)
 
-from flaskapp import routes, models
+from flaskapp import models
 from flaskapp.files import routes
 from flaskapp.clients import routes
+from flaskapp.contract import routes
 from Contract.Rest import contract
+from flaskapp.shell import routes
+from Contract.Rest import conditions
