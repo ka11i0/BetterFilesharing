@@ -64,19 +64,21 @@ def put_contract():
     shell_paths = Shell_recv.query.filter_by(client_id=clientID).all()
 
     # Validate contract with all shell schemas of current ClientID and send accept reply if validation is OK.
-    try:
-        for sp in shell_paths:
-            # open shell schema and validate
-            with open(sp.path) as json_schema:
-                shell_schema = json.load(json_schema)
+    for sp in shell_paths:
+        # open shell schema and validate
+        with open(sp.path) as json_schema:
+            shell_schema = json.load(json_schema)
+        
+        try:
+            # validate contract with shell schema
             validate(instance=json_body, schema=shell_schema)
 
             # update contract status from pending to accepted and send accept message to ClientID
             return redirect(url_for('accept_or_decline', id=contractID, status='accepted'))
-
-    # catch SchemaError and pass (let status = pending)
-    except jsonschemaExceptions.ValidationError as e:
-        pass
-
+        
+        # catch SchemaError and pass (let status = pending)
+        except jsonschemaExceptions.ValidationError as e:
+            pass
+    
     
     return '', 201
