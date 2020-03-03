@@ -1,5 +1,6 @@
 from flaskapp.shell.config import *
 from Contract.Rest.get_conditions import get_conditions
+from flaskapp.shell.edit import *
 
 class MultiCheckboxField(SelectMultipleField):
     widget = ListWidget(html_tag='ul', prefix_label=False)
@@ -8,27 +9,27 @@ class MultiCheckboxField(SelectMultipleField):
 
 class CreateRecvShell(FlaskForm):
     # defining input fields
-    sender = SelectField('Sender', validators=[DataRequired()])                              # list of senders from initiated shells
-    pattern = TextField('Pattern', validators=[DataRequired()])                              # file pattern for this shell
-    conditions = MultiCheckboxField('Conditions', choices=[], validators=[DataRequired])     # condition from senders db (implemented later)
+    sender = SelectField('Sender', validators=[DataRequired()]) # list of senders from initiated shells
+    pattern = TextField('Pattern', validators=[DataRequired()]) # filename pattern            
+    payment_amount = IntegerField('Pay')                        # maximum pay amount for pay condition
 
     def __init__(self, *args, **kwargs):
         super(CreateRecvShell, self).__init__(*args, **kwargs)
+        
         # populate sender with client id and name from client table
         senders = Client.query.all()
         self.sender.choices = [(sc.id, sc.name+' Org.nr.: {}'.format(sc.id)) for sc in senders]
 
-        # populate condition with conditions from select sender
-        if senders:            
-            conditionDict = get_conditions(senders[0].id)
-            # loop out conditions to condtions choices
-            self.conditions.choices = [(key, conditionDict[key]) for key in conditionDict]
+        # get conditions from current client id
+        self.conditions_list = checkSetConditionsReceive({}, get_conditions(senders[0].id))
+
 
     # save the shell to db and create a json-schema linked to the shell
     def save(self, **kwargs):
         client_id_data = kwargs.get('client_id')
         pattern_data = kwargs.get('pattern')
         conditions_data = kwargs.get('conditions')
+        pay_amount = kwargs.get('pay_amount')
 
         # get the latest shell id if exists, else set to 1
         new_shell_id = Shell_recv.query.order_by(Shell_recv.shell_id.desc()).first().shell_id + 1 if Shell_recv.query.order_by(Shell_recv.shell_id.desc()).first() else 1
@@ -49,18 +50,26 @@ class CreateRecvShell(FlaskForm):
         with open(os.path.join('Shell', 'shell.schema.json')) as json_schema:
             schema_template = json.load(json_schema)
 
-        # create condition dictionary with condition description
-        sender_conditions = get_conditions(client_id_data)
+        # container for all condtion keys
         conditionDict = {}
+
+        # always insert maximum pay amount in Pay condition, default value is 0
+        conditionDict['Pay'] = {"type": "integer", "maximum": pay_amount}
+        
+        # insert condition keys to conditionDict
         for key in conditions_data:
-            conditionDict[key] = sender_conditions.get(key)
+            if key.lower() == 'pay':
+                continue
+            else:
+                conditionDict[key] = {"type": "string"}
 
         # insert data to json-schema
         schema_template['title'] = 'Shell#{}'.format(new_shell_id)
         schema_template['properties']['senderID']['properties']['id']['pattern'] = '^{}$'.format(client_id_data)
         schema_template['properties']['file']['properties']['name']['pattern'] = pattern_data
-        schema_template['properties']['conditions']['enum'] = [conditionDict]
-        
+        schema_template['properties']['conditions']['properties'] = conditionDict
+        schema_template['properties']['conditions']['required'] = conditions_data
+
         # save to db and create new json-schema, rollback if fails
         try:
             db.session.autocommit = False

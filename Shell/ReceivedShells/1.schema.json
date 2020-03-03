@@ -1,8 +1,14 @@
 {
     "$schema": "http://json-schema.org/schema#",
-    "title": "Shell",
+    "title": "Shell#1",
     "type": "object",
-    "required": ["contractID", "senderID", "receiverID", "file", "conditions"],
+    "required": [
+        "contractID",
+        "senderID",
+        "receiverID",
+        "file",
+        "conditions"
+    ],
     "properties": {
         "contractID": {
             "type": "string",
@@ -10,12 +16,14 @@
         },
         "senderID": {
             "type": "object",
-            "required": ["id"],
+            "required": [
+                "id"
+            ],
             "properties": {
                 "id": {
                     "type": "string",
                     "description": "Company id",
-                    "pattern": "^12$"
+                    "pattern": "^1234$"
                 },
                 "name": {
                     "type": "string",
@@ -40,12 +48,20 @@
         },
         "conditions": {
             "type": "object",
-            "description":"The conditions that apply to the shared file",
+            "description": "The conditions that apply to the shared file",
             "properties": {
-                "pay": {"type": "integer", "maximum": "pay_amount"},
-                "byob": {"type":"string"}
+                "Pay": {
+                    "type": "integer",
+                    "maximum": 100
+                },
+                "GHTTG": {
+                    "type": "string"
+                }
             },
-            "required": ["pay", "byob"]
+            "required": [
+                "Pay",
+                "GHTTG"
+            ]
         }
     }
 }

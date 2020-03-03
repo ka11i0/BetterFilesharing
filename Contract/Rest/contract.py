@@ -66,6 +66,7 @@ def put_contract():
     # Validate contract with all shell schemas of current ClientID and send accept reply if validation is OK.
     for sp in shell_paths:
         # open shell schema and validate
+        print(sp.path)
         with open(sp.path) as json_schema:
             shell_schema = json.load(json_schema)
         
@@ -78,6 +79,7 @@ def put_contract():
         
         # catch SchemaError and pass (let status = pending)
         except jsonschemaExceptions.ValidationError as e:
+            print(str(e))
             pass
     
     

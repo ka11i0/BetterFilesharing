@@ -11,13 +11,8 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Company id-number (Swedish "organisationsnummer")
-<<<<<<< HEAD:flaskapp/config.sample.py
     COMPANY_ID = ""
     COMPANY_NAME = ""
-=======
-    COMPANY_ID = "1"
-    COMPANY_NAME = "otto"
->>>>>>> master:flaskapp/config.py
 
     # CONTRACT configurations
     CONTRACT_FOLDER = "Contract/SentContracts/"

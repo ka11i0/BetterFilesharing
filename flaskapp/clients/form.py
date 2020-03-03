@@ -5,6 +5,8 @@ class clientForm(FlaskForm):
     name = TextField('Company name:', validators=[DataRequired()])
     ip_address = TextField('IP-address:', validators=[DataRequired()])
     max_debt = StringField('Maximum debt:', validators=[DataRequired()])
+    # pu_key = StringField('Public-key', validators=[DataRequired()])
+    # pr_key = StringField('Private-key', validators=[DataRequired()])
 
     def save(self, **kwargs):
         newclient = Client(
