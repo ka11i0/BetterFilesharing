@@ -15,7 +15,8 @@ def add_client():
         form.save(
             id = form.client_id.data,
             name = form.name.data,
-            ip_address = form.ip_address.data
+            ip_address = form.ip_address.data,
+            max_debt = form.max_debt.data
         )
         return redirect(url_for('clients'))
 
@@ -31,7 +32,8 @@ def edit_client():
             curr_id = request.args.get('id'),
             new_id = form.client_id.data,
             name = form.name.data,
-            ip_address = form.ip_address.data
+            ip_address = form.ip_address.data,
+            max_debt = form.max_debt.data
         )
         return redirect(url_for('clients'))
 

@@ -96,7 +96,6 @@ class create_shellForm(FlaskForm):
             conditions.append((str(condition.id), condition.name))
         return conditions
 
-
     # save contract to db and as json-object and upload shared file to shared folder
     def save(self, **kwargs):
         new_shellID = Shell_send.query.order_by(Shell_send.shell_id.desc()).first()
@@ -125,14 +124,11 @@ class create_shellForm(FlaskForm):
             pattern = kwargs.get('pattern')
         )
         #saves shell as json file
-        json_contract =  {
-            'contractID': str(),
+        json_contract = {
+            'shellID': str(new_shellID),
             'senderID': {'id' : app.config['COMPANY_ID'], 'name' : app.config['COMPANY_NAME']},
             'receiverID': str(clientID),
-            'file': {
-                'name': str(),
-                'filter': 'n/a'
-            },
+            'pattern': str(pattern),
             'conditions': cond_dict
         }
 

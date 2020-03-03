@@ -50,6 +50,9 @@ def create_contract():
                 Client.query.filter(Client.id==getClient).first().name
                 )]
             form.conditions.choices = form.getConditions()
+
+
+
             return render_template(
                 'contract/create_contract.html',
                 contractForm = form,
@@ -58,11 +61,11 @@ def create_contract():
                 client_id = getClient
                 )
         else:
-
             form.save(
                 receiver = getClient,
                 file_id = form.uploadfile.data,
-                conditions = form.conditions.data
+                conditions = form.conditions.data,
+                payment = form.pay.data
             )
 
     return render_template('contract/create_contract.html', contractForm=form)
@@ -110,13 +113,21 @@ def contractreply(): # Runs when client accepts/declines a contract
     client_reply = request.get_json(force=True)
     contract = Contract_sent.query.get(client_reply["contract_id"])
     contract.status = client_reply["status"]
-    db.session.commit()
     
     if client_reply["status"] == "accepted":
+        with open(contract.path) as json_file: # For debt
+            cont_json = json.load(json_file)
         client = Client.query.get(contract.client_id)
+        try:
+            client.debt += int(cont_json['conditions']['Pay']) # Add cost to debt
+        except(KeyError):
+            print("KeyError")
+
         send = FileSender(client.ip_address, 80)
         filedb = File.query.get(contract.file_id)
         sendThread = threading.Thread(target=send.start, args=(filedb.path,))
         sendThread.start()
+
+    db.session.commit()
     
     return '', 201

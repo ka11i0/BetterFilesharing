@@ -10,7 +10,7 @@ class Contract_sent(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False)
     file_id = db.Column(db.Integer, db.ForeignKey('file.id'), index=True, nullable=False)
 
-    def __repr__(self):  # Tells how to print objects of this class, (debugging)
+    def __repr__(self):  # Tells how to print objects of this class, (good for debugging)
         return '<Contract_sent {}>'.format(self.id)
 
 
@@ -29,6 +29,8 @@ class Client(db.Model):
     ip_address = db.Column(db.String(128), nullable=False)
     debt = db.Column(db.Integer, nullable=True) # curr_curr
     max_debt = db.Column(db.Integer, nullable=True) # cut_curr
+    rsa_n = db.Column(db.String(256), nullable=True) # part of rsa public key
+    rsa_e = db.Column(db.String(256), nullable=True) # part of rsa public key
 
     def __repr__(self):
         return '<Client {}>'.format(self.id)

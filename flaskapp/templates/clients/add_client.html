@@ -23,6 +23,10 @@
             {{form.ip_address.label()}}
             {{form.ip_address(class='form-control', placeholder=client.ip_address, value=client.ip_address)}}
         </div>
+        <div class="custom-group">
+            {{form.max_debt.label()}}
+            {{form.max_debt(class='form-control', placeholder=client.max_debt, value=client.max_debt)}}
+        </div>
         <div class="form-group mt-4">
             <input type="submit" value="Update client" class="btn btn-primary">
             <a href="{{url_for('clients')}}" class="btn btn-danger">Cancel</a>
@@ -42,6 +46,10 @@
         <div class="custom-group">
             {{form.ip_address.label()}}
             {{form.ip_address(class='form-control')}}
+        </div>
+        <div class="custom-group">
+            {{form.max_debt.label()}}
+            {{form.max_debt(class='form-control')}}
         </div>
         <div class="form-group mt-4">
             <input type="submit" value="Add client" class="btn btn-primary">
