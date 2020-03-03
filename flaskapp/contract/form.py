@@ -73,13 +73,16 @@ class create_contractForm(FlaskForm):
         }
 
         try:
+            #save contract to db and json-file
             db.session.autocommit = False
             db.session.add(new_contract)
-            db.session.commit()
             with open(app.config['CONTRACT_FOLDER']+str(new_contractID)+app.config['CONTRACT_FILEEXT'], 'w') as outfile:
                 json.dump(json_contract, outfile, indent=4)
-            
+                
+            # send contract to receiver
             send_contract(new_contractID, clientID)
+            db.session.commit()
+            
             
         except:
             db.session.rollback()

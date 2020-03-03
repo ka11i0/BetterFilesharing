@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/schema#",
-    "title": "Contract",
+    "title": "Shell",
     "type": "object",
     "required": ["contractID", "senderID", "receiverID", "file", "conditions"],
     "properties": {
@@ -10,10 +10,12 @@
         },
         "senderID": {
             "type": "object",
+            "required": ["id"],
             "properties": {
                 "id": {
                     "type": "string",
-                    "description": "Company id"
+                    "description": "Company id",
+                    "pattern": "^12$"
                 },
                 "name": {
                     "type": "string",
@@ -31,23 +33,15 @@
             "properties": {
                 "name": {
                     "type": "string",
-                    "description": "Name of file to be shared"
-                },
-                "filter": {
-                    "type": "string",
-                    "description": "The filter that is used to filter the file"
+                    "description": "Name of file to be shared",
+                    "pattern": "^(AAA).*([.]log$)"
                 }
             }
         },
         "conditions": {
             "type": "object",
             "description":"The conditions that apply to the shared file",
-            "items": {
-                "patternProperties": { 
-                    ".*": { "type": "string" }
-                },
-            "description": "KV pair of Condition name as key and Condition description as Value"
-            }
+            "enum": [{"dnd": "cool", "byob": "guy"}]
         }
     }
 }
