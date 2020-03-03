@@ -18,18 +18,34 @@
             </div>
             <div class="form-group">
                 {{ form.pattern.label() }}
-                {{ form.pattern(class='custom-select', id='pattern') }}
+                {{ form.pattern(class='form-control', id='pattern') }}
+                <p>Example: ^(AAA).*([.]log$) accepts filename "AAAwildcard.log" or "AAAwhatever.log".
+                    See <a href="https://json-schema.org/understanding-json-schema/reference/regular_expressions.html" target="_new">regex</a> or <a href="https://www.regextester.com/93648" target="_new">regextester</a> for more info. </p>
             </div>
-            <div class="form-group">
-                {{ form.conditions.label() }}
-                {{ form.conditions(class='custom-form', id='conditions') }}
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header">
+                        <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                            {{ form.conditions.label() }}
+                        </a>
+                    </div>
+                    <div id="collapseOne" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            {{ form.conditions(id='conditions') }}
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <div class="form-group mt-4">
                 <input type="submit" value="Create shell" class="btn btn-primary">
                 <a href="#" class="btn btn-danger">Cancel</a>
             </div>
         </form>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/updatePattern.js')}}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/updateForm.js')}}"></script>
     </div>
 </div>
+{% for con in form.conditions %}
+{{ c }}
+{% endfor %}
 {% endblock body %}

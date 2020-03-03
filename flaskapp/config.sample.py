@@ -11,8 +11,10 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Company id-number (Swedish "organisationsnummer")
-    COMPANY_ID = "135"
-    COMPANY_NAME = "carl"
+
+    COMPANY_ID = ""
+    COMPANY_NAME = ""
+
 
     # CONTRACT configurations
     CONTRACT_FOLDER = "Contract/SentContracts/"
