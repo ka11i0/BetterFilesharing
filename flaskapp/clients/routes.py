@@ -1,13 +1,9 @@
-import requests
-from flask import Flask, render_template, redirect, request, url_for, session
-from flaskapp import app
-from flaskapp.clients.form import *
-from flaskapp.clients.view import *
+from flaskapp.clients.config import *
 
 @app.route("/clients")
 def clients():
     return render_template(
-        'view_clients.html',
+        'clients/view_clients.html',
         clientlist = getClientlist()
         )
 
@@ -19,11 +15,12 @@ def add_client():
         form.save(
             id = form.client_id.data,
             name = form.name.data,
-            ip_address = form.ip_address.data
+            ip_address = form.ip_address.data,
+            max_debt = form.max_debt.data
         )
         return redirect(url_for('clients'))
 
-    return render_template('add_client.html', form=form)
+    return render_template('clients/add_client.html', form=form)
 
 @app.route("/edit_client", methods=['GET','POST'])
 def edit_client():
@@ -35,8 +32,9 @@ def edit_client():
             curr_id = request.args.get('id'),
             new_id = form.client_id.data,
             name = form.name.data,
-            ip_address = form.ip_address.data
+            ip_address = form.ip_address.data,
+            max_debt = form.max_debt.data
         )
         return redirect(url_for('clients'))
 
-    return render_template('add_client.html', form=form, client=client)
+    return render_template('clients/add_client.html', form=form, client=client)

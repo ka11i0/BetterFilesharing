@@ -1,4 +1,4 @@
-{% extends 'clients.html' %}
+{% extends 'files/layout.html' %}
 
 {% block head %}
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
@@ -9,7 +9,7 @@
     <div class="card">
       <div class="card-header">
         <a class="card-link" data-toggle="collapse" href="#collapseOne">
-         Clients
+          Shared files
         </a>
       </div>
       <div id="collapseOne" class="collapse show" data-parent="#accordion">
@@ -17,22 +17,20 @@
             <table class="table table-secondary table-sm table-hover">
                 <thead>
                   <tr>
-                    <th>Organisation number</th>
-                    <th>Company name</th>
-                    <th>IP-address</th>
+                    <th>File id</th>
+                    <th>Path</th>
                     <th>&nbsp;</th>
                   </tr>
                 </thead>
                 <tbody>
-                {% for c in clientlist: %}
+                {% for f in files: %}
                   <tr class="table-light">
-                    <td>{{c.id}}</td>
-                    <td>{{c.name}}</td>
-                    <td>{{c.ip_address}}</td>
+                    <td>{{f.id}}</td>
+                    <td>{{f.path}}</td>
                     <td>
                       <ul class="nav">
                         <li class="nav-item mr-2">
-                          <a href="{{url_for('edit_client', id=c.id)}}" alt="Edit client"><i class='fas fa-edit' style='font-size:16px'></i>Edit</a>
+                          <a href="{{url_for('view_file', fid=f.id)}}" alt="View file">Accessed by</a>
                         </li>
                       </ul>
                     </td>
