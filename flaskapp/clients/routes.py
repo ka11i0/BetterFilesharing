@@ -16,7 +16,9 @@ def add_client():
             id = form.client_id.data,
             name = form.name.data,
             ip_address = form.ip_address.data,
-            max_debt = form.max_debt.data
+            max_debt = form.max_debt.data,
+            rsa_n = form.rsa_n.data,
+            rsa_e=form.rsa_e.data
         )
         return redirect(url_for('clients'))
 
@@ -33,7 +35,9 @@ def edit_client():
             new_id = form.client_id.data,
             name = form.name.data,
             ip_address = form.ip_address.data,
-            max_debt = form.max_debt.data
+            max_debt = form.max_debt.data,
+            rsa_n = form.rsa_n.data,
+            rsa_e = form.rsa_e.data
         )
         return redirect(url_for('clients'))
 

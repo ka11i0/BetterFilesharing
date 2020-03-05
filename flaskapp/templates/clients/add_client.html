@@ -51,6 +51,14 @@
             {{form.max_debt.label()}}
             {{form.max_debt(class='form-control')}}
         </div>
+            <div class="custom-group">
+            {{form.rsa_n.label()}}
+            {{form.rsa_n(class='form-control')}}
+        </div>
+            <div class="custom-group">
+            {{form.rsa_e.label()}}
+            {{form.rsa_e(class='form-control')}}
+        </div>
         <div class="form-group mt-4">
             <input type="submit" value="Add client" class="btn btn-primary">
             <a href="{{url_for('clients')}}" class="btn btn-danger">Cancel</a>

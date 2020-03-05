@@ -47,11 +47,12 @@ class create_contractForm(FlaskForm):
         for i in condData:
             cond_name = Conditions.query.filter_by(id=i).first().name
             if (cond_name == "Pay"):
-                cond_desc = payment
+                cond_desc = str(payment)
             else:
                 cond_desc = Conditions.query.filter_by(id=i).first().desc
             cond_dict[cond_name] = cond_desc
 
+        
 
         new_contract = Contract_sent(
             id = new_contractID,
