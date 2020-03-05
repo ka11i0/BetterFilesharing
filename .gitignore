@@ -6,6 +6,8 @@ __pycache__
 *.db
 migrations
 
+rsa_key.json
+
 # ignore uploading contract SharedFiles
 Contract/ReceivedContracts/*
 Contract/SentContracts/*

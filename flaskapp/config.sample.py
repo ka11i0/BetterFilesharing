@@ -14,7 +14,6 @@ class Config(object):
     COMPANY_ID = ""
     COMPANY_NAME = ""
 
-
     # CONTRACT configurations
     CONTRACT_FOLDER = "Contract/SentContracts/"
     CONTRACT_FILEEXT = ".json"

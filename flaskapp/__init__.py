@@ -23,7 +23,6 @@ def regexp(expr, item):
         print(str(e))
         pass
 
-#db.engine.connect().create_function("REGEXP", 2, regexp)
 
 @event.listens_for(Engine, 'connect')
 def sqlite_engine_connect(dbapi_connection, connection_record):
@@ -31,6 +30,20 @@ def sqlite_engine_connect(dbapi_connection, connection_record):
         return
     dbapi_connection.create_function("REGEXP", 2, regexp)
     sqlite3.enable_callback_tracebacks(True)
+
+import json
+from Crypto.PublicKey import RSA
+
+try:
+    with open("./rsa_key.json", 'r') as key_file:
+        keydic = json.load(key_file)
+except:
+    keypair = RSA.generate(bits=1024)
+    keydic = {"n":hex(keypair.n), "e":hex(keypair.e), "d":hex(keypair.d)}
+    with open("./rsa_key.json", 'w') as key_file:
+        json.dump(keydic, key_file, indent=4)
+finally:
+    app.config['RSA_KEY'] = keydic
 
 from flaskapp import models
 from flaskapp.files import routes

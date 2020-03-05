@@ -8,6 +8,8 @@ import os
 
 from Filesharing.sender import FileSender
 
+from hashlib import sha512
+
 CONTRACT_BASE_PATH = os.path.abspath("./Contract/ReceivedContracts/")
 
 
@@ -22,8 +24,8 @@ def put_contract():
         return "Supported media type is application/json", 415
     
     # Get the json body
-    json_body = request.get_json()
-    
+    json_body_raw = request.get_json()
+    json_body = json_body_raw['contract']
     # Check if the json is correctly formatted
     try:
         validate(instance = json_body, schema = json.loads(schema))
@@ -35,6 +37,15 @@ def put_contract():
     contractID = json_body['contractID']
     clientID = json_body['senderID']['id']
     status = "pending"
+
+    client = Client.query.filter_by(id = clientID).first()
+    
+    contracthash = int.from_bytes(sha512(json.loads(json_body)).digest(), byteorder='big')
+    calculated_sig = hex(pow(contracthash, int(client.e), int(client.n)))
+    
+    if not (calculated_sig == json_body_raw['signature']):
+        return "signatures does not match", 400
+
     path = os.path.join(CONTRACT_BASE_PATH, contractID + ".json")
     with open(path, 'w') as f:
         json.dump(json_body, f, indent=4)
