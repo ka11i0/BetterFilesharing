@@ -29,6 +29,8 @@ class Client(db.Model):
     ip_address = db.Column(db.String(128), nullable=False)
     debt = db.Column(db.Integer, nullable=True) # curr_curr
     max_debt = db.Column(db.Integer, nullable=True) # cut_curr
+    rsa_n = db.Column(db.String(256), nullable=True) # part of rsa public key
+    rsa_e = db.Column(db.String(256), nullable=True) # part of rsa public key
 
     def __repr__(self):
         return '<Client {}>'.format(self.id)
@@ -74,7 +76,8 @@ class Shell_send(db.Model):
 
 class Shell_recv(db.Model):
     shell_id = db.Column(db.Integer, primary_key=True)  # shell id
-    client_id = db.Column(db.Integer, db.ForeignKey('client.id'), primary_key=True, nullable=False)  # id of contract sender
+    client_id = db.Column(db.Integer, db.ForeignKey('client.id'), primary_key=True, nullable=False)
+    pattern = db.Column(db.String(256), nullable=True) # Ftype
     path = db.Column(db.String(256), nullable=True)  # path to shell contract
     status = db.Column(db.String(8), nullable=False) # active OR inactive
 

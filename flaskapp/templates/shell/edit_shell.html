@@ -1,0 +1,74 @@
+{% extends 'shell/layout.html' %}
+
+{%block body%}
+<div class="card" id="accordion">
+    <div class="card-header"><h1>Edit shell</h1></div>
+    <div class="card">
+        <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapseOne">
+              Conditions
+            </a>
+        </div>
+        <div id="collapseOne" class="collapse" data-parent="#accordion">
+            <div class="card-body" id="accordion-body">
+                <form action="{{url_for('edit_shell', shell_id=shell_id, table=table, update='cond')}}" method="POST">
+                    {%for c in conditions_list%}
+                        <div class="card">
+                            <div class="card-header">
+                            {%if c[1]%}
+                                <input type="checkbox" name="conditions" value="{{c[0][1]}}" checked>
+                                <label for="{{c[0][0]}}" data-toggle="collapse" href="#collapseDesc{{c[0][0]}}"> {{c[0][1]}}</label>
+                            {%else%}
+                                <input type="checkbox" name="conditions" value="{{c[0][1]}}">
+                                <label for="{{c[0][0]}}" class="card-link" data-toggle="collapse" href="#collapseDesc{{c[0][0]}}"> {{c[0][1]}}</label>
+                            {%endif%}
+                            </div>
+                            <div id="collapseDesc{{c[0][0]}}" class="collapse" data-parent="#accordion-body">
+                                <div class="card-body">
+                                Description:<br>
+                                {{c[2]}}
+                                </div>
+                            </div>
+                        </div>
+
+                    {%endfor%}
+                    <br>
+                    <input type="submit" value="Edit Conditions" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapseTwo">
+                Pattern
+            </a>
+        </div>
+        <div id="collapseTwo" class="collapse" data-parent="#accordion">
+            <div class="card-body">
+                <h4>Pattern: '{{pattern}}'</h2>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="span2">
+        <form method="POST" action="{{url_for('edit_shell', shell_id=shell_id, table=table, status=status)}}">
+            {%if status == "active"%}
+                This shell is currently <b>active</b>:<br>
+                <button name="deactivate" type="submit" class="btn btn-danger btn-lg">Deactivate</button><br>
+
+            {%elif status =="inactive"%}
+                This shell is currently <b>inactive</b>:<br>
+                <button name="activate" type="submit" class="btn btn-success btn-lg">Activate</button><br>
+            {%endif%}
+        </form>
+    </div>
+
+
+
+
+
+
+</div>
+{%endblock body%}
