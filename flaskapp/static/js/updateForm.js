@@ -23,14 +23,27 @@ function updateForm(selectObj) {
     sender = selectObj.value;
     fetch('/receive_shell/' + sender).then(function(response){
         response.json().then(function(data){
-            // update pattern options
+            // update condition options
             let conditionOptions = "";
-            let i = 0;
-            for (let pat of data.conditions) {
-                conditionOptions += '<li><input id="conditions-'+i+'" name="conditions" type="checkbox" value="'+pat[0]+'"> <label for="conditions-'+i+'">'+pat[1]+'</label></li>';
-                i++;
+            for (let c of data.conditions) {
+                conditionOptions += '<div class="card">\
+                <div class="card-header">\
+                    <input type="checkbox" name="conditions" value="'+c[0][1]+'">\
+                    <label for="'+c[0][0]+'" class="card-link" data-toggle="collapse" href="#collapseDesc'+c[0][0]+'">'+c[0][1]+'</label>\
+                </div>\
+                <div id="collapseDesc'+c[0][0]+'" class="collapse" data-parent="#accordion-body">\
+                    <div class="card-body">\
+                    Description:<br>\
+                    '+c[2]+'\
+                    </div>\
+                </div>\
+            </div>'
             }
-            document.getElementById('conditions').innerHTML = conditionOptions;
+            document.getElementById('accordion-body').innerHTML = conditionOptions;
         });
     });
 }
+
+$("#Pay").on("change", function() {
+    $("#payment_amount").toggle();
+});

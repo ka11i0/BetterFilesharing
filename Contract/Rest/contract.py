@@ -84,11 +84,17 @@ def put_contract():
             # validate contract with shell schema
             validate(instance=json_body, schema=shell_schema)
 
+            # check if contract conditions exist in shell conditions
+            for contract_condition in contract['conditions']:
+                if contract_condition not in schema['properties']['conditions']['properties'].keys():
+                    raise jsonschemaExceptions.ValidationError("Condition doesn't exists in shell.")
+
             # update contract status from pending to accepted and send accept message to ClientID
             return redirect(url_for('accept_or_decline', id=contractID, status='accepted'))
         
         # catch SchemaError and pass (let status = pending)
         except jsonschemaExceptions.ValidationError as e:
+            print(str(e))
             pass
     
     

@@ -30,7 +30,11 @@
                     <td>{{c.id}}</td>
                     <td>{{c.name}}</td>
                     <td>{{c.ip_address}}</td>
-                    <td>{{c.debt}}/{{c.max_debt}}</td>
+                    <td>{{c.debt}}/{{c.max_debt}}
+                    {% if c.max_debt-c.debt < 0 %}
+                        <a href="{{url_for('send_invoice', id=c.id)}}" class='text-danger'>Send invoice</a>
+                    {% endif %}
+                    </td>
                     <td>
                       <ul class="nav">
                         <li class="nav-item mr-2">
