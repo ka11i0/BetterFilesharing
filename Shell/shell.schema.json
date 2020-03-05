@@ -41,7 +41,11 @@
         "conditions": {
             "type": "object",
             "description":"The conditions that apply to the shared file",
-            "enum": [{"dnd": "cool", "byob": "guy"}]
+            "properties": {
+                "pay": {"type": "integer", "maximum": "pay_amount"},
+                "byob": {"type":"string"}
+            },
+            "required": ["pay", "byob"]
         }
     }
 }

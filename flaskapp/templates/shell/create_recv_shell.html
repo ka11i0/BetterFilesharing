@@ -22,17 +22,31 @@
                 <p>Example: ^(AAA).*([.]log$) accepts filename "AAAwildcard.log" or "AAAwhatever.log".
                     See <a href="https://json-schema.org/understanding-json-schema/reference/regular_expressions.html" target="_new">regex</a> or <a href="https://www.regextester.com/93648" target="_new">regextester</a> for more info. </p>
             </div>
-            <div id="accordion">
-                <div class="card">
-                    <div class="card-header">
-                        <a class="card-link" data-toggle="collapse" href="#collapseOne">
-                            {{ form.conditions.label() }}
-                        </a>
-                    </div>
-                    <div id="collapseOne" class="collapse" data-parent="#accordion">
-                        <div class="card-body">
-                            {{ form.conditions(id='conditions') }}
+            <div class="card" id="accordion">
+                <div class="card-header">
+                    <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                      Conditions
+                    </a>
+                </div>
+                <div id="collapseOne" class="collapse" data-parent="#accordion">
+                    <div class="card-body" id="accordion-body">
+                        {%for c in form.conditions_list%}
+                        <div class="card">
+                            <div class="card-header">
+                                <input type="checkbox" name="conditions" value="{{c[0][1]}}" id="{{c[0][1]}}">
+                                <label for="{{c[0][0]}}" class="card-link" data-toggle="collapse" href="#collapseDesc{{c[0][0]}}"> {{c[0][1]}}</label>
+                                {% if c[0][1] == 'Pay' %}
+                                {{ form.payment_amount(value='0', min='0', type='number', id='payment_amount', style='display: none') }}
+                                {% endif %}
+                            </div>
+                            <div id="collapseDesc{{c[0][0]}}" class="collapse" data-parent="#accordion-body">
+                                <div class="card-body">
+                                Description:<br>
+                                {{c[2]}}
+                                </div>
+                            </div>
                         </div>
+                        {%endfor%}
                     </div>
                 </div>
             </div>

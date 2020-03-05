@@ -9,8 +9,8 @@ def getSetConditionsSend(shell_id):
 
 def getSetConditionsReceive(shell_id):
     shell_file = readShellReceive(shell_id)
-    set_conditions = shell_file['properties']['conditions']['enum']
-    return set_conditions[0]
+    set_conditions = shell_file['properties']['conditions']['required']
+    return set_conditions
 
 # Opens a json file depending on if it is sent or received
 def readShellSent(shell_id):
@@ -46,7 +46,7 @@ def checkSetConditionsReceive(selected, all_cond):
         cond_tuple = ()
         value_tuple = (i, c)
         desc = all_cond[c]
-        if (c in selected.keys()):
+        if (c in selected):
             cond_tuple = (value_tuple, True, desc)
         else:
             cond_tuple = (value_tuple, False, desc)
