@@ -68,7 +68,7 @@ class CreateRecvShell(FlaskForm):
         schema_template['properties']['senderID']['properties']['id']['pattern'] = '^{}$'.format(client_id_data)
         schema_template['properties']['file']['properties']['name']['pattern'] = pattern_data
         schema_template['properties']['conditions']['properties'] = conditionDict
-        schema_template['properties']['conditions']['required'] = conditions_data
+        schema_template['properties']['conditions']['required'] = ["Pay"]
 
         # save to db and create new json-schema, rollback if fails
         try:
