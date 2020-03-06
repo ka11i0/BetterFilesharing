@@ -30,6 +30,18 @@ except(FileNotFoundError):
     print("SharedFiles folder not found")
 
 try:
+    shutil.rmtree("Shell/SentShells")
+    print("SentShells folder removed")
+except(FileNotFoundError):
+    print("SentShells folder not found")
+
+try:
+    shutil.rmtree("Shell/ReceivedShells")
+    print("ReceivedShells folder removed")
+except(FileNotFoundError):
+    print("ReceivedShells folder not found")
+
+try:
     os.remove("flaskapp/app.db")
     print("app.db removed")
 except(FileNotFoundError):
