@@ -1,4 +1,5 @@
 from flaskapp.models import Contract_sent, Client
+from flaskapp import app
 import requests
 import json
 from hashlib import sha512
@@ -10,11 +11,12 @@ def send_contract(contractid, clientid):
     path = contract.path
     jsonbody = {}
     with open(path, 'r') as readfile:
-        jsonbody['contract'] = readfile.read()
+        jsonbody['contract'] = json.load(readfile)
+    print(json.dumps(jsonbody['contract']))
+    contracthash = int.from_bytes(sha512(str.encode(json.dumps(jsonbody['contract']))).digest(), byteorder='big')
+    jsonbody['signature'] = hex(pow(contracthash, int(app.config['RSA_KEY']['d'], 16), int(app.config['RSA_KEY']['n'], 16)))
+    print(contracthash)
 
-    contracthash = int.from_bytes(sha512(json.loads(jsonbody['contract'])).digest(), byteorder='big')
-    jsonbody['signature'] = hex(pow(contracthash, int(app.config['RSA_KEY']['d']), int(app.config['RSA_KEY']['n'])))
-
-    response = requests.put('http://' + sendaddr + ':5000/v1/register_contract', json=json.loads(jsonbody))
-    if response.status_code != 201 or response.status_code != 200:
+    response = requests.put('http://' + sendaddr + ':5000/v1/register_contract', json=json.dumps(jsonbody))
+    if response.status_code != 201 and response.status_code != 200:
         raise Exception(response.text)
