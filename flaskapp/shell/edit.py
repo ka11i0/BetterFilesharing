@@ -75,7 +75,7 @@ def updateFileConditionsReceive(shell_id, selected_conditions, all_cond):
         cond_dict[c] = desc
 
     shell_file = readShellReceive(shell_id)
-    shell_file['properties']['conditions']['enum'] = [cond_dict]
+    shell_file['properties']['conditions']['properties'] = cond_dict
     filepath = Shell_recv.query.filter_by(shell_id=shell_id).first().path
     with open(filepath, 'w') as outschema:
         json.dump(shell_file, outschema, indent=4)
