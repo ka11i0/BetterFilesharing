@@ -9,7 +9,7 @@
             <div class="form-group">
                 {{ contractForm.csrf_token }}
                 {{ contractForm.receiver.label() }}
-                {{ contractForm.receiver(class='custom-select') }}
+                {{ contractForm.receiver(class='custom-select', id='receiver') }}
                 {{ contractForm.uploadfile.label()}}
                 {{ contractForm.uploadfile(class='custom-select') }}
             </div>
@@ -70,7 +70,6 @@
              $("#conditions-0").on("change", function() {
                 $("#payment_amount").toggle();
             });
-
         </script>
     </div>
     {% else %}

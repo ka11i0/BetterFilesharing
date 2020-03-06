@@ -89,8 +89,8 @@ class CreateRecvShell(FlaskForm):
 
 class create_shellForm(FlaskForm):
     # defining form fields
-    receiver = SelectField('Company')
-    pattern = TextField('File Pattern')
+    receiver = SelectField('Company', validators=[DataRequired()])
+    pattern = TextField('File Pattern', validators=[DataRequired()])
     conditions = MultiCheckboxField('Conditions', validators=[DataRequired()])
 
     def getClientlist(self):
