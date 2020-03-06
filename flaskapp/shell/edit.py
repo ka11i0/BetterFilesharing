@@ -9,7 +9,7 @@ def getSetConditionsSend(shell_id):
 
 def getSetConditionsReceive(shell_id):
     shell_file = readShellReceive(shell_id)
-    set_conditions = shell_file['properties']['conditions']['required']
+    set_conditions = shell_file['properties']['conditions']['properties'].keys()
     return set_conditions
 
 # Opens a json file depending on if it is sent or received
