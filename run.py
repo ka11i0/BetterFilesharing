@@ -10,6 +10,8 @@ from flaskapp import app
 # "flask db migrate" creates a migration-script and identifies changes made
 # "flask db upgrade" commits those changes to app.db
 # "flask db downgrade" undoes the last migration
+# install modules: pip install -r requirements.txt
+
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

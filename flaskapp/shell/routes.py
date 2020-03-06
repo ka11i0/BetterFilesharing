@@ -1,5 +1,6 @@
 from flaskapp.shell.config import *
 from Contract.Rest.get_conditions import get_conditions
+from flask import Request
 
 @app.route("/send_shell", methods=['GET', 'POST'])
 def send_shell():
@@ -70,10 +71,11 @@ def receive_shell():
     if request.method == "POST":
         client_id = recvShellForm.sender.data
         pattern = recvShellForm.pattern.data
-        conditions = recvShellForm.conditions.data
+        conditions = request.form.getlist('conditions')
+        pay_amount = recvShellForm.payment_amount.data
 
         # save data to db and json-schema
-        recvShellForm.save(client_id=client_id, pattern=pattern, conditions=conditions)
+        recvShellForm.save(client_id=client_id, pattern=pattern, conditions=conditions, pay_amount=pay_amount)
         
         return redirect(url_for('receive_shell'))
 
@@ -83,7 +85,8 @@ def receive_shell():
 @app.route("/receive_shell/<sender>")
 def update_recv_shell(sender):
     conditionDict = get_conditions(sender) # activate when functions is available
-    conditionArray = [(key, conditionDict[key]) for key in conditionDict]
+    # conditionArray = [(key, conditionDict[key]) for key in conditionDict]
+    conditionArray = checkSetConditionsReceive({}, get_conditions(sender))
     return jsonify({'conditions' : conditionArray})  # use when get_conditions() is available
 
 @app.route("/edit_shell", methods=['GET', 'POST'])

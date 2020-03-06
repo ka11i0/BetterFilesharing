@@ -61,12 +61,20 @@ def create_contract():
                 client_id = getClient
                 )
         else:
-            form.save(
-                receiver = getClient,
-                file_id = form.uploadfile.data,
-                conditions = form.conditions.data,
-                payment = form.pay.data
-            )
+            if (type(form.pay.data) != type(0)):
+                form.save(
+                    receiver=getClient,
+                    file_id=form.uploadfile.data,
+                    conditions=form.conditions.data,
+                    payment=0
+                )
+            else:
+                form.save(
+                    receiver = getClient,
+                    file_id = form.uploadfile.data,
+                    conditions = form.conditions.data,
+                    payment = form.pay.data
+                )
 
     return render_template('contract/create_contract.html', contractForm=form)
 
