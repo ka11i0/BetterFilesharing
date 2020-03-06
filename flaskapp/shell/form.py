@@ -146,6 +146,7 @@ class create_shellForm(FlaskForm):
             'shellID': str(new_shellID),
             'senderID': {'id' : app.config['COMPANY_ID'], 'name' : app.config['COMPANY_NAME']},
             'receiverID': str(clientID),
+            'file': {'name':"", "filter":"n/a"},
             'pattern': str(pattern),
             'conditions': cond_dict
         }

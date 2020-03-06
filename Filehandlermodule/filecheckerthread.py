@@ -1,7 +1,7 @@
 import threading, os, glob, ntpath, json, uuid, time
 from flaskapp import db, app
 from flaskapp.models import File, Shell_send, Contract_sent
-from Contract.Rest import send_contract
+from Contract.Rest.send_contract import send_contract
 import sqlalchemy
 
 BASE_PATH = app.config['SHARED_FILES']
@@ -20,6 +20,7 @@ def checkfiles():
         #hämtar alla shellcontracts vars pattern stämmer överens med pathen
         result = db.engine.execute("SELECT * FROM shell_send WHERE \"{}\" REGEXP shell_send.pattern AND shell_send.status=\"active\"".format(
             file.translate(str.maketrans({"\\":r"\\"})))).fetchall()
+        print(result)
         try: #lägg till nya filen i databasen
             dbfile = File(path=file)
             db.session.add(dbfile)
