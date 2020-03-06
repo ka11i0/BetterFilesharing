@@ -55,9 +55,10 @@ def create_send_shell():
         #step where user sends shell, and is then saved to db
         if (request.args.get('step') == 'save_shell'):
             form.save(
-                receiver = getClient,
-                pattern = form.pattern.data,
-                conditions = form.conditions.data
+                receiver=getClient,
+                pattern=form.pattern.data,
+                conditions=form.conditions.data,
+                payment=form.pay.data
             )
 
     return render_template('shell/create_send_shell.html', shellForm=form, conditionForm=condForm, selectStep=step)
