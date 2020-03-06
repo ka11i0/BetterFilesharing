@@ -46,10 +46,13 @@ class create_contractForm(FlaskForm):
         for i in condData:
             cond_name = Conditions.query.filter_by(id=i).first().name
             if (cond_name == "Pay"):
-                cond_desc = str(payment)
+                cond_desc = int(payment)
             else:
                 cond_desc = Conditions.query.filter_by(id=i).first().desc
             cond_dict[cond_name] = cond_desc
+
+        if "Pay" not in cond_dict.keys():
+            cond_dict["Pay"] = 0
 
         
 
@@ -80,9 +83,9 @@ class create_contractForm(FlaskForm):
                 json.dump(json_contract, outfile, indent=4)
                 
             # send contract to receiver
-            send_contract(new_contractID, clientID)
             db.session.commit()
-            
+
+            send_contract(new_contractID, clientID)
             
         except:
             db.session.rollback()
