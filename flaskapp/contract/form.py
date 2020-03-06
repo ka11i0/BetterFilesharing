@@ -9,9 +9,8 @@ class MultiCheckboxField(SelectMultipleField):
 
 class create_contractForm(FlaskForm):
     # # defining form fields
-    receiver = SelectField('Company')
+    receiver = SelectField('Company', validators=[DataRequired()])
     conditions = MultiCheckboxField('Conditions', validators=[DataRequired()])
-    # uploadfile = FileField('Share file', validators=[DataRequired()])
     uploadfile = SelectField('Share file')
     pay = IntegerField('payment_amount')
 
