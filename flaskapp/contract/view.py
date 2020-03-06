@@ -1,5 +1,7 @@
 from flaskapp.contract.config import *
 
+# get list of contracts from given table with given status and return a list of those contracts
+# Parameters: status, table
 def listContracts(status, table):
     contract_list = []
     if (table=="sent"):
@@ -31,6 +33,9 @@ def listContracts(status, table):
     
     return contract_list
 
+
+# get contract status from given contract id and table
+# Parameters: cid, table
 def getContractStatus(cid, table):
     if table == 'recv':
         status = Contract_recv.query.filter_by(id=cid).first().status
@@ -38,6 +43,9 @@ def getContractStatus(cid, table):
         status = Contract_sent.query.filter_by(id=cid).first().status
     return status
 
+
+# get json-contract from given contract id and table
+# Parameters: cid, table
 def readContract(cid, table):
     if(table=='recv'):
         filepath = Contract_recv.query.filter_by(id=cid).first().path
@@ -48,9 +56,3 @@ def readContract(cid, table):
         with open(filepath) as json_file:
             contract = json.load(json_file)
     return contract
-
-# def getConditions(cond):
-#     conditionlist = []
-#     for i in cond:
-#         conditionlist.append(Conditions.query.filter_by(id=i).first().name)
-#     return conditionlist

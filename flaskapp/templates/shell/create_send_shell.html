@@ -22,8 +22,11 @@
         <form method="POST" action="{{url_for('create_send_shell', client_id=client_id, step='save_shell')}}">
             <div class="form-group mt-2">
                 {{ shellForm.pattern.label() }}
-                {{ shellForm.pattern }}
-
+                {{ shellForm.pattern(class='form-control') }}
+                <p>Example: ^(AAA).*([.]log$) accepts filename "AAAwildcard.log" or "AAAwhatever.log".
+                See <a href="https://json-schema.org/understanding-json-schema/reference/regular_expressions.html" target="_new">regex</a> 
+                or <a href="https://www.regextester.com/93648" target="_new">regextester</a> for more info.
+                </p>
                 <div class="dropdown mt-2 mb-2">
                     <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
                         {{shellForm.conditions.label()}}

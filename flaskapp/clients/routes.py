@@ -1,5 +1,6 @@
 from flaskapp.clients.config import *
 
+## CLIENT LIST PAGE ##
 @app.route("/clients")
 def clients():
     return render_template(
@@ -7,13 +8,15 @@ def clients():
         clientlist = getClientlist()
         )
 
+## ADD CLIENT PAGE ##
 @app.route("/add_client", methods=['GET', 'POST'])
 def add_client():
-    form = clientForm()
+    form = clientForm()     # initiate clientForm
     
+    # validate form data on submit and call form save function in form.py
     if form.validate_on_submit():
         form.save(
-            id = form.client_id.data,
+            client_id = form.client_id.data,
             name = form.name.data,
             ip_address = form.ip_address.data,
             max_debt = form.max_debt.data,
@@ -24,15 +27,17 @@ def add_client():
 
     return render_template('clients/add_client.html', form=form)
 
+
+## EDIT CLIENT PAGE ##
 @app.route("/edit_client", methods=['GET','POST'])
 def edit_client():
-    form = clientForm()
-    client = getClient(request.args.get('id'))
+    form = clientForm()                         # inititate clientForm
+    client = getClient(request.args.get('id'))  # get Client data to show/edit
 
+    # validate form data on submit and call form update function in form.py
     if form.validate_on_submit():
         form.update(
-            curr_id = request.args.get('id'),
-            new_id = form.client_id.data,
+            client_id = form.client_id.data,
             name = form.name.data,
             ip_address = form.ip_address.data,
             max_debt = form.max_debt.data,
@@ -44,6 +49,7 @@ def edit_client():
     return render_template('clients/add_client.html', form=form, client=client)
 
 
+## SEND INVOICE FUNCTION ##
 @app.route("/send_invoice", methods=['GET'])
 def send_invoice():
     client = getClient(request.args.get('id'))

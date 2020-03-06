@@ -1,10 +1,13 @@
 from flaskapp.contract.config import *
 
+##  INDEX PAGE - REDIRECTS TO SENT CONTRACTS OVERVIEW PAGE ##
 @app.route("/")
 def index():
     session['user'] = app.config['COMPANY_NAME']
     return redirect(url_for('sent_contracts'))
 
+
+## OVERVIEW OF SENT CONTRACTS PAGE ##
 @app.route("/sent_contracts")
 def sent_contracts():
     return render_template(
@@ -14,6 +17,8 @@ def sent_contracts():
         declinedContracts = listContracts('declined', 'sent')
     )
 
+
+## OVERVIEW OF RECEIVED CONTRACTS PAGE ##
 @app.route("/recv_contracts")
 def recv_contracts():
     return render_template(
@@ -23,35 +28,40 @@ def recv_contracts():
         declinedContracts = listContracts('declined', 'received')
     )
 
+
+## CREATE CONTRACT PAGE ##
 @app.route("/create_contract", methods=['GET', 'POST'])
 def create_contract():
-    # initiate form objects
-    form = create_contractForm()
-    condForm = conditionsForm()
+    form = create_contractForm()        # initiate create_contractForm()
+    condForm = conditionsForm()         # initiate conditionsForm()
+
+    # populate receiver and condition choices
     form.conditions.choices = form.getConditions()
     form.receiver.choices = form.getClientlist()
 
     # save contract data to database and and json-file
     if request.method == 'POST':
-        # save new condotion
+
+        # validate condition data on submit and call conditionsForm.save()
         if condForm.validate_on_submit():
             condForm.save(
                 name = condForm.condition.data,
                 desc = condForm.desc.data
             )
-            # return redirect(url_for('create_contract', step='select_file'))
 
         getClient = request.args.get('client_id') if request.args.get('client_id') else form.receiver.data
 
+        # step two in create contract
         if request.args.get('step') == 'select_file':
+            # populate uploadfile choices with files available to selected receiver
             form.uploadfile.choices = form.getFileList(getClient)
             form.receiver.choices = [(
                 form.receiver.data,
                 Client.query.filter(Client.id==getClient).first().name
                 )]
+
+            # update choices when new condition has been added
             form.conditions.choices = form.getConditions()
-
-
 
             return render_template(
                 'contract/create_contract.html',
@@ -60,7 +70,9 @@ def create_contract():
                 conditionForm=condForm,
                 client_id = getClient
                 )
+
         else:
+            # save contract with payment value = 0 if payment amount is None
             if (type(form.pay.data) != type(0)):
                 form.save(
                     receiver=getClient,
@@ -68,6 +80,8 @@ def create_contract():
                     conditions=form.conditions.data,
                     payment=0
                 )
+
+            # save contract
             else:
                 form.save(
                     receiver = getClient,
@@ -78,6 +92,8 @@ def create_contract():
 
     return render_template('contract/create_contract.html', contractForm=form)
 
+
+## VIEW CONTRACT PAGE ##
 @app.route("/view_contract")
 def view_contract():
     contract = readContract(request.args.get('cid'), request.args.get('from'))
@@ -90,6 +106,7 @@ def view_contract():
         )
         
 
+## CONTRACT REPLY FUNCTION ON RECEIVER SIDE##
 @app.route('/reply/<int:id>/<string:status>')
 def accept_or_decline(id, status): # When contract is accepted/declined
     contract = Contract_recv.query.get(id)
@@ -116,6 +133,7 @@ def accept_or_decline(id, status): # When contract is accepted/declined
     return redirect('/')
 
 
+## CONTRACT REPLY FUNCTION ON SENDER SIDE ##
 @app.route("/contract_clientreply", methods=["PUT"])
 def contractreply(): # Runs when client accepts/declines a contract
     client_reply = request.get_json(force=True)
