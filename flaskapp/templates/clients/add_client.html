@@ -25,7 +25,15 @@
         </div>
         <div class="custom-group">
             {{form.max_debt.label()}}
-            {{form.max_debt(class='form-control', placeholder=client.max_debt, value=client.max_debt)}}
+            {{form.max_debt(class='form-control', value=client.max_debt)}}
+        </div>
+                <div class="custom-group">
+            {{form.rsa_n.label()}}
+            {{form.rsa_n(class='form-control', value=client.rsa_n)}}
+        </div>
+            <div class="custom-group">
+            {{form.rsa_e.label()}}
+            {{form.rsa_e(class='form-control', value=client.rsa_e)}}
         </div>
         <div class="form-group mt-4">
             <input type="submit" value="Update client" class="btn btn-primary">
