@@ -92,6 +92,7 @@ class create_shellForm(FlaskForm):
     receiver = SelectField('Company', validators=[DataRequired()])
     pattern = TextField('File Pattern', validators=[DataRequired()])
     conditions = MultiCheckboxField('Conditions', validators=[DataRequired()])
+    pay = IntegerField('payment_amount')
 
     def getClientlist(self):
         clientlist = []
@@ -116,13 +117,21 @@ class create_shellForm(FlaskForm):
         clientID = kwargs.get('receiver')
         condData = kwargs.get('conditions')
         pattern = kwargs.get('pattern')
+        payment = kwargs.get('payment')
 
         cond_dict = {}
 
         for i in condData:
             cond_name = Conditions.query.filter_by(id=i).first().name
-            cond_desc = Conditions.query.filter_by(id=i).first().desc
+            if (cond_name == "Pay"):
+                cond_desc = int(payment)
+            else:
+                cond_desc = Conditions.query.filter_by(id=i).first().desc
+
             cond_dict[cond_name] = cond_desc
+        
+        if "Pay" not in cond_dict.keys():
+            cond_dict["Pay"] = 0
 
         #saves shell to database
         new_shell = Shell_send(
