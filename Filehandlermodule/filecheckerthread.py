@@ -20,7 +20,6 @@ def checkfiles():
         #hämtar alla shellcontracts vars pattern stämmer överens med pathen
         result = db.engine.execute("SELECT * FROM shell_send WHERE \"{}\" REGEXP shell_send.pattern AND shell_send.status=\"active\"".format(
             file.translate(str.maketrans({"\\":r"\\"})))).fetchall()
-        print(result)
         try: #lägg till nya filen i databasen
             dbfile = File(path=file)
             db.session.add(dbfile)

@@ -16,5 +16,6 @@ import threading
 
 if __name__ == "__main__":
     checkthread = threading.Thread(target=checkfiles, args=())
+    checkthread.daemon = True #CTRL + C now terminates this thread aswell, if removed CTRL + C will only terminate main
     checkthread.start()
     app.run(debug=True, host="0.0.0.0")
