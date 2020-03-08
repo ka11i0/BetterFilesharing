@@ -93,39 +93,44 @@ def update_recv_shell(sender):
 @app.route("/edit_shell", methods=['GET', 'POST'])
 def edit_shell():
     form = create_shellForm()
+    pay_amount = 0
 
     shell_id = request.args.get('shell_id')
     #Updates conditions for the specified shell depending if it is a sent or received shell.
     if request.method == "POST":
         if request.args.get('update') == "cond" and request.args.get('table') == 'sent':
             selected_conditions = request.form.getlist('conditions')
-            updateFileConditionsSent(shell_id, selected_conditions)
+            if "Pay" in selected_conditions:
+                pay_amount = form.pay.data
+            updateFileConditionsSent(shell_id, selected_conditions, pay_amount)
         
         elif request.args.get('update') == "cond" and  request.args.get('table') == 'recv':
             selected_conditions = request.form.getlist('conditions')
+            if "Pay" in selected_conditions:
+                pay_amount = form.pay.data
             client_id = getClient(shell_id)
             conditions = get_conditions(client_id)
-            updateFileConditionsReceive(shell_id, selected_conditions, conditions)
+            updateFileConditionsReceive(shell_id, selected_conditions, conditions, pay_amount)
         
         if request.args.get('status'):
             updateStatus(shell_id, request.args.get('status'), request.args.get('table'))
 
 
-        
-            
     #Fetches the shells already selected conditions and fetches all of the origins conditions and saves it into a list.
     if(request.args.get('table') == 'recv'):
         client_id = getClient(shell_id)
         conditions = get_conditions(client_id)
         curr_cond = getSetConditionsReceive(shell_id)
-        conditions_list = checkSetConditionsReceive(curr_cond, conditions)
+        pay_value = fetchPay(shell_id, 'recv')
+        conditions_list = checkSetConditionsReceive(curr_cond, conditions,pay_value)
         status = getStatus(shell_id, 'recv')
         pattern = getPattern(shell_id, 'recv')
         
     elif(request.args.get('table')=='sent'):
         form.conditions.choices = form.getConditions()
         curr_cond = getSetConditionsSend(shell_id)
-        conditions_list = checkSetConditionsSend(curr_cond, form.conditions.choices)
+        pay_value = fetchPay(shell_id, 'sent')
+        conditions_list = checkSetConditionsSend(curr_cond, form.conditions.choices, pay_value)
         status =  getStatus(shell_id, 'sent')
         pattern = getPattern(shell_id, 'sent')
         
@@ -136,5 +141,6 @@ def edit_shell():
         shell_id = shell_id,
         table = request.args.get('table'),
         status = status,
-        pattern = pattern
+        pattern = pattern,
+        form = form
     )
