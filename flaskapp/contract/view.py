@@ -10,12 +10,9 @@ def listContracts(status, table):
             contract_dict = {}
             contract_dict['id'] = i.Contract_sent.id
             contract_dict['status'] = i.Contract_sent.status
-            contract_dict['sender_id'] = i.Contract_sent.client_id
+            contract_dict['client_id'] = i.Contract_sent.client_id
 
-            contract = readContract(i.Contract_sent.id,'sent')
-            contract_info = contract['senderID']
-            for d in contract_info:
-                contract_dict['name'] = contract_info[d]
+            contract_dict['name'] = db.session.query(Client).filter_by(id=contract_dict['client_id']).first().name
             contract_list.append(contract_dict)
     if (table=="received"):
         contracts = db.session.query(Contract_recv, Client).join(Contract_recv).filter(Contract_recv.status == status).all()
@@ -23,7 +20,7 @@ def listContracts(status, table):
             contract_dict = {}
             contract_dict['id'] = i.Contract_recv.id
             contract_dict['status'] = i.Contract_recv.status
-            contract_dict['sender_id'] = i.Contract_recv.client_id
+            contract_dict['client_id'] = i.Contract_recv.client_id
             
             contract = readContract(i.Contract_recv.id,'recv')
             contract_info = contract['senderID']
