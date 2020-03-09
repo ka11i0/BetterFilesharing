@@ -57,6 +57,7 @@ def send_invoice():
     db.session.commit()
     return redirect(url_for('clients'))
 
+#Reads the values for rsa_keys from the rsa_key.json file and displays on user page.
 @app.route("/user_page")
 def user_page():
     rsa_file = readRSA()

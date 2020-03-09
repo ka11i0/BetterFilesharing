@@ -25,7 +25,9 @@ def readShellReceive(shell_id):
         shell_file = json.load(json_file)
     return shell_file
 
-
+# Takes a dict of already selected conditions, and a dict of all conditions allowed for this shell
+# then compares the two dicts to receive all conditions with a boolean value.
+# True if the condition is alerady selected.
 # Makes a list containing [(cond_id, cond_name), True/False, cond_desc]
 def checkSetConditionsSend(selected, all_cond, pay):
     cond_list = []
@@ -99,6 +101,7 @@ def updateFileConditionsReceive(shell_id, selected_conditions, all_cond, pay_amo
 def getClient(shell_id):
     return Shell_recv.query.filter_by(shell_id=shell_id).first().client_id
 
+#Fetches status for specified shell
 def getStatus(shell_id, table):
     if (table == 'recv'):
        status = Shell_recv.query.filter_by(shell_id=shell_id).first().status
@@ -106,6 +109,7 @@ def getStatus(shell_id, table):
         status = Shell_send.query.filter_by(shell_id=shell_id).first().status
     return status
 
+#Fetches pattern for specified shell
 def getPattern(shell_id, table):
     if (table == 'recv'):
        pattern = Shell_recv.query.filter_by(shell_id=shell_id).first().pattern
@@ -113,6 +117,7 @@ def getPattern(shell_id, table):
         pattern = Shell_send.query.filter_by(shell_id=shell_id).first().pattern
     return pattern
 
+#Updates status for specified shell
 def updateStatus(shell_id, status, table):
     db.session.autocommit = False
     if (status == 'active'):
@@ -144,6 +149,7 @@ def updateStatus(shell_id, status, table):
         finally:
             db.session.close
 
+#Removes shell from the database
 def removeShell(shell_id, table):
     if table == 'recv':
         Shell_recv.query.filter_by(shell_id=shell_id).delete()
@@ -152,7 +158,7 @@ def removeShell(shell_id, table):
 
     db.session.commit()
 
-
+#Fetches the current pay x value for specified shell
 def fetchPay(shell_id, table):
     if table == 'recv':
         shell_file = readShellReceive(shell_id)
