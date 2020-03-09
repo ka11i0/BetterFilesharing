@@ -74,7 +74,7 @@ os.system("flask db init")
 os.system("flask db migrate")
 os.system("flask db upgrade")
 os.system("flask db ")
-add_pay_x = Conditions(
+add_pay_x = Conditions(#we always want the pay condition in the db
     id = 0,
     name = "Pay",
     desc = "x"
