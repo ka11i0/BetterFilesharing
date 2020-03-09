@@ -23,7 +23,7 @@
                                     <label for="{{c[0][0]}}" class="card-link" data-toggle="collapse" href="#collapseDesc{{c[0][0]}}"> {{c[0][1]}}</label>
                                 {%endif%}
                                 {% if c[0][1] == 'Pay' %}
-                                    {{ form.pay(value='0', min='0', type='number', id='payment_amount', style='display: inline') }}
+                                    {{ form.pay(value=c[2], min='0', type='number', id='payment_amount', style='display: inline') }}
                                 {% endif %}
                             </div>
                             <div id="collapseDesc{{c[0][0]}}" class="collapse" data-parent="#accordion-body">

@@ -56,3 +56,10 @@ def send_invoice():
     client.debt = 0
     db.session.commit()
     return redirect(url_for('clients'))
+
+@app.route("/user_page")
+def user_page():
+    rsa_file = readRSA()
+    rsa_n = rsa_file['n']
+    rsa_e = rsa_file['e']
+    return render_template('clients/user_page.html', rsa_n=rsa_n, rsa_e=rsa_e)

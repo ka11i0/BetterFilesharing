@@ -60,7 +60,7 @@
             <ul class="navbar-nav">
             <li>
                 <span class="text-uppercase text-white">
-                    {{session.get('user')}}
+                    <a href="{{ url_for('user_page')}}" class="nav-link active">{{session.get('user')}}l</a>
                 </span>
             </li>
             </ul>
