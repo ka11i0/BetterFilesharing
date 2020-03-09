@@ -12,7 +12,12 @@ class FileSender:
         
         print("Data read proceeding with sending")
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect((self.host, self.port))
-            s.sendall(data.encode())
-            print("Data sent")
+            try:
+                s.settimeout(5)
+                s.connect((self.host, self.port))
+                s.sendall(data.encode())
+                print("Data sent")
+            except socket.timeout as e:
+                s.close()
+                raise Exception("Something went wrong with the filetransfer")
         print("Done for the day")
