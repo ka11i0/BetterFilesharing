@@ -38,9 +38,7 @@ def put_contract():
     status = "pending"
 
     client = Client.query.filter_by(id = clientID).first()
-    print(json.dumps(json_body))
     contracthash = hex(int.from_bytes(sha512(str.encode(json.dumps(json_body))).digest(), byteorder='big'))
-    print(contracthash)
     calculated_hash = hex(pow(int(json_body_raw['signature'], 16), int(client.rsa_e, 16), int(client.rsa_n, 16)))
     
     if not (calculated_hash == contracthash):

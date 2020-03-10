@@ -15,7 +15,7 @@ class FileReceiver:
             # Bind socket to address and port
             s.bind((self.host, self.port))
             # Set timeout to stop with the listening after 5 seconds
-            s.timeout(5)
+            s.settimeout(5)
             # Start listening after connections, at most 20 connections can connect and queue
             s.listen(20)
             

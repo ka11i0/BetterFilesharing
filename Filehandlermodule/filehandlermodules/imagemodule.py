@@ -4,11 +4,11 @@ from .defaultmodule import Defaultmodule
 class Imagemodule(Defaultmodule):
     def writedata(self, filepath, data, writeargs='wb'):
         with open(filepath, writeargs) as file:
-            file.write(data)
+            file.write(data.encode())
 
     def readdata(self, filepath):
         with open(filepath, 'rb') as file:
-            return file.read()
+            return file.read().decode()
 
 #only tested with these two formats
     def typesupported(self, filetype):
