@@ -21,7 +21,7 @@ class CreateRecvShell(FlaskForm):
         self.sender.choices = [(sc.id, sc.name+' Org.nr.: {}'.format(sc.id)) for sc in senders]
 
         # get conditions from current client id
-        self.conditions_list = checkSetConditionsReceive({}, get_conditions(senders[0].id)) if senders else []
+        self.conditions_list = checkSetConditionsReceive({}, get_conditions(senders[0].id), 0) if senders else []
 
 
     # save the shell to db and create a json-schema linked to the shell
