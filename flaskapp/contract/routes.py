@@ -113,7 +113,7 @@ def accept_or_decline(id, status): # When contract is accepted/declined
     recvThread = threading.Thread(target=recv.start, args=(os.path.join(os.path.abspath("Filesharing/ReceivedFiles"), filename), ))
     recvThread.start()
     
-    return redirect('/')
+    return redirect('/recv_contracts')
 
 
 @app.route("/contract_clientreply", methods=["PUT"])
