@@ -22,8 +22,11 @@
         <form method="POST" action="{{url_for('create_send_shell', client_id=client_id, step='save_shell')}}">
             <div class="form-group mt-2">
                 {{ shellForm.pattern.label() }}
-                {{ shellForm.pattern }}
-
+                {{ shellForm.pattern(class='form-control') }}
+                <p>Example: (AAA).*([.]log$) accepts filename "AAAwildcard.log" or "AAAwhatever.log".
+                See <a href="https://json-schema.org/understanding-json-schema/reference/regular_expressions.html" target="_new">regex</a> 
+                or <a href="https://www.regextester.com/93648" target="_new">regextester</a> for more info.
+                </p>
                 <div class="dropdown mt-2 mb-2">
                     <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
                         {{shellForm.conditions.label()}}
@@ -32,6 +35,7 @@
                         {{shellForm.conditions(style='list-style-type: none;', class='custom-form pl-2')}}
                         <a href="#myModal" class="ml-2" data-toggle="modal" data-target="#myModal">Add new condition</a>
                     </div>
+                    {{ shellForm.pay(value='0', min='0', type='number', id='payment_amount', style='display: none') }}
                 </div>
                 <input type="submit" value="Create shell" class="btn btn-primary mt-2">
             </div>
@@ -69,6 +73,17 @@
                     </div>
     </div>
 </div>
+    <script>
+            // Add the following code if you want the name of the file appear on select
+            $(".custom-file-input").on("change", function() {
+              var fileName = $(this).val().split("\\").pop();
+              $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+
+             $("#conditions-0").on("change", function() {
+                $("#payment_amount").toggle();
+            });
+        </script>
 
 {% endif %}
 {% endblock body %}

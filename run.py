@@ -1,5 +1,6 @@
 from flaskapp import app
-
+from Filehandlermodule.filecheckerthread import checkfiles
+import threading
 # General info:
 # You want to know how to run this? "python run.py" is to be written in the terminal.
 
@@ -14,4 +15,7 @@ from flaskapp import app
 
 
 if __name__ == "__main__":
+    checkthread = threading.Thread(target=checkfiles, args=())
+    checkthread.daemon = True #CTRL + C now terminates this thread aswell, if removed CTRL + C will only terminate main
+    checkthread.start()
     app.run(debug=True, host="0.0.0.0")

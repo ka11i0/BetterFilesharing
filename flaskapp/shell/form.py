@@ -21,7 +21,7 @@ class CreateRecvShell(FlaskForm):
         self.sender.choices = [(sc.id, sc.name+' Org.nr.: {}'.format(sc.id)) for sc in senders]
 
         # get conditions from current client id
-        self.conditions_list = checkSetConditionsReceive({}, get_conditions(senders[0].id))
+        self.conditions_list = checkSetConditionsReceive({}, get_conditions(senders[0].id)) if senders else []
 
 
     # save the shell to db and create a json-schema linked to the shell
@@ -89,9 +89,10 @@ class CreateRecvShell(FlaskForm):
 
 class create_shellForm(FlaskForm):
     # defining form fields
-    receiver = SelectField('Company')
-    pattern = TextField('File Pattern')
+    receiver = SelectField('Company', validators=[DataRequired()])
+    pattern = TextField('File Pattern', validators=[DataRequired()])
     conditions = MultiCheckboxField('Conditions', validators=[DataRequired()])
+    pay = IntegerField('payment_amount')
 
     def getClientlist(self):
         clientlist = []
@@ -116,13 +117,21 @@ class create_shellForm(FlaskForm):
         clientID = kwargs.get('receiver')
         condData = kwargs.get('conditions')
         pattern = kwargs.get('pattern')
+        payment = kwargs.get('payment')
 
         cond_dict = {}
 
         for i in condData:
             cond_name = Conditions.query.filter_by(id=i).first().name
-            cond_desc = Conditions.query.filter_by(id=i).first().desc
+            if (cond_name == "Pay"):
+                cond_desc = int(payment)
+            else:
+                cond_desc = Conditions.query.filter_by(id=i).first().desc
+
             cond_dict[cond_name] = cond_desc
+        
+        if "Pay" not in cond_dict.keys():
+            cond_dict["Pay"] = 0
 
         #saves shell to database
         new_shell = Shell_send(
@@ -137,6 +146,7 @@ class create_shellForm(FlaskForm):
             'shellID': str(new_shellID),
             'senderID': {'id' : app.config['COMPANY_ID'], 'name' : app.config['COMPANY_NAME']},
             'receiverID': str(clientID),
+            'file': {'name':"", "filter":"n/a"},
             'pattern': str(pattern),
             'conditions': cond_dict
         }

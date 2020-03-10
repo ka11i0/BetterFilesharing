@@ -6,7 +6,6 @@ class Filehandler:
     def __init__(self):
         # Declare a list of the different handler modules
         self.handlers = list()
-        print()
         # For each module in the loaded handler modules
         for modulename in Filehandlermodule.filehandlermodules.__all__:
             # Take away __init__ and defaultmodule (we take away defaultmodule as that should be last)

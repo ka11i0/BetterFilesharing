@@ -1,5 +1,5 @@
 from flaskapp import app, db
-from flaskapp.models import Contract_recv, Shell_recv
+from flaskapp.models import Contract_recv, Shell_recv, Client
 from Contract.contracthandler import getHandler
 from flask import request, redirect, url_for
 from jsonschema import validate, exceptions as jsonschemaExceptions
@@ -24,7 +24,7 @@ def put_contract():
         return "Supported media type is application/json", 415
     
     # Get the json body
-    json_body_raw = request.get_json()
+    json_body_raw = json.loads(request.get_json())
     json_body = json_body_raw['contract']
     # Check if the json is correctly formatted
     try:
@@ -39,11 +39,13 @@ def put_contract():
     status = "pending"
 
     client = Client.query.filter_by(id = clientID).first()
+    print(json.dumps(json_body))
+    contracthash = hex(int.from_bytes(sha512(str.encode(json.dumps(json_body))).digest(), byteorder='big'))
+    print(contracthash)
+    calculated_hash = hex(pow(int(json_body_raw['signature'], 16), int(client.rsa_e, 16), int(client.rsa_n, 16)))
     
-    contracthash = int.from_bytes(sha512(json.loads(json_body)).digest(), byteorder='big')
-    calculated_sig = hex(pow(contracthash, int(client.e), int(client.n)))
-    
-    if not (calculated_sig == json_body_raw['signature']):
+    if not (calculated_hash == contracthash):
+        print(calculated_hash, contracthash)
         return "signatures does not match", 400
 
     path = os.path.join(CONTRACT_BASE_PATH, contractID + ".json")
@@ -85,8 +87,8 @@ def put_contract():
             validate(instance=json_body, schema=shell_schema)
 
             # check if contract conditions exist in shell conditions
-            for contract_condition in contract['conditions']:
-                if contract_condition not in schema['properties']['conditions']['properties'].keys():
+            for contract_condition in json_body['conditions']:
+                if contract_condition not in shell_schema['properties']['conditions']['properties'].keys():
                     raise jsonschemaExceptions.ValidationError("Condition doesn't exists in shell.")
 
             # update contract status from pending to accepted and send accept message to ClientID

@@ -1,10 +1,10 @@
 import threading, os, glob, ntpath, json, uuid, time
 from flaskapp import db, app
 from flaskapp.models import File, Shell_send, Contract_sent
-from Contract.Rest import send_contract
+from Contract.Rest.send_contract import send_contract
 import sqlalchemy
 
-BASE_PATH = os.path.abspath("C:\\Users\\marcu\\Desktop\\Thefolder")
+BASE_PATH = app.config['SHARED_FILES']
 CHECK_DELAY = 10 # Hur många sekunder mellan checks
 
 

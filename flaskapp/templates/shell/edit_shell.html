@@ -15,13 +15,16 @@
                     {%for c in conditions_list%}
                         <div class="card">
                             <div class="card-header">
-                            {%if c[1]%}
-                                <input type="checkbox" name="conditions" value="{{c[0][1]}}" checked>
-                                <label for="{{c[0][0]}}" data-toggle="collapse" href="#collapseDesc{{c[0][0]}}"> {{c[0][1]}}</label>
-                            {%else%}
-                                <input type="checkbox" name="conditions" value="{{c[0][1]}}">
-                                <label for="{{c[0][0]}}" class="card-link" data-toggle="collapse" href="#collapseDesc{{c[0][0]}}"> {{c[0][1]}}</label>
-                            {%endif%}
+                                {%if c[1]%}
+                                    <input type="checkbox" name="conditions" value="{{c[0][1]}}" checked>
+                                    <label for="{{c[0][0]}}" data-toggle="collapse" href="#collapseDesc{{c[0][0]}}"> {{c[0][1]}}</label>
+                                {%else%}
+                                    <input type="checkbox" name="conditions" value="{{c[0][1]}}">
+                                    <label for="{{c[0][0]}}" class="card-link" data-toggle="collapse" href="#collapseDesc{{c[0][0]}}"> {{c[0][1]}}</label>
+                                {%endif%}
+                                {% if c[0][1] == 'Pay' %}
+                                    {{ form.pay(value=c[2], min='0', type='number', id='payment_amount', style='display: inline') }}
+                                {% endif %}
                             </div>
                             <div id="collapseDesc{{c[0][0]}}" class="collapse" data-parent="#accordion-body">
                                 <div class="card-body">
@@ -64,11 +67,6 @@
             {%endif%}
         </form>
     </div>
-
-
-
-
-
 
 </div>
 {%endblock body%}

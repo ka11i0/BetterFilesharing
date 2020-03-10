@@ -30,6 +30,12 @@ except(FileNotFoundError):
     print("SharedFiles folder not found")
 
 try:
+    shutil.rmtree("Filesharing/ReceivedFiles")
+    print("ReceivedFiles folder removed")
+except(FileNotFoundError):
+    print("ReceivedFiles folder not found")
+
+try:
     shutil.rmtree("Shell/SentShells")
     print("SentShells folder removed")
 except(FileNotFoundError):
@@ -55,17 +61,20 @@ os.mkdir("Contract/SentContracts")
 print("SentContracts folder created")
 os.mkdir("Filesharing/SharedFiles")
 print("SharedFiles folder created")
+os.mkdir("Filesharing/ReceivedFiles")
+print("ReceivedFiles folder created")
 os.mkdir("Shell/ReceivedShells")
 print("ReceivedShells folder created")
 os.mkdir("Shell/SentShells")
 print("SentShells folder created")
+
 
 os.system("set FLASK_APP=run.py")
 os.system("flask db init")
 os.system("flask db migrate")
 os.system("flask db upgrade")
 os.system("flask db ")
-add_pay_x = Conditions(
+add_pay_x = Conditions(#we always want the pay condition in the db
     id = 0,
     name = "Pay",
     desc = "x"
