@@ -1,6 +1,5 @@
 from flaskapp import app, db
 from flaskapp.models import Contract_recv, Shell_recv, Client
-from Contract.contracthandler import getHandler
 from flask import request, redirect, url_for
 from jsonschema import validate, exceptions as jsonschemaExceptions
 import json
