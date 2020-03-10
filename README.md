@@ -43,8 +43,8 @@ Get the company id, name, IP-address, rsa n key and rsa e
 key from the opposing party 
 (Both parties in a contract exchange must have this setup).
 
-If you click your company name in the right of the navbar,
- the rsa n and rsa e key will show. Otherwise the keys are stored in:
+If you click your company name in the right of the navbar, 
+your rsa n and rsa e key will show. Otherwise the keys are stored in:
 ```
  BetterFilesharing/rsa_key.json
 ```

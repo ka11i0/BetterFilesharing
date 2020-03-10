@@ -2,9 +2,10 @@ from flaskapp import db
 from flaskapp.models import Client, Conditions
 import os
 import shutil
-#This script refreshes the db and adds dummy client, conditions, and SharedFiles.
+#This script refreshes the db and adds dummy client, conditions, SharedFiles and ReceivedFiles.
 
 #Remove app.db and migrations folder
+#
 try:
     shutil.rmtree("migrations")
     print("Migrations folder removed")
