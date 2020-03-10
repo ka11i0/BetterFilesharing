@@ -50,7 +50,7 @@ def checkSetConditionsReceive(selected, all_cond, pay):
         cond_tuple = ()
         value_tuple = (i, c)
         if(c == "Pay"):
-            desc = pay
+            desc = pay['maximum']
         else:
             desc = all_cond[c]
         if (c in selected):
@@ -85,12 +85,13 @@ def updateFileConditionsReceive(shell_id, selected_conditions, all_cond, pay_amo
     cond_dict = {}
     for c in selected_conditions:
         if (c == "Pay"):
-            cond_dict[c] = pay_amount
+            cond_dict[c] = {"type": "integer", "maximum": pay_amount}
         else:
             desc = all_cond[c]
-            cond_dict[c] = desc
-    if "Pay" not in cond_dict.keys():
-        cond_dict['Pay'] = pay_amount
+            cond_dict[c] = {"type": "string"}
+
+        if "Pay" not in selected_conditions:
+            cond_dict['Pay'] = {"type": "integer", "maximum": pay_amount}
 
     shell_file = readShellReceive(shell_id)
     shell_file['properties']['conditions']['properties'] = cond_dict
@@ -153,8 +154,10 @@ def updateStatus(shell_id, status, table):
 def removeShell(shell_id, table):
     if table == 'recv':
         Shell_recv.query.filter_by(shell_id=shell_id).delete()
+        os.remove(app.config['SHELL_RECEIVED_FOLDER']+'/'+str(shell_id)+'.schema.json')
     else:
         Shell_send.query.filter_by(shell_id=shell_id).delete()
+        os.remove(app.config['SHELL_FOLDER']+'/'+str(shell_id)+'.json')
 
     db.session.commit()
 
