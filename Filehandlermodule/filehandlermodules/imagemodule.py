@@ -5,7 +5,7 @@ import base64
 class Imagemodule(Defaultmodule):
     def writedata(self, filepath, data, writeargs='wb'):
         with open(filepath, writeargs) as file:
-            file.write(data.fromhex())
+            file.write(bytes.fromhex(data))
 
     def readdata(self, filepath):
         with open(filepath, 'rb') as file:
