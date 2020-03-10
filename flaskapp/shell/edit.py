@@ -49,7 +49,7 @@ def checkSetConditionsReceive(selected, all_cond, pay):
     for c in all_cond.keys():
         cond_tuple = ()
         value_tuple = (i, c)
-        if(c[1] == "Pay"):
+        if(c == "Pay"):
             desc = pay
         else:
             desc = all_cond[c]
