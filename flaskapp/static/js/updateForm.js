@@ -27,7 +27,6 @@ function updateForm(selectObj) {
             let conditionOptions = "";
             for (let c of data.conditions) {
                 if (c[0][1] === "Pay"){
-                    alert(c[0][1] === "Pay")
                     conditionOptions += '<div class="card">\
                             <div class="card-header">\
                                 <input type="checkbox" name="conditions" value="'+c[0][1]+'">\
