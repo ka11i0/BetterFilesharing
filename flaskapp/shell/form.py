@@ -29,7 +29,7 @@ class CreateRecvShell(FlaskForm):
         client_id_data = kwargs.get('client_id')
         pattern_data = kwargs.get('pattern')
         conditions_data = kwargs.get('conditions')
-        pay_amount = kwargs.get('pay_amount')
+        pay_amount = int(kwargs.get('pay_amount'))
 
         # get the latest shell id if exists, else set to 1
         new_shell_id = Shell_recv.query.order_by(Shell_recv.shell_id.desc()).first().shell_id + 1 if Shell_recv.query.order_by(Shell_recv.shell_id.desc()).first() else 1
