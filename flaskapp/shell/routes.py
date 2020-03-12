@@ -87,7 +87,7 @@ def receive_shell():
 def update_recv_shell(sender):
     conditionDict = get_conditions(sender) # activate when functions is available
     # conditionArray = [(key, conditionDict[key]) for key in conditionDict]
-    conditionArray = checkSetConditionsReceive({}, get_conditions(sender))
+    conditionArray = checkSetConditionsReceive({}, get_conditions(sender), {'maximum': '0'})
     return jsonify({'conditions' : conditionArray})  # use when get_conditions() is available
 
 @app.route("/edit_shell", methods=['GET', 'POST'])
