@@ -26,18 +26,35 @@ function updateForm(selectObj) {
             // update condition options
             let conditionOptions = "";
             for (let c of data.conditions) {
-                conditionOptions += '<div class="card">\
-                <div class="card-header">\
-                    <input type="checkbox" name="conditions" value="'+c[0][1]+'">\
-                    <label for="'+c[0][0]+'" class="card-link" data-toggle="collapse" href="#collapseDesc'+c[0][0]+'">'+c[0][1]+'</label>\
-                </div>\
-                <div id="collapseDesc'+c[0][0]+'" class="collapse" data-parent="#accordion-body">\
-                    <div class="card-body">\
-                    Description:<br>\
-                    '+c[2]+'\
-                    </div>\
-                </div>\
-            </div>'
+                if (c[0][1] === "Pay"){
+                    alert(c[0][1] === "Pay")
+                    conditionOptions += '<div class="card">\
+                            <div class="card-header">\
+                                <input type="checkbox" name="conditions" value="'+c[0][1]+'">\
+                                <label for="'+c[0][0]+'" class="card-link" data-toggle="collapse" href="#collapseDesc'+c[0][0]+'">'+c[0][1]+'</label>\
+                                <input type="number" id="pay_amount" value="0" min="0" name="payment_amount">\
+                            </div>\
+                            <div id="collapseDesc'+c[0][0]+'" class="collapse" data-parent="#accordion-body">\
+                                <div class="card-body">\
+                                Description:<br>\
+                                '+c[2]+'\
+                                </div>\
+                            </div>\
+                        </div>'
+                } else {
+                    conditionOptions += '<div class="card">\
+                            <div class="card-header">\
+                                <input type="checkbox" name="conditions" value="'+c[0][1]+'">\
+                                <label for="'+c[0][0]+'" class="card-link" data-toggle="collapse" href="#collapseDesc'+c[0][0]+'">'+c[0][1]+'</label>\
+                            </div>\
+                            <div id="collapseDesc'+c[0][0]+'" class="collapse" data-parent="#accordion-body">\
+                                <div class="card-body">\
+                                Description:<br>\
+                                '+c[2]+'\
+                                </div>\
+                            </div>\
+                        </div>'
+                }
             }
             document.getElementById('accordion-body').innerHTML = conditionOptions;
         });
@@ -45,5 +62,5 @@ function updateForm(selectObj) {
 }
 
 $("#Pay").on("change", function() {
-    $("#payment_amount").toggle();
+        $("#payment_amount").toggle();
 });
