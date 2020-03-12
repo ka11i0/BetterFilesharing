@@ -125,10 +125,11 @@ def accept_or_decline(id, status): # When contract is accepted/declined
     with open(contract.path, 'r') as contractfile:
         contractjson = json.loads(contractfile.read())
         filename = contractjson["file"]["name"]
-    
-    recv = FileReceiver("0.0.0.0", 80)
-    recvThread = threading.Thread(target=recv.start, args=(os.path.join(os.path.abspath("Filesharing/ReceivedFiles"), filename), ))
-    recvThread.start()
+
+    if status == "accepted":
+        recv = FileReceiver("0.0.0.0", 80)
+        recvThread = threading.Thread(target=recv.start, args=(os.path.join(os.path.abspath("Filesharing/ReceivedFiles"), filename), ))
+        recvThread.start()
     
     return redirect('/recv_contracts')
 
