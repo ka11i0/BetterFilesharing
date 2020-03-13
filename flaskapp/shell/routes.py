@@ -73,8 +73,7 @@ def receive_shell():
         client_id = recvShellForm.sender.data
         pattern = recvShellForm.pattern.data
         conditions = request.form.getlist('conditions')
-        pay_amount = recvShellForm.payment_amount.data
-
+        pay_amount = recvShellForm.payment_amount.data if recvShellForm.payment_amount.data == None else request.form.get('payment_amount')
         # save data to db and json-schema
         recvShellForm.save(client_id=client_id, pattern=pattern, conditions=conditions, pay_amount=pay_amount)
         
@@ -87,7 +86,7 @@ def receive_shell():
 def update_recv_shell(sender):
     conditionDict = get_conditions(sender) # activate when functions is available
     # conditionArray = [(key, conditionDict[key]) for key in conditionDict]
-    conditionArray = checkSetConditionsReceive({}, get_conditions(sender))
+    conditionArray = checkSetConditionsReceive({}, get_conditions(sender), {"maximum": 0})
     return jsonify({'conditions' : conditionArray})  # use when get_conditions() is available
 
 @app.route("/edit_shell", methods=['GET', 'POST'])
